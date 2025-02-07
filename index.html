@@ -615,8 +615,21 @@ document.addEventListener("contextmenu", function (e) {
 navigator.mediaDevices.addEventListener("devicechange", function () {
     alert("Обнаружена попытка записи экрана!");
 });
+document.addEventListener("visibilitychange", function() {
+    if (document.hidden) {
+        alert("Обнаружена попытка записи экрана!");
+    }
+});
+    getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, 
+                      WindowManager.LayoutParams.FLAG_SECURE);
+document.addEventListener("visibilitychange", function () {
+    if (document.hidden) {
+        document.body.innerHTML = "";
+    }
+});
 
 </script>
+    
     
 </body>
 </html>
