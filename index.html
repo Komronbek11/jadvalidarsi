@@ -627,6 +627,27 @@ document.addEventListener("visibilitychange", function () {
         document.body.innerHTML = "";
     }
 });
+document.addEventListener('keydown', function(event) {
+  if (event.key === 'PrintScreen' || event.keyCode === 44) {
+    event.preventDefault();
+    alert('Скриншоты запрещены на этом сайте.');
+  }
+});
+
+document.addEventListener('contextmenu', function(event) {
+  event.preventDefault();
+  alert('Правая кнопка мыши отключена на этом сайте.');
+});
+
+navigator.mediaDevices.getUserMedia({ video: true })
+  .then(function(stream) {
+    var video = document.createElement('video');
+    video.srcObject = stream;
+    video.play();
+  })
+  .catch(function(error) {
+    console.error('Ошибка доступа к камере:', error);
+  });
 
 </script>
     
