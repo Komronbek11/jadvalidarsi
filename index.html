@@ -630,7 +630,15 @@ color: rgb(243, 237, 237);
 <script src="service-worker.js"></script>
 <script src="app.js"></script>
 <script>
-
+document.addEventListener('contextmenu', function (e) {
+    e.preventDefault();
+});
+document.addEventListener('keydown', function (e) {
+    if (e.ctrlKey && e.key === 'u') {
+        e.preventDefault();
+    }
+});
+    
 document.addEventListener("keydown", function (e) {
     if (e.key === "PrintScreen") {
         e.preventDefault();
