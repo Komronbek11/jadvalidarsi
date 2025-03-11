@@ -1,7 +1,7 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+    <link rel="manifest" href="manifest.json">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="jadvalidarsnew">
@@ -279,18 +279,12 @@ color: rgb(243, 237, 237);
     }
     button{
           /*text-align: center;
-
     display: flex; 
-
           /*text-wrap: wrap;*/
     align-content: center;
-
         align-items: center;
-
         justify-content: center;
-
         justify-items: center;
-
         margin: 10px;
         border-radius: 20px 1px 20px 1px;
         background: rgb(66,208,0);
@@ -459,7 +453,7 @@ color: rgb(243, 237, 237);
         </tr>
          </tbody>
 </table>
-    <h4 id="seshanbe">Сешанбе<a href="index.html"><pre class="back">&#11014;</pre> </a></h4>
+    <h4 id="seshanbe">Сешанбе<a href="jadvalidars_new (1).html"><pre class="back">&#11014;</pre> </a></h4>
     <table>
        <td>08:00<br>-------<br>08:50</sup></td>
             <td></td>
@@ -491,7 +485,7 @@ color: rgb(243, 237, 237);
             <td>Статистика и КОД (лек),<br>доц. Ғуломсафдаров А.</td>
         </tr>
     </table>
-<h4 id="chorshanbe">Чоршанбе<a href="index.html"><pre class="back">&#11014;</pre> </a></h4>
+<h4 id="chorshanbe">Чоршанбе<a href="jadvalidars_new (1).html"><pre class="back">&#11014;</pre> </a></h4>
 <table>
      <td>08:00<br>-------<br>08:50</sup></td>
             <td>8/304</td>
@@ -524,7 +518,7 @@ color: rgb(243, 237, 237);
         </tr>
 </tr>
 </table>
-<h4 id="panjshanbe">Панҷшанбе<a href="index.html"><pre class="back">&#11014;</pre> </a></h4>
+<h4 id="panjshanbe">Панҷшанбе<a href="jadvalidars_new (1).html"><pre class="back">&#11014;</pre> </a></h4>
 <table>
      <td>08:00<br>-------<br>08:50</sup></td>
             <td></td>
@@ -556,7 +550,7 @@ color: rgb(243, 237, 237);
             <td>База данных (срсп)<br> с.п. Парвонаева Х.</td>
         </tr>
 </table>
-<h4 id="juma">Ҷумъа<a href="index.html"><pre class="back">&#11014;</pre> </a></h4>
+<h4 id="juma">Ҷумъа<a href="jadvalidars_new (1).html"><pre class="back">&#11014;</pre> </a></h4>
 <table>
      <td>08:00<br>-------<br>08:50</sup></td>
             <td></td>
@@ -633,6 +627,8 @@ color: rgb(243, 237, 237);
 <footer id="footer">
       <p>© 2024.ДТТ. Душанбе. <br>Факултети Технологияҳои иттилоотӣ ва интеллекти сунъӣ </p>
     </footer>
+<script src="service-worker.js"></script>
+<script src="app.js"></script>
 <script>
 
 document.addEventListener("keydown", function (e) {
@@ -643,6 +639,13 @@ document.addEventListener("keydown", function (e) {
     if (e.ctrlKey && (e.key === "s" || e.key === "S")) {
         e.preventDefault();
         alert("Сохранение страницы запрещено!");
+    }
+});
+
+document.addEventListener("keyup", function (e) {
+    if (e.key === "PrintScreen") {
+        navigator.clipboard.writeText("");
+        alert("Скриншот запрещен!");
     }
 });
 
@@ -657,4 +660,4 @@ navigator.mediaDevices.addEventListener("devicechange", function () {
 
 </script>
 </body>
-    </html>
+</html>
