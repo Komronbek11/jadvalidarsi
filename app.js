@@ -36,3 +36,22 @@ window.addEventListener('beforeinstallprompt', (e) => {
     });
 });
 
+
+function isIos() {
+    return /iphone|ipad|ipod/.test(navigator.userAgent.toLowerCase());
+}
+
+function isInStandaloneMode() {
+    return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+}
+
+if (isIos() && !isInStandaloneMode()) {
+    setTimeout(() => {
+        alert("Чтобы установить приложение, нажмите 'Поделиться' в Safari и выберите 'Добавить на экран «Домой»'.");
+    }, 3000);
+}
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/service-worker.js')
+        .then(() => console.log('Service Worker зарегистрирован'))
+        .catch(error => console.log('Ошибка регистрации SW:', error));
+}
