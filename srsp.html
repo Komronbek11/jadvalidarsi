@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        select, textarea, button {
+            border-radius: 15px;
+            display: relative;
+            margin: 10px 0;
+            width: 100%;
+            padding: 8px;
+        }
+    button{
+        border-radius: 20px;
+        border: none;
+        color: white;
+        height: 40px;
+      background: rgb(43,139,255);
+background: -moz-linear-gradient(120deg, rgba(43,139,255,1) 7%, rgba(28,153,255,1) 25%);
+background: -webkit-linear-gradient(120deg, rgba(43,139,255,1) 7%, rgba(28,153,255,1) 25%);
+background: linear-gradient(120deg, rgba(43,139,255,1) 7%, rgba(28,153,255,1) 25%);
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#2b8bff",endColorstr="#1c99ff",GradientType=1);
+    }
+    textarea{
+        border-radius: 15px;
+        width: none;
+        height: 40px;
+    }
+        #description-container {
+            display: none;
+        }
+        #items {
+            margin-top: 20px;
+            border-radius: 15px;
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-top: 5px;
+            position: relative;
+        }
+       
+        .edit-btn {
+            display: block;
+            width: none;
+            margin-top: 15px;
+            background: #008CBA;
+            color: white;
+            border: none;
+            padding: 5px;
+            border-radius: 25px;
+            cursor: pointer;
+        }
+        .delete-btn {
+            width: none;
+            background: red;
+            margin-left: 0px;
+            border-radius: 25x;
+        }
+        .edit-window {
+            display: none;
+            position: fixed;
+            top: 50%;
+            width: 300px;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        }
+    #subject{
+        width: none;
+        border-radius: 20px;
+        height: 50px;
+    }
+    </style>
+</head>
+<body>
+
+    <h2>Заметки СРС&#128196;&#9997;</h2>
+
+    <select id="subject" onchange="showInputField()">
+        <option value="">-- Выберите предмет --</option>
+        <option value="Политология">Политология</option>
+        <option value="База данных">База данных</option>
+        <option value="Усул ва ВХИ">Усул ва ВХИ</option>
+        <option value="Програм. на Java">Програм. на Java</option>
+        <option value="Этика и эстетика">Этика и эстетика</option>
+        <option value="Статистика и КОД">Статистика и КОД</option>
+    </select>
+
+    <div id="description-container">
+        <textarea id="description" placeholder="Введите описание..."></textarea>
+        <button onclick="addDescription()">Добавить</button>
+    </div>
+
+    <h3>Список предметов:</h3>
+    <div id="items"></div>
+
+    <!-- Окно редактирования -->
+    <div id="editWindow" class="edit-window">
+        <h3>Редактировать предмет</h3>
+        <textarea id="editDescription"></textarea>
+        <button onclick="saveEdit()">Сохранить</button>
+        <button onclick="closeEditWindow()">Закрыть</button>
+    </div>
+
+    <script>
+        let subjectsData = {}; 
+        let currentEditSubject = ""; 
+
+        window.onload = function () {
+            let savedData = localStorage.getItem("subjectsData");
+            if (savedData) {
+                subjectsData = JSON.parse(savedData);
+                renderItems();
+            }
+        };
+
+        function saveToLocalStorage() {
+            localStorage.setItem("subjectsData", JSON.stringify(subjectsData));
+        }
+
+        function showInputField() {
+            let subject = document.getElementById("subject").value;
+            let descriptionContainer = document.getElementById("description-container");
+
+            if (subject) {
+                descriptionContainer.style.display = "block";
+                document.getElementById("description").value = subjectsData[subject] || "";
+            } else {
+                descriptionContainer.style.display = "none";
+            }
+        }
+
+        function addDescription() {
+            let subject = document.getElementById("subject").value;
+            let description = document.getElementById("description").value.trim();
+
+            if (!description) {
+                alert("Введите описание!");
+                return;
+            }
+
+            subjectsData[subject] = description;
+            saveToLocalStorage();
+            renderItems();
+            clearInput();
+        }
+
+        function renderItems() {
+            let itemsContainer = document.getElementById("items");
+            itemsContainer.innerHTML = "";
+
+            for (let subject in subjectsData) {
+                let div = document.createElement("div");
+                div.classList.add("item");
+                div.innerHTML = `<strong>${subject}</strong>: ${subjectsData[subject]}
+                    <button class="edit-btn" onclick="openEditWindow('${subject}')">Редактировать</button>
+                    <button class="edit-btn delete-btn" onclick="deleteSubject('${subject}')">Удалить</button>`;
+                itemsContainer.appendChild(div);
+            }
+        }
+
+        function openEditWindow(subject) {
+            currentEditSubject = subject;
+            document.getElementById("editDescription").value = subjectsData[subject];
+            document.getElementById("editWindow").style.display = "block";
+        }
+
+        function saveEdit() {
+            let newDescription = document.getElementById("editDescription").value.trim();
+
+            if (!newDescription) {
+                alert("Введите описание!");
+                return;
+            }
+
+            subjectsData[currentEditSubject] = newDescription;
+            saveToLocalStorage();
+            renderItems();
+            closeEditWindow();
+        }
+
+        function closeEditWindow() {
+            document.getElementById("editWindow").style.display = "none";
+        }
+
+        function deleteSubject(subject) {
+            delete subjectsData[subject];
+            saveToLocalStorage();
+            renderItems();
+        }
+
+        function clearInput() {
+            document.getElementById("description").value = "";
+            document.getElementById("description-container").style.display = "none";
+        }
+    </script>
+
+</body>
+</html>
