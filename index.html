@@ -1,15 +1,15 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <link rel="manifest" href="manifest.json">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="jadvalidarsnew">
     <meta name="keywords" content="1-40010101B">
-      <meta name="theme-color" content="#dbc927">
+      <meta name="theme-color" content="#06c1db">
     <title>Расписание</title>
-    <link rel="website icon" type="png" href="raspisanie.png">
-    <link rel="icon" type="png" href="raspisanie.png">
+    <link rel="website icon" type="png" href="AI.png">
+    <link rel="icon" type="png" href="AI.png">
       <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
@@ -278,9 +278,9 @@ color: rgb(243, 237, 237);
         height: 30px;
     }
     button{
-          /*text-align: center;
-    display: flex; 
-          /*text-wrap: wrap;*/
+         
+    display: absolute; 
+        
     align-content: center;
         align-items: center;
         justify-content: center;
@@ -339,7 +339,84 @@ color: rgb(243, 237, 237);
             transition: 2s ease;
             font-style: normal;
       }
+      body {
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.drop-down {
+    width: 250px;
+    position: relative;
+    background: #2b2b2b;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      justify-content: center;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      color: white;
+}
+
+.main-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    background: #2b2b2b;
+    cursor: pointer;
+    border-radius: 5px;
+      color: white;
+}
+
+.menu-icon {
+    font-size: 16px;
+    transition: transform 0.3s ease;
+}
+
+.menu-container {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    background: #2b2b2b;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease, opacity 0.5s ease;
+}
+      
+
+.menu-item {
+    padding: 12px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.menu-item:hover {
+    background: #f0f0f0;
+}
+
+/* Анимация открытия */
+.menu-container.active {
+    max-height: 200px; /* Достаточно для отображения всех элементов */
+    opacity: 1;
+}
+
+.menu-icon.active {
+    transform: rotate(180deg);
+}
+      
+    .zametki{
+          width: 230px;
+          height: none;
+          border-radius: 10px;
+          background-color: #146de0;
+          color: white;
+    margin-top: 15px;
+    }
     </style>
 </head>
 <body>
@@ -396,6 +473,7 @@ color: rgb(243, 237, 237);
   </div>
 </nav>
 <header>
+    
 <h2 id="jd">Ҷадвали дарсҳо</h2>
     <a href="#dushanbe"><button>Душанбе</button></a>
     <a href="#seshanbe"><button>Сешанбе</button></a>
@@ -406,6 +484,19 @@ color: rgb(243, 237, 237);
      <a href="#shanbe"><button>Шанбе</button></a>
 </header>
 <main>
+      <div class="drop-down">
+        <div class="main-item">
+            <span class="item-text">Гурӯҳро интихоб кунед</span>
+            <span class="menu-icon">▼</span>
+        </div>
+        <ul class="menu-container">
+            <li class="menu-item"><span class="item-text"><a href="jadvalidarsi.html">1-40010101B</a></span></li>
+            <li class="menu-item"><span class="item-text"><a href="jadvalidarsi.html">1-40010102B</a></span></li>
+            <li class="menu-item"><span class="item-text"><a href="jadvalidarsi.html">1-40010103B</a></span></li>
+            <li class="menu-item"><span class="item-text"><a href="">1-40010104B</a></span></li>
+        </ul>
+              <a href="srsp.html"><button class="zametki">Заметки СРС&#128196;&#9997;</button></a>
+    </div>
       <h4 id="dushanbe"> Душанбе</h4>
 <table>
     <tbody>
@@ -453,7 +544,7 @@ color: rgb(243, 237, 237);
         </tr>
          </tbody>
 </table>
-    <h4 id="seshanbe">Сешанбе<a href="index.html"><pre class="back">&#11014;</pre> </a></h4>
+    <h4 id="seshanbe">Сешанбе<a href="jadvalidars_new (1).html"><pre class="back">&#11014;</pre> </a></h4>
     <table>
        <td>08:00<br>-------<br>08:50</sup></td>
             <td></td>
@@ -485,7 +576,7 @@ color: rgb(243, 237, 237);
             <td>Статистика и КОД (лек),<br>доц. Ғуломсафдаров А.</td>
         </tr>
     </table>
-<h4 id="chorshanbe">Чоршанбе<a href="index.html"><pre class="back">&#11014;</pre> </a></h4>
+<h4 id="chorshanbe">Чоршанбе<a href="jadvalidars_new (1).html"><pre class="back">&#11014;</pre> </a></h4>
 <table>
      <td>08:00<br>-------<br>08:50</sup></td>
             <td>8/304</td>
@@ -518,7 +609,7 @@ color: rgb(243, 237, 237);
         </tr>
 </tr>
 </table>
-<h4 id="panjshanbe">Панҷшанбе<a href="index.html"><pre class="back">&#11014;</pre> </a></h4>
+<h4 id="panjshanbe">Панҷшанбе<a href="jadvalidars_new (1).html"><pre class="back">&#11014;</pre> </a></h4>
 <table>
      <td>08:00<br>-------<br>08:50</sup></td>
             <td></td>
@@ -550,7 +641,7 @@ color: rgb(243, 237, 237);
             <td>База данных (срсп)<br> с.п. Парвонаева Х.</td>
         </tr>
 </table>
-<h4 id="juma">Ҷумъа<a href="index.html"><pre class="back">&#11014;</pre> </a></h4>
+<h4 id="juma">Ҷумъа<a href="jadvalidars_new (1).html"><pre class="back">&#11014;</pre> </a></h4>
 <table>
      <td>08:00<br>-------<br>08:50</sup></td>
             <td></td>
@@ -627,8 +718,62 @@ color: rgb(243, 237, 237);
 <footer id="footer">
       <p>© 2024.ДТТ. Душанбе. <br>Факултети Технологияҳои иттилоотӣ ва интеллекти сунъӣ </p>
     </footer>
-<script src="service-worker.js"></script>
-<script src="app.js"></script>
-<script src="main.js"></script>
+<script>
+const menuIcon = document.querySelector('.menu-icon');
+const mainItem = document.querySelector('.main-item');
+const menuContainer = document.querySelector('.menu-container');
+const menuItems = document.querySelectorAll('.menu-item');
+
+function menuToggle() {
+    if (menuContainer.classList.contains('active')) {
+        menuContainer.style.maxHeight = '0';
+        menuContainer.style.opacity = '0';
+        setTimeout(() => {
+            menuContainer.classList.remove('active');
+        }, 500); // Ждем завершения анимации перед скрытием
+    } else {
+        menuContainer.classList.add('active');
+        menuContainer.style.maxHeight = '200px'; // Задаем высоту
+        menuContainer.style.opacity = '1';
+    }
+    menuIcon.classList.toggle('active');
+}
+
+mainItem.addEventListener('click', menuToggle);
+
+menuItems.forEach(item => {
+    item.addEventListener('click', () => {
+        document.querySelector('.item-text').textContent = item.textContent;
+        menuToggle();
+    });
+});
+document.addEventListener("keydown", function (e) {
+    if (e.key === "PrintScreen") {
+        e.preventDefault();
+        alert("Скриншот запрещен!");
+    }
+    if (e.ctrlKey && (e.key === "s" || e.key === "S")) {
+        e.preventDefault();
+        alert("Сохранение страницы запрещено!");
+    }
+});
+
+document.addEventListener("keyup", function (e) {
+    if (e.key === "PrintScreen") {
+        navigator.clipboard.writeText("");
+        alert("Скриншот запрещен!");
+    }
+});
+
+document.addEventListener("contextmenu", function (e) {
+    e.preventDefault();
+    alert("Контекстное меню отключено!");
+});
+
+navigator.mediaDevices.addEventListener("devicechange", function () {
+    alert("Обнаружена попытка записи экрана!");
+});
+
+</script>
 </body>
 </html>
