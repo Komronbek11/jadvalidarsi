@@ -4,8 +4,8 @@
     "description": "Расписание",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#ffffff",
-    "theme_color": "#000000",
+    "background_color": "black",
+    "theme_color": "black",
     "icons": [
       {
         "src": "raspisanie.png",
