@@ -20,7 +20,84 @@
         overflow-x: hidden;
         background: black;
        margin-left: 5px;
-    }
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #181818;
+    color: white;
+    overflow: hidden;
+}
+
+/* Skeleton Loader */
+.skeleton-loader {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: #121212;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    z-index: 1000;
+    transition: opacity 0.8s;
+}
+
+/* Анимация мерцания */
+@keyframes shimmer {
+    0% { background-position: -200px 0; }
+    100% { background-position: 200px 0; }
+}
+
+/* Общие стили для скелетон-блоков */
+.skeleton-box, .skeleton-line, .skeleton-circle {
+    background: linear-gradient(90deg, #222 25%, #333 50%, #222 75%);
+    background-size: 200px 100%;
+    animation: shimmer 1.5s infinite linear;
+    border-radius: 8px;
+}
+
+/* Заголовок */
+.skeleton-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.skeleton-circle {
+    width: 80px;
+    height: 50px;
+    border-radius: ;
+}
+.skeleton-line {
+    width: 300px;
+    height: 50px;
+}
+
+/* Основное содержимое */
+.skeleton-content {
+    display: flex;
+    gap: 10px;
+}
+.skeleton-box {
+    flex: 2;
+    height: 100px;
+}
+.skeleton-box.big {
+    flex: 4;
+    height: 150px;
+}
+
+/* Галерея */
+.skeleton-gallery {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+/* Подвал */
+.skeleton-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
       @media (max-width: 768px) {
     main {
         font-size: 16px;
@@ -422,6 +499,32 @@ filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#1d6937",endCo
     </style>
 </head>
 <body>
+      <!-- Skeleton Loader -->
+    <div class="skeleton-loader">
+        <div class="skeleton-header">
+            <div class="skeleton-circle"></div>
+            <div class="skeleton-line"></div>
+        </div>
+        <div class="skeleton-content">
+            <div class="skeleton-box big"></div>
+            <div class="skeleton-box"></div>
+            <div class="skeleton-box"></div>
+        </div>
+        <div class="skeleton-gallery">
+            <div class="skeleton-box"></div>
+            <div class="skeleton-box"></div>
+            <div class="skeleton-box"></div>
+            <div class="skeleton-box"></div>
+        </div>
+        <div class="skeleton-footer">
+            <div class="skeleton-line"></div>
+            <div class="skeleton-box"></div>
+            <div class="skeleton-box"></div>
+        </div>
+    </div>
+
+    <!-- Реальный контент -->
+    <div class="content">
     <!--  меню -->
         <nav role="navigation">
   <div id="menuToggle">
@@ -720,7 +823,18 @@ filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#1d6937",endCo
 <footer id="footer">
       <p>© 2024.ДТТ. Душанбе. <br>Факултети Технологияҳои иттилоотӣ ва интеллекти сунъӣ </p>
     </footer>
+    </div>
 <script>
+document.addEventListener("DOMContentLoaded", () => {
+    setTimeout(() => {
+        document.querySelector(".skeleton-loader").style.opacity = "0";
+        setTimeout(() => {
+            document.querySelector(".skeleton-loader").style.display = "none";
+            document.querySelector(".content").style.display = "block";
+        }, 800);
+    }, 3000); // Имитируем загрузку в 3 секунды
+});
+    
 const menuIcon = document.querySelector('.menu-icon');
 const mainItem = document.querySelector('.main-item');
 const menuContainer = document.querySelector('.menu-container');
