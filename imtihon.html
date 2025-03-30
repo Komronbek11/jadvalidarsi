@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="jadvalidarsnew">
+    <meta name="keywords" content="1-40010101B">
+    <title>Расписание экзаменов</title>
+    <link rel="website icon" type="png" href="AI.png">
+    <link rel="icon" type="png" href="AI.png">
+    <style>
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #ebeaea;
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+    position: absolute;
+    display: block;
+}
+
+h1 {
+    color: #333;
+    font-size: 24px;
+}
+.teacher{
+    width: 300px;
+    text-align: center;
+}
+table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background: white;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+th, td {
+    padding: 15px 15px;
+    text-align: center;
+}
+
+th {
+    background: #007bff;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+}
+
+tr:nth-child(even) {
+    background: #f9f9f9;
+}
+
+tr:hover {
+    background: #f1f1f1;
+}
+
+/* Стили для статуса экзаменов */
+.ongoing {
+    background-color: #000000 !important; /* Зелёный для текущего экзамена */
+    color: #0a4117;
+    font-weight: bold;
+}
+
+.past {
+    background-color: #000000 !important; /* Красный для прошедшего экзамена */
+    color: #721c24;
+    font-weight: bold;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    table {
+        width: 100%;
+    }
+
+    th, td {
+        padding: 10px;
+        font-size: 16px;
+    }
+}
+
+/* Стили для статуса экзаменов */
+.ongoing {
+    background-color: #04f33b !important; /* Зелёный для текущего экзамена */
+    color: #030303;
+    font-weight: bold;
+}
+
+.past {
+    background-color: #ff162a !important; /* Красный для прошедшего экзамена */
+    color: #000000;
+    font-weight: bold;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    table {
+        width: 100%;
+    }
+
+    th, td {
+        padding: 10px;
+        font-size: 16px;
+    }
+}
+
+        body { font-family: Arial, sans-serif; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { border: 1px solid black; padding: 15px; text-align: left; }
+        th { background-color: #6d7ba1; }
+    
+        .ongoing { background-color: #05e439; } /* Зелёный цвет для текущего экзамена */
+.past { background-color: #ff1427; } /* Красный цвет для завершённых экзаменов */
+
+    </style>
+</head>
+<body>
+
+    <h2>Расписание экзаменов</h2>
+
+    <table id="examTable">
+        <thead>
+            <tr>
+                <th>Сана</th>
+                <th>Вақт</th>
+                <th>Фан</th>
+                <th class="teacher">Омӯзгор</th>
+                <th>Аудитория</th>
+            </tr>
+        </thead>
+        <tbody id="examBody">
+            <!-- Данные загружаются динамически -->
+        </tbody>
+    </table>
+
+    <script>// Данные экзаменов
+        const exams = [
+            { date: "2025-04-01", startTime: "08:00", endTime: "08:30", subject: "База данных", teacher: "доц. Аликулов А.", room: "8/304" },
+            { date: "2025-04-01", startTime: "11:30", endTime: "12:00", subject: "Усул ва ВХИ", teacher: "доц. Насруллоева Д.", room: "8/302" },
+            { date: "2025-04-02", startTime: "08:00", endTime: "08:30", subject: "Этика и эстетика", teacher: "доц. Орифчонова Н", room: "8/304" },
+            { date: "2025-04-03", startTime: "08:00", endTime: "08:30", subject: "Статистика и КОД ", teacher: "доц. Гуломсафдаров А.", room: "8/304" },
+            { date: "2025-04-04", startTime: "08:00", endTime: "08:30", subject: "Программирование на Java ", teacher: "доц. Турсунов Р.", room: "8/304" },
+            { date: "2025-04-05", startTime: "08:00", endTime: "08:30", subject: "Политология ", teacher: "к.п.н. Мирзоён Р.Х.", room: "8/304" },
+        
+        ];
+
+// Функция для форматирования даты в "дд.мм.гггг"
+function formatDate(isoDate) {
+    const [year, month, day] = isoDate.split("-"); // Разделяем строку "гггг-мм-дд"
+    return `${day}.${month}.${year}`; // Переставляем местами
+}
+
+// Функция для отображения расписания
+function renderSchedule() {
+    const tableBody = document.getElementById("examBody");
+    tableBody.innerHTML = ""; // Очистка перед обновлением
+
+    const now = new Date(); // Текущее время
+
+    exams.forEach(exam => {
+        const examDate = new Date(exam.date);
+        const examStartTime = new Date(`${exam.date}T${exam.startTime}`);
+        const examEndTime = new Date(`${exam.date}T${exam.endTime}`);
+
+        const row = document.createElement("tr");
+
+        if (now >= examStartTime && now <= examEndTime) {
+            row.classList.add("ongoing"); // Экзамен сейчас идёт (зелёный)
+        } else if (now > examEndTime) {
+            row.classList.add("past"); // Экзамен уже прошёл (красный)
+        }
+
+        row.innerHTML = `
+            <td>${formatDate(exam.date)}</td>
+            <td>${exam.startTime} - ${exam.endTime}</td>
+            <td>${exam.subject}</td>
+            <td>${exam.teacher}</td>
+            <td>${exam.room}</td>
+        `;
+
+        tableBody.appendChild(row);
+    });
+}
+
+// Вызов функции при загрузке страницы
+document.addEventListener("DOMContentLoaded", renderSchedule);
+            </script>
+</body>
+</html>
