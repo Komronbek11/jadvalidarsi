@@ -23,10 +23,14 @@ h1 {
     color: #333;
     font-size: 24px;
 }
-.teacher{
-    width: 300px;
-    text-align: center;
-}
+
+.teacher{
+
+    width: 300px;
+
+    text-align: center;
+
+}
 table {
     width: 80%;
     margin: 20px auto;
@@ -150,14 +154,19 @@ tr:hover {
             <!-- Данные загружаются динамически -->
         </tbody>
     </table>
-<div class="nazad">
+
+<div class="nazad">
     <button onclick="goBack()" class="button"><Назад</button>
     </div>
     <script>
-    function goBack() {
-        window.location.href="jadvalidarsi.html";
-    }
-    // Данные экзаменов
+
+    function goBack() {
+
+        window.location.href="jadvalidarsi.html";
+
+    }
+
+    // Данные экзаменов
         const exams = [
             { date: "2025-04-01", startTime: "08:00", endTime: "08:30", subject: "База данных", teacher: "доц. Аликулов А.", room: "8/304" },
             { date: "2025-04-01", startTime: "11:30", endTime: "12:00", subject: "Усул ва ВХИ", teacher: "доц. Насруллоева Д.", room: "8/302" },
@@ -201,7 +210,8 @@ function renderSchedule() {
             <td>${exam.teacher}</td>
             <td>${exam.room}</td>
         `;
-const teachers = ["доц. Аликулов А.", "доц. Насруллоева Д."]
+
+const teachers = ["доц. Аликулов А.", "доц. Насруллоева Д."]
         tableBody.appendChild(row);
     });
 }
