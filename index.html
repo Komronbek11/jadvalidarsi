@@ -7,6 +7,7 @@
     <meta name="description" content="jadvalidarsnew">
     <meta name="keywords" content="1-40010101B">
       <meta name="theme-color" content="#06c1db">
+    <link rel="manifest" href="manifest.json">
     <title>Расписание</title>
     <link rel="manifest" href="manifest.json">
     <link rel="website icon" type="png" href="AI.png">
@@ -98,6 +99,32 @@
     flex-direction: column;
     gap: 10px;
 }
+               .button-container {
+    position: relative;
+    display: inline-block;
+  }
+
+  .new-label {
+    position: absolute;
+    top: 1px;
+    right: -3px;
+    background-color: red;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 2px 5px;
+    border-radius: 5px;
+  }
+
+  .button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    background-color: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 10px;
+  }
       @media (max-width: 768px) {
     main {
         font-size: 16px;
@@ -600,8 +627,12 @@ filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#1d6937",endCo
             <li class="menu-item"><span class="item-text"><a href="jadvalidarsi.html">1-40010103B</a></span></li>
             <li class="menu-item"><span class="item-text"><a href="">1-40010104B</a></span></li>
         </ul>
-              <a href="srsp.html"><button class="zametki">Заметки СРС&#128196;&#9997;</button></a>
-    </div>
+      <div class="button-container">
+  <span class="new-label">NEW</span>
+  <button class="button" onclick="removeLabel()">Ҷадвали имтиҳонҳо</button>
+</div>
+              <button onclick="goToPage()" class="zametki">Заметки СРС&#128196;&#9997;</button>
+      </div>
       <h4 id="dushanbe"> Душанбе</h4>
 <table>
     <tbody>
@@ -834,6 +865,15 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 900);
     }, 1000); // Имитируем загрузку в 3 секунды
 });
+function removeLabel() {
+    document.querySelector(".new-label").style.display = "none";
+      window.location.href = "imtihon.html";
+  }
+
+function goToPage() {
+    window.location.href = "srsp.html";
+}
+
     
 const menuIcon = document.querySelector('.menu-icon');
 const mainItem = document.querySelector('.main-item');
