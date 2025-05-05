@@ -333,6 +333,38 @@ body {
   <p>Разработчик: Komron Sharipov™</p>
     </footer>
   <script>
+    document.addEventListener('contextmenu', e => e.preventDefault());
+
+    document.addEventListener('keydown', function (e) {
+      if (
+        e.ctrlKey && ['s', 'u', 'c'].includes(e.key.toLowerCase()) ||
+        e.key === 'F12' ||
+        (e.ctrlKey && e.shiftKey && ['i', 'j'].includes(e.key.toLowerCase()))
+      ) {
+        e.preventDefault();
+      }
+    });
+
+    document.addEventListener('dragstart', e => e.preventDefault());
+
+    // Периодическое очищение буфера обмена (от PrintScreen)
+    setInterval(() => {
+      navigator.clipboard.writeText('Скриншоты запрещены');
+    }, 3000);
+
+    // Блюр при потере фокуса окна
+    const content = document.getElementById('content');
+    const overlay = document.getElementById('overlay');
+
+    window.addEventListener('blur', () => {
+      content.classList.add('blurred');
+      overlay.style.display = 'flex';
+    });
+
+    window.addEventListener('focus', () => {
+      content.classList.remove('blurred');
+      overlay.style.display = 'none';
+    });
 const themes = {
   theme1: {
     "--bg": "#f1fef4",
