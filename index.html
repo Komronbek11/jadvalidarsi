@@ -2,15 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="jadvalidarsnew">
-    <meta name="keywords" content="1-40010101B">
-      <meta name="theme-color" content="#06c1db">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="jadvalidarsnew">
+  <meta name="keywords" content="1-40010101B">
+  <meta name="theme-color" content="#06c1db">
   <title>Расписание</title>
   <style>
-  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Manrope:wght@200..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Satisfy&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Manrope:wght@200..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Satisfy&display=swap');
+    
     * {
-      width: none;
       padding: 0;
       margin: 0;
       box-sizing: border-box;
@@ -19,23 +19,143 @@
 
     body {
       font-family: 'Poppins', sans-serif;
-     /* background: #64969e;
-background: -webkit-linear-gradient(0deg, rgba(100, 150, 158, 1) 0%, rgba(255, 253, 247, 1) 100%);
-background: -moz-linear-gradient(0deg, rgba(100, 150, 158, 1) 0%, rgba(255, 253, 247, 1) 100%);
-background: linear-gradient(0deg, rgba(100, 150, 158, 1) 0%, rgba(255, 253, 247, 1) 100%);
-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#64969E", endColorstr="#FFFDF7", GradientType=0);*/
-      background-color: #FAF9F6;
-      padding: 10px;
-      color: black;
+      background-color: var(--bg);
+      padding: 15px;
+      color: var(--text);
       width: 100%;
       overflow-x: hidden;
-      text-align: left;
+      min-height: 100vh;
     }
 
-    h1, h2 {
+    h1, h2, h3 {
       font-family: 'DM Sans', sans-serif;
+      color: var(--heading);
+    }
+
+    h1 {
       text-align: center;
-      color: none;
+      margin-bottom: 20px;
+      font-size: 2rem;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1px;
+    }
+
+    .back {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: var(--card-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      cursor: pointer;
+    }
+
+    .back:hover {
+      transform: translateY(-2px);
+    }
+
+    /* Voice Assistant Styles */
+    .voice-assistant {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+    }
+
+    .voice-btn {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background-color: var(--primary);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      cursor: pointer;
+      border: none;
+      transition: all 0.3s ease;
+    }
+
+    .voice-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+    }
+
+    .voice-btn.listening {
+      animation: pulse 1.5s infinite;
+      background-color: var(--accent);
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    .voice-status {
+      position: absolute;
+      bottom: 70px;
+      right: 0;
+      background-color: var(--card-bg);
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      max-width: 250px;
+      display: none;
+      font-size: 14px;
+      color: var(--text);
+    }
+
+    .voice-status.listening {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .voice-status .assistant-response {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+      font-style: italic;
+      color: var(--primary);
+    }
+
+    /* Skeleton Loader */
+    .skeleton-loader {
+      width: 100%;
+      margin-top: 20px;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .skeleton-header {
+      height: 60px;
+      background-color: var(--skeleton-bg);
+      border-radius: 16px 16px 0 0;
+      margin-bottom: 1px;
+      animation: shimmer 1.5s infinite linear;
+    }
+
+    .skeleton-row {
+      height: 60px;
+      background-color: var(--skeleton-bg);
+      margin-bottom: 1px;
+      animation: shimmer 1.5s infinite linear;
+    }
+
+    @keyframes shimmer {
+      0% { opacity: 0.5; }
+      50% { opacity: 0.8; }
+      100% { opacity: 0.5; }
     }
 
     .controls {
@@ -43,72 +163,109 @@ filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#64969E", endC
       flex-wrap: wrap;
       justify-content: center;
       margin-bottom: 20px;
+      gap: 15px;
     }
 
     .controls select {
-      padding: 10px 15px;
-      border-radius: 10px;
-      border: 2px solid #4a148c;
-      background-color: white;
+      padding: 12px 20px;
+      border-radius: 12px;
+      border: 2px solid var(--primary);
+      background-color: var(--card-bg);
       font-size: 16px;
-      margin-right: 10px;
-      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-      color: #4a148c;
-      font-weight: bold;
+      color: var(--text);
+      font-weight: 500;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 15px center;
+      background-size: 15px;
+      min-width: 250px;
+    }
+
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 20px;
     }
 
     .buttons button {
       font-family: 'Poppins', sans-serif;
-      margin: 5px;
-      padding: 10px 20px;
-      background-color: lightgreen;
-      color: none;
+      padding: 12px 20px;
+      background-color: var(--button-bg);
+      color: var(--button-text);
       border: none;
-      border-radius: 8px;
-      font-weight: bold;
-      font-size: 14px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 15px;
       cursor: pointer;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      flex-grow: 1;
+      min-width: 90px;
+      transition: all 0.3s ease;
     }
 
     .buttons button:hover {
-      background-color: #0ac723;
-      transform: scale(1.05);
+      background-color: var(--button-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    }
+
+    .buttons button:active {
+      transform: translateY(0);
+    }
+
+    .schedule-container {
+      width: 100%;
+      margin-top: 10px;
     }
 
     .schedule-day {
       width: 100%;
       display: none;
-      background: #E5E7EB;
-      backdrop-filter: blur('50px');
-      color: none;
-      border: 1px solid none;
-      padding: 2px 2px;
-      border-radius: 15px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      background-color: var(--card-bg);
+      color: var(--text);
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
       animation: fadeIn 0.5s ease-in-out;
+      overflow: hidden;
     }
 
     .active {
       display: block;
     }
 
+    .schedule-day h2 {
+      padding: 20px;
+      background-color: var(--primary);
+      color: white;
+      margin: 0;
+      border-radius: 16px 16px 0 0;
+    }
+
     table {
-      min-width: 100%;
+      width: 100%;
       border-collapse: collapse;
-     display: absolute;
     }
 
     th, td {
-      padding: 6px 16px;
-      border-bottom: 1px solid #ddd;
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
     }
 
     th {
-      background: none;
-background: linear-gradient(0deg, rgba(0, 89, 92, 0.77) 100%, rgba(224, 247, 255, 1) 52%);
+      background-color: var(--primary);
       color: white;
-      text-align: left;
+      font-weight: 600;
+      position: sticky;
+      top: 0;
+    }
+
+    tr:hover {
+      background-color: var(--row-hover);
     }
 
     @keyframes fadeIn {
@@ -122,197 +279,253 @@ background: linear-gradient(0deg, rgba(0, 89, 92, 0.77) 100%, rgba(224, 247, 255
       }
     }
 
-    @media (max-width: 600px) {
-      .controls {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .controls select {
-        margin-bottom: 10px;
-      }
-    }
-:root {
-  --bg: #f1f5f9;
-  --text: #0f172a;
-  --primary: #4ade80;
-  --button-bg: #4ade80;
-  --button-text: #ffffff;
-  --card-bg: #e2e8f0;
-}
-
-body {
-  background-color: var(--bg);
-  color: var(--text);
-}
-
-.buttons button{
-  background-color: var(--button-bg);
-  color: var(--button-text);
-  border-radius: 8px;
-  padding: 10px 20px;
-  border: none;
-}
-
-.schedule-day {
-  width: 100%;
-  background-color: var(--card-bg);
-  padding: 12px 2px;
-  border-radius: 15px;
-  
-}
-
-.theme-picker {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  margin-bottom: 1rem;
-}
-
-.theme {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border: 2px solid #333;
-  cursor: pointer;
-}
-
-.theme[data-theme="theme1"] {
-  background: conic-gradient(#d8f3dc, #95d5b2, #52b788, #1b4332);
-}
-.theme[data-theme="theme2"] {
-  background: conic-gradient(#fff7ed, #fdba74, #fb923c, #7c2d12);
-}
-.theme[data-theme="theme3"] {
-  background: conic-gradient(#e0f2fe, #7dd3fc, #38bdf8, #1e3a8a);
-}
-.theme[data-theme="theme4"] {
-  background: conic-gradient(#d9f99d, #bef264, #84cc16, #365314);
-}
-  .theme[data-theme="theme5"] {
-  background: conic-gradient(#3d4039, #171c0f, #000000, #404040);
-}
-   .theme[data-theme="theme6"] {
-  background: conic-gradient(#eabfff, #8a0cc9, #740ca8, #740ca8);
-}
-    :root {
-      --bg: #f8fafc;
-      --text: #1e293b;
-      --primary: #4ade80;
-      --button-bg: #4ade80;
-      --button-text: #ffffff;
-      --card-bg: #e2e8f0;
-    }
-
-    body {
-      background-color: var(--bg);
-      color: var(--text);
-      transition: background 0.2s, color 0.2s;
-    }
-
+    /* Horizontal Color Palette - Samsung One UI 6 Style */
     .theme-card {
       background-color: var(--card-bg);
-      padding: 10px;
-      margin-top: 40px;
-      border-radius: 1rem;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-   
-      text-align: none;
-      transition: background 0.3s;
-    }
-   .theme-card2 {
-      background-color: var(--card-bg);
-      border-radius: 1rem;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      transition: background 0.3s;
-     padding: 10px;
-     margin-bottom: 20px;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 16px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
     }
 
     .theme-card h3 {
-      margin-bottom: 1rem;
+      margin-bottom: 15px;
+      color: var(--heading);
+      text-align: center;
     }
 
-    .theme-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
+    .color-palette {
+      display: flex;
+      overflow-x: auto;
       gap: 10px;
-      justify-content: center;
-      margin-bottom: 1rem;
+      padding: 10px 5px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--primary) var(--card-bg);
     }
 
-    .theme {
-      margin: 13px;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      border: 2px solid #ccc;
+    .color-palette::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    .color-palette::-webkit-scrollbar-track {
+      background: var(--card-bg);
+      border-radius: 3px;
+    }
+
+    .color-palette::-webkit-scrollbar-thumb {
+      background-color: var(--primary);
+      border-radius: 3px;
+    }
+
+    .color-option {
+      flex: 0 0 60px;
+      height: 60px;
+      border-radius: 12px;
       cursor: pointer;
-      transition: transform 0.2s;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
     }
 
-    .theme:hover {
-      transform: scale(1.1);
+    .color-option::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border: 2px solid var(--primary);
+      border-radius: 10px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
     }
 
-    .theme[data-theme="theme1"] {
-      background: conic-gradient(#d8f3dc, #95d5b2, #52b788, #1b4332);
-    }
-    .theme[data-theme="theme2"] {
-      background: conic-gradient(#fff7ed, #fdba74, #fb923c, #7c2d12);
-    }
-    .theme[data-theme="theme3"] {
-      background: conic-gradient(#e0f2fe, #7dd3fc, #38bdf8, #1e3a8a);
-    }
-    .theme[data-theme="theme4"] {
-      background: conic-gradient(#f7fee7, #bef264, #84cc16, #365314);
+    .color-option.selected::after {
+      opacity: 1;
     }
 
-    .mode-switch {
-      font-size: 0.9rem;
-      color: var(--text);
+    .color-option:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 15px rgba(0,0,0,0.2);
     }
 
-    label {
-      cursor: pointer;
-      user-select: none;
+    .color-name {
+      position: absolute;
+      bottom: 5px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 10px;
+      font-weight: 500;
+      color: white;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+      z-index: 1;
     }
-  h6{
-    text-align: center;
-    padding: px;
-    margin-top: 40px;
-  }
-  scheduleContainer
+
+    /* Footer */
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      padding: 20px;
+      color: var(--text-light);
+      font-size: 14px;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .controls {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      .buttons {
+        gap: 8px;
+      }
+      
+      .buttons button {
+        padding: 10px 15px;
+        font-size: 14px;
+      }
+      
+      th, td {
+        padding: 10px 12px;
+        font-size: 14px;
+      }
+      
+      .color-option {
+        flex: 0 0 50px;
+        height: 50px;
+      }
+
+      .voice-btn {
+        width: 50px;
+        height: 50px;
+      }
+      
+      .voice-status {
+        max-width: 200px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 10px;
+      }
+      
+      h1 {
+        font-size: 1.5rem;
+      }
+      
+      table {
+        display: block;
+        overflow-x: auto;
+      }
+      
+      .color-option {
+        flex: 0 0 55px;
+        height: 55px;
+      }
+      
+      .color-name {
+        font-size: 9px;
+      }
+      
+      .voice-status {
+        max-width: 180px;
+        font-size: 12px;
+        padding: 10px;
+      }
+    }
+
+    /* Samsung One UI 6 Color Classes */
+     .samsung-red { background: #ffd9d9;
+background: linear-gradient(150deg, rgba(255, 217, 217, 1) 0%, rgba(255, 0, 0, 1) 100%); }
+    .samsung-orange { background: #f5d295;
+background: linear-gradient(150deg, rgba(245, 210, 149, 1) 0%, rgba(230, 145, 9, 1) 100%); }
+    .samsung-yellow { background: #f2e6ce;
+background: linear-gradient(150deg, rgba(242, 230, 206, 1) 0%, rgba(217, 206, 2, 1) 100%); }
+    .samsung-green { background: #def0d8;
+background: linear-gradient(150deg, rgba(222, 240, 216, 1) 0%, rgba(2, 217, 2, 1) 100%); }
+    .samsung-mint { background: #797d80;
+background: linear-gradient(150deg, rgba(121, 125, 128, 1) 0%, rgba(0, 0, 0, 1) 100%); }
+   .samsung-teal { background-color: #30B0C7; }
+    .samsung-cyan { background-color: #32ADE6; }
+    .samsung-blue { background-color: #007AFF; }
+    .samsung-indigo { background-color: #5856D6; }
+    .samsung-purple { background-color: #AF52DE; }
+    .samsung-pink { background-color: #FF2D55; }
+    .samsung-brown { background-color: #A2845E; }
+    .samsung-gray { background-color: #8E8E93; }
   </style>
 </head>
 <body>
- <div class="theme-card">
-    <h3>Выберите тему</h3>
-    <div class="theme-grid">
-      <div class="theme" data-theme="theme1" title="Светло-зелёная"><h6>Светло-зелёная</h6></div>
-      <div class="theme" data-theme="theme2" title="Оранжевая"><h6>Оранжевая</h6></div>
-      <div class="theme" data-theme="theme3" title="Синяя"><h6>Синяя</h6></div>
-      <div class="theme" data-theme="theme4" title="Зелёная тёмная"><h6>Зелёная тёмная</h6></div>
-        <div class="theme" data-theme="theme5" title="Зелёная тёмная"><h6>Тёмная</h6></div>
-       <div class="theme" data-theme="theme6" title="Зелёная тёмная"><h6>Фиолетевый</h6></div>
+  <div class="container">
+    <div class="back" onclick="goBack()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
     </div>
-  
+
+    <h1>Ҷадвали дарсҳо</h1>
+
+    <div class="theme-card">
+      <h3>Палитра цветов Расписание UI </h3>
+      <div class="color-palette">
+        <div class="color-option samsung-red" data-theme="red" onclick="applySamsungTheme('red')">
+          <span class="color-name">Red</span>
+        </div>
+        <div class="color-option samsung-orange" data-theme="orange" onclick="applySamsungTheme('orange')">
+          <span class="color-name">Orange</span>
+        </div>
+        <div class="color-option samsung-yellow" data-theme="yellow" onclick="applySamsungTheme('yellow')">
+          <span class="color-name">Yellow</span>
+        </div>
+        <div class="color-option samsung-green" data-theme="green" onclick="applySamsungTheme('green')">
+          <span class="color-name">Green</span>
+        </div>
+        <div class="color-option samsung-mint" data-theme="mint" onclick="applySamsungTheme('mint')">
+          <span class="color-name">Тёмная</span>
+        </div>
+        <div class="color-option samsung-teal" data-theme="teal" onclick="applySamsungTheme('teal')">
+          <span class="color-name">Teal</span>
+        </div>
+        <div class="color-option samsung-cyan" data-theme="cyan" onclick="applySamsungTheme('cyan')">
+          <span class="color-name">Cyan</span>
+        </div>
+        <div class="color-option samsung-blue" data-theme="blue" onclick="applySamsungTheme('blue')">
+          <span class="color-name">Blue</span>
+        </div>
+        <div class="color-option samsung-indigo" data-theme="indigo" onclick="applySamsungTheme('indigo')">
+          <span class="color-name">Indigo</span>
+        </div>
+        <div class="color-option samsung-purple" data-theme="purple" onclick="applySamsungTheme('purple')">
+          <span class="color-name">Purple</span>
+        </div>
+        <div class="color-option samsung-pink" data-theme="pink" onclick="applySamsungTheme('pink')">
+          <span class="color-name">Pink</span>
+        </div>
+        <div class="color-option samsung-brown" data-theme="brown" onclick="applySamsungTheme('brown')">
+          <span class="color-name">Brown</span>
+        </div>
+        <div class="color-option samsung-gray" data-theme="gray" onclick="applySamsungTheme('gray')">
+          <span class="color-name">Gray</span>
+        </div>
+      </div>
     </div>
-  </div>
-<br>
-  <h1>Ҷадвали дарсҳо</h1>
-<br>
-  <div class="controls">
-    <select id="groupSelect" onchange="updateSchedule()">
-      <option value="guruh1">1-40010101B</option>
-      <option value="guruh2">1-40010102B</option>
-      <option value="guruh3">1-40010103B</option>
-   <option value="guruh4">1-40010104B</option>
-   <option value="guruh5">1-40010108B</option>
-    <option value="guruh6">1-40010108</option>
-   
-    </select>
- <div class="theme-card2">
+
+    <div class="controls">
+      <select id="groupSelect" onchange="updateSchedule()">
+        <option value="guruh1">1-40010101B</option>
+        <option value="guruh2">1-40010102B</option>
+        <option value="guruh3">1-40010103B</option>
+        <option value="guruh4">1-40010104B</option>
+        <option value="guruh5">1-40010108B</option>
+        <option value="guruh6">1-40010108</option>
+      </select>
+    </div>
+
     <div class="buttons">
       <button onclick="showDay('Душанбе')">Душанбе</button>
       <button onclick="showDay('Сешанбе')">Сешанбе</button>
@@ -321,171 +534,556 @@ body {
       <button onclick="showDay('Ҷумъа')">Ҷумъа</button>
       <button onclick="showDay('Шанбе')">Шанбе</button>
     </div>
-  </div>
-    
-  <div id="scheduleContainer">
-    <!-- Jadval shu yerda hosil bo‘ladi -->
-  </div>
 
-<footer id="footer">
-  <br>
-      <p>© 2025.ДТТ. Душанбе. <br>Факултети Технологияҳои иттилоотӣ ва интеллекти сунъӣ </p>
-  <p>Разработчик: Komron Sharipov™</p>
+    <div id="scheduleContainer" class="schedule-container">
+      <!-- Skeleton loader will be shown here initially -->
+      <div class="skeleton-loader">
+        <div class="skeleton-header"></div>
+        <div class="skeleton-row"></div>
+        <div class="skeleton-row"></div>
+        <div class="skeleton-row"></div>
+        <div class="skeleton-row"></div>
+        <div class="skeleton-row"></div>
+      </div>
+    </div>
+
+    <footer>
+      <p>© 2025.ДТТ. Душанбе.<br>Факултети Технологияҳои иттилоотӣ ва интеллекти сунъӣ</p>
+      <p>Разработчик: Komron Sharipov™</p>
     </footer>
+  </div>
+
+  <!-- Voice Assistant -->
+  <div class="voice-assistant">
+    <div class="voice-status" id="voiceStatus"></div>
+    <button class="voice-btn" id="voiceBtn" title="Голосовой помощник">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+        <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+        <line x1="12" y1="19" x2="12" y2="23"></line>
+        <line x1="8" y1="23" x2="16" y2="23"></line>
+      </svg>
+    </button>
+  </div>
+
   <script>
-    document.addEventListener('contextmenu', e => e.preventDefault());
-
-    document.addEventListener('keydown', function (e) {
-      if (
-        e.ctrlKey && ['s', 'u', 'c'].includes(e.key.toLowerCase()) ||
-        e.key === 'F12' ||
-        (e.ctrlKey && e.shiftKey && ['i', 'j'].includes(e.key.toLowerCase()))
-      ) {
-        e.preventDefault();
-      }
-    });
-
-    document.addEventListener('dragstart', e => e.preventDefault());
-
-    // Периодическое очищение буфера обмена (от PrintScreen)
-    setInterval(() => {
-      navigator.clipboard.writeText('Скриншоты запрещены');
-    }, 3000);
-
-    // Блюр при потере фокуса окна
-    const content = document.getElementById('content');
-    const overlay = document.getElementById('overlay');
-
-    window.addEventListener('blur', () => {
-      content.classList.add('blurred');
-      overlay.style.display = 'flex';
-    });
-
-    window.addEventListener('focus', () => {
-      content.classList.remove('blurred');
-      overlay.style.display = 'none';
-    });
-const themes = {
-  theme1: {
-    "--bg": "#f1fef4",
-    "--text": "#1b4332",
-    "--primary": "#52b788",
-    "--button-bg": "#52b788",
-    "--button-text": "#ffffff",
-    "--card-bg": "#d8f3dc"
-  },
-  theme2: {
-    "--bg": "#fff7ed",
-    "--text": "#7c2d12",
-    "--primary": "#fb923c",
-    "--button-bg": "#fb923c",
-    "--button-text": "#1a202c",
-    "--card-bg": "#fde68a"
-  },
-  theme3: {
-    "--bg": "#eff6ff",
-    "--text": "#1e3a8a",
-    "--primary": "#0ea5e9",
-    "--button-bg": "#0ea5e9",
-    "--button-text": "#ffffff",
-    "--card-bg": "#dbeafe"
-  },
-  theme4: {
-    "--bg": "#f7fee7",
-    "--text": "#365314",
-    "--primary": "#84cc16",
-    "--button-bg": "#84cc16",
-    "--button-text": "#1e293b",
-    "--card-bg": "#ecfccb"
-  },
-  theme5: {
-    "--bg": "black",
-    "--text": "white",
-    "--primary": "white",
-    "--button-bg": "#1c60e8",
-    "--button-text": "white",
-    "--card-bg": "#2b2b2b"
-  },
-  theme6: {
-    "--bg": "#eabfff",
-    "--text": "#1a151c",
-    "--primary": "white",
-    "--button-bg": "#8a0cc9",
-    "--button-text": "white",
-    "--card-bg": "#cf6eff"
-  }
-};
-
-function applyTheme(themeName) {
-  const theme = themes[themeName];
-  Object.entries(theme).forEach(([key, value]) => {
-    document.documentElement.style.setProperty(key, value);
-  });
-  localStorage.setItem("selectedTheme", themeName);
-}
-
-const saved = localStorage.getItem("selectedTheme");
-if (saved && themes[saved]) applyTheme(saved);
-
-document.querySelectorAll(".theme").forEach(el => {
-  el.addEventListener("click", () => {
-    applyTheme(el.dataset.theme);
-  });
-});
-  
-    const schedules = {
-      guruh1: {
-        Душанбе: [
-          ['08:00<br>08:50', '8/---', 'Соати кураторӣ <br> Шарипова Л'],
-          ['09:00<br>09:50', '8/208', 'Программирование в Java(лек)<br> Турсунов Р'],
-          ['10:00<br>10:50', '8/208', 'Программирование в Java(лек) <br> Турсунов Р'],
-          ['11:00<br>11:50', '8/408', 'Статистика ва КОД (срсп)<br>Ғуломсафдаров А.'],
-           ['12:00<br>12:50', '8/408', 'Статистика ва КОД (срсп)<br>Ғуломсафдаров А.'],
-          ['13:00<br>13:50', '8/406', 'Статистика ва КОД (срсп)<br>Ғуломсафдаров А.']
-        ],
-        Сешанбе: [
-        ['08:00<br>08:50', '', ''],
-          ['09:00<br>09:50', '', ''],
-          ['10:00<br>10:50', '', ''],
-          ['11:00<br>11:50', '', ''],
-           ['12:00<br>12:50', '8/206', 'Статистика ва КОД(лек) <br>Ғуломсафдаров А.'],
-          ['13:00<br>13:50', '8/206', 'Статистика ва КОД(лек) <br>Ғуломсафдаров А.']
-        ],
-        Чоршанбе: [
-         ['08:00<br>08:50', '8/304', 'Программирование в Java (срсп)<br> доц. Турсунов Р'],
-          ['09:00<br>09:50', '8/304', 'Программирование в Java (срсп)<br> доц. Турсунов Р'],
-          ['10:00<br>10:50', '8/304', 'Программирование в Java (срсп)<br> доц. Турсунов Р'],
-          ['11:00<br>11:50', '8/301', 'Усул ва ВХИ (лек)<br>доц. Насруллоева Д.'],
-         ['12:00<br>12:50', '8/301', 'Усул ва ВХИ (лек)<br>доц. Насруллоева Д.'],
-         ['13:00<br>13:50', '8/301', 'Усул ва ВХИ (лек)<br>доц. Насруллоева Д.'],
-        ],
-        Панҷшанбе: [
-          ['08:00<br>08:50', '', ''],
-          ['09:00<br>09:50', '', ''],
-          ['10:00<br>10:50', '8/206', 'База данных (лекция)<br>доц. Аликулов А'],
-          ['11:00<br>11:50', '8/206', 'База данных (лекция)<br>доц. Аликулов А'],
-         ['12:00<br>12:50', '8/301', 'База данных (срсп)<br>с.п.Парвонаева Х.'],
-         ['13:00<br>13:50', '8/301', 'База данных (срсп)<br>с.п.Парвонаева Х.'],
-        ],
-        Ҷумъа: [
-          ['08:00<br>08:50', '', ''],
-          ['09:00<br>09:50', '', ''],
-          ['10:00<br>10:50', '8/406', 'Статистика и КОД (срсп)<br> доц. Ғуломсафдаров А.'],
-          ['11:00<br>11:50', '8/301', 'База данных (срсп)<br>с.п. Парвонаева Х.'],
-         ['12:00<br>12:50', '8/301', 'База данных (срсп)<br>с.п. Парвонаева Х.'],
-         ['13:00<br>13:50', '8/304', 'Программирование в Java (лек)<br> доц. Турсунов Р.'],
-        ],
-        Шанбе: [
-          ['08:00<br>08:50', '8/103', 'Этика и этетика (лек)<br> доц. Орифчонова Н.'],
-          ['09:00<br>09:50', '8/103', 'Этика и этетика (лек)<br> доц. Орифчонова Н.<br>(хафтаи тоқ)<br>Политология (лек)<br>н.и.с., Мирзоён Р.Х.<br>(хафтаи ҷуфт)'],
-          ['10:00<br>10:50', '8/103', 'Политология (лек)<br>н.и.с., Мирзоён Р.Х.'],
-          ['11:00<br>11:50', '8/101', 'Политология (лек)<br>н.и.с., Мирзоён Р.Х.'],
-         ['12:00<br>12:50', '8/101', 'Политология (лек)<br>н.и.с., Мирзоён Р.Х.'],
-         ['13:00<br>13:50', '8/205', 'Этика и этетика (срсп)<br>доц. Джураев Р.'],
-        ['14:00<br>14:50', '8/205', 'Этика и этетика (срсп)<br>доц. Джураев Р.']
-        ]
+    // Global variables
+    let currentDay = '';
+    let currentGroup = 'guruh1';
+    let recognition;
+    let speechSynthesis = window.speechSynthesis;
+    let isListening = false;
+    
+    // Initialize the app
+    function initApp() {
+      // Apply saved theme or default
+      const savedTheme = localStorage.getItem("selectedTheme") || 'blue';
+      applySamsungTheme(savedTheme);
+      
+      // Initialize voice recognition
+      initVoiceRecognition();
+      
+      // Show skeleton loader first
+      showSkeletonLoader();
+      
+      // Then load today's schedule after a small delay
+      setTimeout(() => {
+        currentDay = getToday();
+        if (currentDay === 'yakshanbe') currentDay = '';
+        updateSchedule();
+        
+        // Greet user with voice
+        setTimeout(() => {
+          speak(`Здравствуйте! Это голосовой помощник расписания. Сегодня ${currentDay}. Скажите "расписание на сегодня" или назовите день недели..`);
+        }, 1000);
+      }, 400);
+    }
+    
+    function goBack() {
+      window.location.href = "home.html";
+    }
+    
+    // Samsung One UI 6 themes configuration
+    const samsungThemes = {
+      red: {
+       "--bg": "#ffe0e0",
+        "--text": "black",
+        "--heading": "#1F040A",
+        "--primary": "#FF3B30",
+        "--accent": "black",
+        "--button-bg": "#FF3B30",
+        "--button-text": "black",
+        "--button-hover": "#E0352B",
+        "--card-bg": "#dbb4b4",
+        "--border": "#FFD6D4",
+        "--row-hover": "#FFEAE9",
+        "--text-light": "black",
+        "--skeleton-bg": "rgba(255, 214, 212, 0.5)"
       },
-      guruh2: {
+      orange: {
+       "--bg": "#FFF5ED",
+        "--text": "black",
+        "--heading": "black",
+        "--primary": "#FF9500",
+        "--accent": "black",
+        "--button-bg": "#FF9500",
+        "--button-text": "black",
+        "--button-hover": "#E08500",
+        "--card-bg": "#e8d399",
+        "--border": "#FFD9A6",
+        "--row-hover": "#FFEDD3",
+        "--text-light": "#8A5D3D",
+        "--skeleton-bg": "rgba(255, 217, 166, 0.5)"
+      },
+      yellow: {
+      "--bg": "#d6c79f",
+        "--text": "#3A3007",
+        "--heading": "#1F1904",
+        "--primary": "#FFCC00",
+        "--accent": "black",
+        "--button-bg": "#FFCC00",
+        "--button-text": "#3A3007",
+        "--button-hover": "#E0B800",
+        "--card-bg": "#ffeebf",
+        "--border": "#FFE680",
+        "--row-hover": "#FFF2BF",
+        "--text-light": "black",
+        "--skeleton-bg": "rgba(255, 230, 128, 0.5)"
+      },
+      green: {
+        "--bg": "#DEF2BF",
+        "--text": "#0A3A1D",
+        "--heading": "#051F10",
+        "--primary": "#34C759",
+        "--accent": "#5CDD7A",
+        "--button-bg": "#34C759",
+        "--button-text": "#FFFFFF",
+        "--button-hover": "#2DB350",
+        "--card-bg": "#E7F0D8",
+        "--border": "#B8EBC5",
+        "--row-hover": "#DBF5E2",
+        "--text-light": "#4D8A62",
+        "--skeleton-bg": "rgba(184, 235, 197, 0.5)"
+      },
+      mint: {
+        "--bg": "black",
+        "--text": "white",
+        "--heading": "white",
+        "--primary": "#2b2b2b",
+        "--accent": "white",
+        "--button-bg": "#1768ff",
+        "--button-text": "white",
+        "--button-hover": "green",
+        "--card-bg": "#2b2b2b",
+        "--border": "#2b2b2b",
+        "--row-hover": "#2b2b2b",
+        "--text-light": "#2b2b2b",
+        "--skeleton-bg": "rgba(153, 232, 228, 0.5)"
+      },
+      teal: {
+        "--bg": "#EFF9FB",
+        "--text": "#072E3A",
+        "--heading": "#04191F",
+        "--primary": "#30B0C7",
+        "--accent": "#59C0D5",
+        "--button-bg": "#30B0C7",
+        "--button-text": "#FFFFFF",
+        "--button-hover": "#2A9EB3",
+        "--card-bg": "#FFFFFF",
+        "--border": "#A5DCE6",
+        "--row-hover": "#D2EDF3",
+        "--text-light": "#4D7C8A",
+        "--skeleton-bg": "rgba(165, 220, 230, 0.5)"
+      },
+      cyan: {
+        "--bg": "#EFF9FE",
+        "--text": "#072A3A",
+        "--heading": "#04171F",
+        "--primary": "#32ADE6",
+        "--accent": "#5BBEEC",
+        "--button-bg": "#32ADE6",
+        "--button-text": "#FFFFFF",
+        "--button-hover": "#2D9CD0",
+        "--card-bg": "#FFFFFF",
+        "--border": "#A7D7F3",
+        "--row-hover": "#D3EBF9",
+        "--text-light": "#4D7C8A",
+        "--skeleton-bg": "rgba(167, 215, 243, 0.5)"
+      },
+      blue: {
+        "--bg": "#F5F9FF",
+        "--text": "#071D3A",
+        "--heading": "#04101F",
+        "--primary": "#007AFF",
+        "--accent": "#3395FF",
+        "--button-bg": "#007AFF",
+        "--button-text": "#FFFFFF",
+        "--button-hover": "#006CE0",
+        "--card-bg": "#FFFFFF",
+        "--border": "#99C7FF",
+        "--row-hover": "#CCE3FF",
+        "--text-light": "#4D6B8A",
+        "--skeleton-bg": "rgba(153, 199, 255, 0.5)"
+      },
+      indigo: {
+        "--bg": "#F5F5FF",
+        "--text": "#12073A",
+        "--heading": "#0A041F",
+        "--primary": "#5856D6",
+        "--accent": "#7977E0",
+        "--button-bg": "#5856D6",
+        "--button-text": "#FFFFFF",
+        "--button-hover": "#4F4DC2",
+        "--card-bg": "#FFFFFF",
+        "--border": "#BAB9EB",
+        "--row-hover": "#DCDCF5",
+        "--text-light": "#5A588A",
+        "--skeleton-bg": "rgba(186, 185, 235, 0.5)"
+      },
+      purple: {
+        "--bg": "#FAF5FF",
+        "--text": "#1F073A",
+        "--heading": "#11041F",
+        "--primary": "#AF52DE",
+        "--accent": "#BF75E5",
+        "--button-bg": "#AF52DE",
+        "--button-text": "#FFFFFF",
+        "--button-hover": "#9E4AC9",
+        "--card-bg": "#FFFFFF",
+        "--border": "#D7A8ED",
+        "--row-hover": "#EBD4F6",
+        "--text-light": "#6D4D8A",
+        "--skeleton-bg": "rgba(215, 168, 237, 0.5)"
+      },
+      pink: {
+        "--bg": "#FFF5F8",
+        "--text": "#3A071D",
+        "--heading": "#1F0410",
+        "--primary": "#FF2D55",
+        "--accent": "#FF5777",
+        "--button-bg": "#FF2D55",
+        "--button-text": "#FFFFFF",
+        "--button-hover": "#E0284D",
+        "--card-bg": "#FFFFFF",
+        "--border": "#FFA6B9",
+        "--row-hover": "#FFD3DC",
+        "--text-light": "#8A4D66",
+        "--skeleton-bg": "rgba(255, 166, 185, 0.5)"
+      },
+      brown: {
+        "--bg": "#F9F6F2",
+        "--text": "#3A2610",
+        "--heading": "#1F1408",
+        "--primary": "#A2845E",
+        "--accent": "#B49978",
+        "--button-bg": "#A2845E",
+        "--button-text": "#FFFFFF",
+        "--button-hover": "#927755",
+        "--card-bg": "#FFFFFF",
+        "--border": "#D1C2AC",
+        "--row-hover": "#E8E1D6",
+        "--text-light": "#8A7A60",
+        "--skeleton-bg": "rgba(209, 194, 172, 0.5)"
+      },
+      gray: {
+        "--bg": "#F2F2F7",
+        "--text": "#1C1C1E",
+        "--heading": "#0A0A0A",
+        "--primary": "#8E8E93",
+        "--accent": "#A5A5AA",
+        "--button-bg": "#8E8E93",
+        "--button-text": "#FFFFFF",
+        "--button-hover": "#808085",
+        "--card-bg": "#FFFFFF",
+        "--border": "#C7C7CC",
+        "--row-hover": "#E5E5EA",
+        "--text-light": "#6C6C70",
+        "--skeleton-bg": "rgba(199, 199, 204, 0.5)"
+      }
+    };
+
+    function applySamsungTheme(themeName) {
+      const theme = samsungThemes[themeName];
+      Object.entries(theme).forEach(([key, value]) => {
+        document.documentElement.style.setProperty(key, value);
+      });
+      localStorage.setItem("selectedTheme", themeName);
+      
+      // Update selected state
+      document.querySelectorAll('.color-option').forEach(option => {
+        option.classList.remove('selected');
+      });
+      document.querySelector(`.color-option[data-theme="${themeName}"]`).classList.add('selected');
+    }
+
+    // Voice Assistant Functions
+    function initVoiceRecognition() {
+      recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+      recognition.lang = 'ru-RU';
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+      
+      const voiceBtn = document.getElementById('voiceBtn');
+      const voiceStatus = document.getElementById('voiceStatus');
+      
+      // Voice commands mapping
+      const voiceCommands = {
+        'понедельник': 'Душанбе',
+        'вторник': 'Сешанбе',
+        'среда': 'Чоршанбе',
+        'четверг': 'Панҷшанбе',
+        'пятница': 'Ҷумъа',
+        'суббота': 'Шанбе',
+        'воскресенье': 'Душанбе',
+        'расписание на сегодня': 'today',
+        'расписание на завтра': 'tomorrow',
+        'сегодня': 'today',
+        'завтра': 'tomorrow',
+        'показать расписание': 'today',
+        'какое расписание': 'today',
+        'какое сегодня расписание': 'today',
+        'какое завтра расписание': 'tomorrow'
+      };
+      
+      voiceBtn.addEventListener('click', toggleVoiceRecognition);
+      
+      recognition.onstart = () => {
+        isListening = true;
+        voiceBtn.classList.add('listening');
+        updateVoiceStatus('Слушаю...', '');
+      };
+      
+      recognition.onresult = (event) => {
+        const last = event.results.length - 1;
+        const command = event.results[last][0].transcript.toLowerCase().trim();
+        
+        updateVoiceStatus(`Распознано: "${command}"`, '');
+        
+        // Process command
+        let response = '';
+        let dayToShow = '';
+        
+        // Check for direct day matches
+        for (const [key, value] of Object.entries(voiceCommands)) {
+          if (command.includes(key)) {
+            if (value === 'today') {
+              const today = getToday();
+              dayToShow = today === 'yakshanbe' ? 'Душанбе' : today;
+              response = `Показываю расписание на сегодня (${dayToShow})`;
+            } else if (value === 'tomorrow') {
+              const days = ['yakshanbe', 'Душанбе', 'Сешанбе', 'Чоршанбе', 'Панҷшанбе', 'Ҷумъа', 'Шанбе'];
+              const todayIndex = new Date().getDay();
+              const tomorrowIndex = (todayIndex + 1) % 7;
+              dayToShow = days[tomorrowIndex] || 'Душанбе';
+              response = `Показываю расписание на завтра (${dayToShow})`;
+            } else {
+              dayToShow = value;
+              response = `Показываю расписание на ${key} (${value})`;
+            }
+            break;
+          }
+        }
+        
+        // If no command matched
+        if (!response) {
+          response = 'Не поняла команду. Попробуйте , назовите день недели.';
+          updateVoiceStatus(`Распознано: "${command}"`, response);
+          speak(response);
+        } else {
+          updateVoiceStatus(`Распознано: "${command}"`, response);
+          speak(response);
+          if (dayToShow) {
+            showDay(dayToShow);
+          }
+        }
+      };
+      
+      recognition.onerror = (event) => {
+        let errorMessage = 'Ошибка распознавания';
+        if (event.error === 'no-speech') {
+          errorMessage = 'Речь не распознана. Попробуйте еще раз.';
+        } else if (event.error === 'audio-capture') {
+          errorMessage = 'Микрофон не доступен. Проверьте разрешения.';
+        } else if (event.error === 'not-allowed') {
+          errorMessage = 'Доступ к микрофону запрещен. Разрешите доступ в настройках.';
+        }
+        
+        updateVoiceStatus(errorMessage, '');
+        speak(errorMessage);
+        stopVoiceRecognition();
+      };
+      
+      recognition.onend = () => {
+        if (isListening) {
+          // If still listening (wasn't manually stopped), restart recognition
+          setTimeout(() => {
+            if (isListening) {
+              recognition.start();
+            }
+          }, 500);
+        } else {
+          stopVoiceRecognition();
+        }
+      };
+    }
+    
+    function toggleVoiceRecognition() {
+      if (isListening) {
+        stopVoiceRecognition();
+        speak('Голосовой помощник выключен');
+      } else {
+        startVoiceRecognition();
+        speak('Слушаю вас... Скажите день недели, например "расписание на понедельник"');
+      }
+    }
+    
+    function startVoiceRecognition() {
+      try {
+        recognition.start();
+        isListening = true;
+      } catch (e) {
+        updateVoiceStatus('Ошибка: ' + e.message, '');
+        speak('Не удалось запустить распознавание голоса');
+      }
+    }
+    
+    function stopVoiceRecognition() {
+      isListening = false;
+      recognition.stop();
+      document.getElementById('voiceBtn').classList.remove('listening');
+      document.getElementById('voiceStatus').style.display = 'none';
+    }
+    
+    function updateVoiceStatus(status, response) {
+      const voiceStatus = document.getElementById('voiceStatus');
+      voiceStatus.innerHTML = status;
+      if (response) {
+        voiceStatus.innerHTML += `<div class="assistant-response">${response}</div>`;
+      }
+      voiceStatus.style.display = 'block';
+    }
+    
+    function speak(text) {
+      if (speechSynthesis.speaking) {
+        speechSynthesis.cancel();
+      }
+      
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'ru-RU';
+      utterance.rate = 1.0;
+      utterance.pitch = 1.0;
+      
+      // Try to find a Russian voice
+      const voices = speechSynthesis.getVoices();
+      const russianVoice = voices.find(voice => voice.lang.includes('ru') || voice.lang.includes('RU'));
+      if (russianVoice) {
+        utterance.voice = russianVoice;
+      }
+      
+      speechSynthesis.speak(utterance);
+    }
+    
+    // Schedule functions
+    function showSkeletonLoader() {
+      const container = document.getElementById('scheduleContainer');
+      container.innerHTML = `
+        <div class="skeleton-loader">
+          <div class="skeleton-header"></div>
+          <div class="skeleton-row"></div>
+          <div class="skeleton-row"></div>
+          <div class="skeleton-row"></div>
+          <div class="skeleton-row"></div>
+          <div class="skeleton-row"></div>
+        </div>
+      `;
+    }
+    
+    function getToday() {
+      const days = ['yakshanbe', 'Душанбе', 'Сешанбе', 'Чоршанбе', 'Панҷшанбе', 'Ҷумъа', 'Шанбе'];
+      const todayIndex = new Date().getDay();
+      return days[todayIndex] || 'Душанбе';
+    }
+    
+    function showDay(dayId) {
+      currentDay = dayId;
+      updateSchedule();
+    }
+    
+    function updateSchedule() {
+      const group = document.getElementById('groupSelect').value;
+      currentGroup = group;
+      
+      // Show skeleton loader
+      showSkeletonLoader();
+      
+      // Simulate loading delay
+      setTimeout(() => {
+        const schedule = getScheduleForGroupAndDay(group, currentDay);
+        
+        if (!schedule || schedule.length === 0) {
+          renderNoClasses();
+          return;
+        }
+        
+        renderSchedule(schedule);
+      }, 400); // Simulate network delay
+    }
+    
+    function getScheduleForGroupAndDay(group, day) {
+      // This would normally come from an API, but we'll use mock data
+      const schedules = {
+        guruh1: {
+          Душанбе: [
+            ['08:00<br>08:50', '8/---', 'Соати кураторӣ <br> Шарипова Л'],
+            ['09:00<br>09:50', '8/208', 'Программирование в Java(лек)<br> Турсунов Р'],
+            ['10:00<br>10:50', '8/208', 'Программирование в Java(лек) <br> Турсунов Р'],
+            ['11:00<br>11:50', '8/208', 'Статистика ва КОД (срсп)<br>Ғуломсафдаров А.'],
+            ['12:00<br>12:50', '8/208', 'Статистика ва КОД (срсп)<br>Ғуломсафдаров А.'],
+            ['13:00<br>13:50', '8/406', 'Статистика ва КОД (срсп)<br>Ғуломсафдаров А.']
+          ],
+          Сешанбе: [
+            ['08:00<br>08:50', '', ''],
+            ['09:00<br>09:50', '', ''],
+            ['10:00<br>10:50', '', ''],
+            ['11:00<br>11:50', '', ''],
+            ['12:00<br>12:50', '8/206', 'Статистика ва КОД(лек) Ғуломсафдаров А.'],
+            ['13:00<br>13:50', '8/206', 'Статистика ва КОД(лек) <br>Ғуломсафдаров А.']
+          ],
+          Чоршанбе: [
+            ['08:00<br>08:50', '8/304', 'Программирование в Java (срсп)<br> доц. Турсунов Р'],
+            ['09:00<br>09:50', '8/304', 'Программирование в Java (срсп)<br> доц. Турсунов Р'],
+            ['10:00<br>10:50', '8/304', 'Программирование в Java (срсп)<br> доц. Турсунов Р'],
+            ['11:00<br>11:50', '8/301', 'Усул ва ВХИ (лек)<br>доц. Насруллоева Д.'],
+            ['12:00<br>12:50', '8/301', 'Усул ва ВХИ (лек)<br>доц. Насруллоева Д.'],
+            ['13:00<br>13:50', '8/301', 'Усул ва ВХИ (лек)<br>доц. Насруллоева Д.'],
+          ],
+          Панҷшанбе: [
+            ['08:00<br>08:50', '', ''],
+            ['09:00<br>09:50', '', ''],
+            ['10:00<br>10:50', '8/206', 'База данных (лекция)..............<br>доц. Аликулов А'],
+            ['11:00<br>11:50', '8/206', 'База данных (лекция)<br>доц. Аликулов А'],
+            ['12:00<br>12:50', '8/301', 'База данных (срсп)<br>с.п.Парвонаева Х.'],
+            ['13:00<br>13:50', '8/301', 'База данных (срсп)<br>с.п.Парвонаева Х.'],
+          ],
+          Ҷумъа: [
+            ['08:00<br>08:50', '', ''],
+            ['09:00<br>09:50', '', ''],
+            ['10:00<br>10:50', '8/406', 'Статистика и КОД (срсп)<br> доц. Ғуломсафдаров А.'],
+            ['11:00<br>11:50', '8/301', 'База данных (срсп)<br>с.п. Парвонаева Х.'],
+            ['12:00<br>12:50', '8/301', 'База данных (срсп)<br>с.п. Парвонаева Х.'],
+            ['13:00<br>13:50', '8/304', 'Программирование в Java (лек)<br> доц. Турсунов Р.'],
+          ],
+          Шанбе: [
+            ['08:00<br>08:50', '8/103', 'Этика и этетика (лек),доц. Орифчонова Н.'],
+            ['09:00<br>09:50', '8/103', 'Этика и этетика (лек)<br> доц. Орифчонова Н.<br>(хафтаи тоқ)<br>Политология (лек)<br>н.и.с., Мирзоён Р.Х.<br>(хафтаи ҷуфт)'],
+            ['10:00<br>10:50', '8/103', 'Политология (лек)<br>н.и.с., Мирзоён Р.Х.'],
+            ['11:00<br>11:50', '8/101', 'Политология (лек)<br>н.и.с., Мирзоён Р.Х.'],
+            ['12:00<br>12:50', '8/101', 'Политология (лек)<br>н.и.с., Мирзоён Р.Х.'],
+            ['13:00<br>13:50', '8/205', 'Этика и этетика (срсп)<br>доц. Джураев Р.'],
+            ['14:00<br>14:50', '8/205', 'Этика и этетика (срсп)<br>доц. Джураев Р.']
+          ]
+        },
+        guruh2: {
         Душанбе: [
           ['08:00<br>08:50', '', ''],
           ['09:00<br>09:50', '8/208', 'Программирование в Java(лек) <br> Турсунов Р'],
@@ -686,64 +1284,59 @@ document.querySelectorAll(".theme").forEach(el => {
         ]
       }
     };
-
-    let currentDay = '';
-    let currentGroup = 'guruh1';
-
-    function getToday() {
-      const days = ['yakshanbe', 'Душанбе', 'Сешанбе', 'Чоршанбе', 'Панҷшанбе', 'Ҷумъа', 'Шанбе'];
-      const todayIndex = new Date().getDay();
-      return days[todayIndex] || 'Душанбе';
+     
+      
+      return schedules[group]?.[day] || [];
     }
-
-    function showDay(dayId) {
-      currentDay = dayId;
-      updateSchedule();
-    }
-
-    function updateSchedule() {
-      const group = document.getElementById('groupSelect').value;
-      currentGroup = group;
-
-      const schedule = schedules[group][currentDay];
+    
+    function renderNoClasses() {
       const container = document.getElementById('scheduleContainer');
-
-      if (!schedule || schedule.length === 0) {
-        container.innerHTML = `
-          <div class="schedule-day active">
-            <h2>${capitalize(currentDay)}</h2>
-            <p></p>
-          </div>
-        `;
-        return;
-      }
-
+      container.innerHTML = `
+        <div class="schedule-day active">
+          <h2>${capitalize(currentDay)}</h2>
+          <p style="padding: 20px; text-align: center;">Дарсҳо нестанд</p>
+        </div>
+      `;
+    }
+    
+    function renderSchedule(schedule) {
+      const container = document.getElementById('scheduleContainer');
+      
       let html = `
         <div class="schedule-day active">
           <h2>${capitalize(currentDay)}</h2>
           <table>
-            <tr><th>Вақт</th><th>АУД</th><th>Фан</th></tr>
+            <thead>
+              <tr><th>Вақт</th><th>АУД</th><th>Фан</th></tr>
+            </thead>
+            <tbody>
       `;
+      
       schedule.forEach(([time, aud, subject]) => {
-        html += `<tr><td>${time}</td><td>${aud}</td><td>${subject}</td></tr>`;
+        if (time && aud && subject) {
+          html += `<tr><td>${time}</td><td>${aud}</td><td>${subject}</td></tr>`;
+        }
       });
-      html += '</table></div>';
+      
+      html += `
+            </tbody>
+          </table>
+        </div>
+      `;
       container.innerHTML = html;
     }
-
+    
     function capitalize(text) {
       return text.charAt(0).toUpperCase() + text.slice(1);
     }
-
-    // Avtomatik kunni ko‘rsatish
-    window.onload = function () {
-      currentDay = getToday();
-      if (currentDay === 'yakshanbe') currentDay = 'Имрӯз рӯзи истироҳати аст! <h5>Ба Шумо истироҳати хушро таманно дорам!.</h6>';
-      updateSchedule();
+    
+    // Initialize the app when the page loads
+    window.onload = initApp;
+    
+    // Ensure voices are loaded for speech synthesis
+    speechSynthesis.onvoiceschanged = function() {
+      // This ensures voices are available when needed
     };
-  
-  
   </script>
-
 </body>
 </html>
