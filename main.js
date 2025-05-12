@@ -10,18 +10,18 @@ document.addEventListener('keydown', function (e) {
 document.addEventListener("keydown", function (e) {
     if (e.key === "PrintScreen") {
         e.preventDefault();
-        alert("Скриншот запрещен!");
+      //  alert("Скриншот запрещен!");
     }
     if (e.ctrlKey && (e.key === "s" || e.key === "S")) {
         e.preventDefault();
-        alert("Сохранение страницы запрещено!");
+      //  alert("Сохранение страницы запрещено!");
     }
 });
 
 document.addEventListener("keyup", function (e) {
     if (e.key === "PrintScreen") {
         navigator.clipboard.writeText("");
-        alert("Скриншот запрещен!");
+     //   alert("Скриншот запрещен!");
     }
 });
 
