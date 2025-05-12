@@ -27,9 +27,9 @@ document.addEventListener("keyup", function (e) {
 
 document.addEventListener("contextmenu", function (e) {
     e.preventDefault();
-    alert("Контекстное меню отключено!");
+   // alert("Контекстное меню отключено!");
 });
 
 navigator.mediaDevices.addEventListener("devicechange", function () {
-    alert("Обнаружена попытка записи экрана!");
+   // alert("Обнаружена попытка записи экрана!");
 });
