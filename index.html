@@ -7,9 +7,9 @@
   <meta name="keywords" content="1-40010101B">
   <meta name="theme-color" content="#06c1db">
   <title>Расписание</title>
-    <link rel="manifest" href="manifest.json">
+  <link rel="manifest" href="manifest.json">
   <link rel="website icon" type="png" href="raspisanie.png">
-    <link rel="icon" type="png" href="raspisanie.png">
+  <link rel="icon" type="png" href="raspisanie.png">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Manrope:wght@200..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Satisfy&display=swap');
     
@@ -28,6 +28,10 @@
       width: 100%;
       overflow-x: hidden;
       min-height: 100vh;
+      background-image: var(--bg-image);
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
     }
 
     h1, h2, h3 {
@@ -61,6 +65,8 @@
       margin-bottom: 20px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
       cursor: pointer;
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
     }
 
     .back:hover {
@@ -88,6 +94,8 @@
       cursor: pointer;
       border: none;
       transition: all 0.3s ease;
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
     }
 
     .voice-btn:hover {
@@ -114,10 +122,18 @@
       padding: 15px;
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      max-width: 250px;
+      width: 280px;
       display: none;
       font-size: 14px;
       color: var(--text);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border: var(--glass-border);
+    }
+    
+    .voice-status .user-command {
+        font-weight: bold;
+        margin-bottom: 8px;
     }
 
     .voice-status.listening {
@@ -171,7 +187,7 @@
 
     .controls select {
       padding: 12px 20px;
-      border-radius: 12px;
+      border-radius: 20px;
       border: 2px solid var(--primary);
       background-color: var(--card-bg);
       font-size: 16px;
@@ -184,6 +200,9 @@
       background-position: right 15px center;
       background-size: 15px;
       min-width: 250px;
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border: var(--glass-border);
     }
 
     .buttons {
@@ -200,7 +219,7 @@
       background-color: var(--button-bg);
       color: var(--button-text);
       border: none;
-      border-radius: 12px;
+      border-radius: 19px;
       font-weight: 600;
       font-size: 15px;
       cursor: pointer;
@@ -208,12 +227,22 @@
       flex-grow: 1;
       min-width: 90px;
       transition: all 0.3s ease;
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border: var(--glass-border);
     }
 
     .buttons button:hover {
       background-color: var(--button-hover);
       transform: translateY(-2px);
       box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    }
+    
+    .buttons button.active-day {
+        background-color: var(--accent);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0,0,0,0.15);
     }
 
     .buttons button:active {
@@ -230,10 +259,13 @@
       display: none;
       background-color: var(--card-bg);
       color: var(--text);
-      border-radius: 16px;
+      border-radius: 20px;
       box-shadow: 0 10px 25px rgba(0,0,0,0.08);
       animation: fadeIn 0.5s ease-in-out;
       overflow: hidden;
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border: var(--glass-border);
     }
 
     .active {
@@ -246,11 +278,15 @@
       color: white;
       margin: 0;
       border-radius: 16px 16px 0 0;
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
     }
 
     th, td {
@@ -265,6 +301,8 @@
       font-weight: 600;
       position: sticky;
       top: 0;
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
     }
 
     tr:hover {
@@ -287,8 +325,11 @@
       background-color: var(--card-bg);
       padding: 15px;
       margin: 20px 0;
-      border-radius: 16px;
+      border-radius: 20px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border: var(--glass-border);
     }
 
     .theme-card h3 {
@@ -317,13 +358,13 @@
 
     .color-palette::-webkit-scrollbar-thumb {
       background-color: var(--primary);
-      border-radius: 3px;
+      border-radius: 10px;
     }
 
     .color-option {
       flex: 0 0 60px;
       height: 60px;
-      border-radius: 12px;
+      border-radius: 50%;
       cursor: pointer;
       transition: all 0.3s ease;
       position: relative;
@@ -332,18 +373,18 @@
     }
 
     .color-option::after {
-      content: '';
+      content: '✔';
+      font-size: 24px;
+      color: white;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.5);
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      border: 2px solid var(--primary);
-      border-radius: 10px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       opacity: 0;
       transition: opacity 0.3s ease;
     }
-
+    
     .color-option.selected::after {
       opacity: 1;
     }
@@ -373,6 +414,11 @@
       padding: 20px;
       color: var(--text-light);
       font-size: 14px;
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: 20px;
+      background-color: var(--card-bg);
+      border: var(--glass-border);
     }
 
     /* Responsive */
@@ -407,7 +453,7 @@
       }
       
       .voice-status {
-        max-width: 200px;
+        width: 250px;
       }
     }
 
@@ -435,24 +481,20 @@
       }
       
       .voice-status {
-        max-width: 180px;
+        width: calc(100vw - 40px);
+        max-width: 280px;
         font-size: 12px;
         padding: 10px;
       }
     }
 
     /* Samsung One UI 6 Color Classes */
-     .samsung-red { background: #ffd9d9;
-background: linear-gradient(150deg, rgba(255, 217, 217, 1) 0%, rgba(255, 0, 0, 1) 100%); }
-    .samsung-orange { background: #f5d295;
-background: linear-gradient(150deg, rgba(245, 210, 149, 1) 0%, rgba(230, 145, 9, 1) 100%); }
-    .samsung-yellow { background: #f2e6ce;
-background: linear-gradient(150deg, rgba(242, 230, 206, 1) 0%, rgba(217, 206, 2, 1) 100%); }
-    .samsung-green { background: #def0d8;
-background: linear-gradient(150deg, rgba(222, 240, 216, 1) 0%, rgba(2, 217, 2, 1) 100%); }
-    .samsung-mint { background: #797d80;
-background: linear-gradient(150deg, rgba(121, 125, 128, 1) 0%, rgba(0, 0, 0, 1) 100%); }
-   .samsung-teal { background-color: #30B0C7; }
+    .samsung-red { background: #ffd9d9; background: linear-gradient(150deg, rgba(255, 217, 217, 1) 0%, rgba(255, 0, 0, 1) 100%); }
+    .samsung-orange { background: #f5d295; background: linear-gradient(150deg, rgba(245, 210, 149, 1) 0%, rgba(230, 145, 9, 1) 100%); }
+    .samsung-yellow { background: #f2e6ce; background: linear-gradient(150deg, rgba(242, 230, 206, 1) 0%, rgba(217, 206, 2, 1) 100%); }
+    .samsung-green { background: #def0d8; background: linear-gradient(150deg, rgba(222, 240, 216, 1) 0%, rgba(2, 217, 2, 1) 100%); }
+    .samsung-mint { background: #797d80; background: linear-gradient(150deg, rgba(121, 125, 128, 1) 0%, rgba(0, 0, 0, 1) 100%); }
+    .samsung-teal { background-color: #30B0C7; }
     .samsung-cyan { background-color: #32ADE6; }
     .samsung-blue { background-color: #007AFF; }
     .samsung-indigo { background-color: #5856D6; }
@@ -460,21 +502,19 @@ background: linear-gradient(150deg, rgba(121, 125, 128, 1) 0%, rgba(0, 0, 0, 1) 
     .samsung-pink { background-color: #FF2D55; }
     .samsung-brown { background-color: #A2845E; }
     .samsung-gray { background-color: #8E8E93; }
+    .glass-theme { background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05)); border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15); }
   </style>
 </head>
 <body>
   <div class="container">
-    <!--  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="19" y1="12" x2="5" y2="12"></line>
-        <polyline points="12 19 5 12 12 5"></polyline>
-      </svg>
-    </div>
--->
     <h1>Ҷадвали дарсҳо</h1>
 
     <div class="theme-card">
-      <h3>Палитра цветов Расписание UI </h3>
+      <h3>Палитра цветов Расписание UI</h3>
       <div class="color-palette">
+          <div class="color-option glass-theme" data-theme="glass" onclick="applySamsungTheme('glass')">
+          <span class="color-name">Glass</span>
+        </div>
         <div class="color-option samsung-red" data-theme="red" onclick="applySamsungTheme('red')">
           <span class="color-name">Red</span>
         </div>
@@ -514,6 +554,7 @@ background: linear-gradient(150deg, rgba(121, 125, 128, 1) 0%, rgba(0, 0, 0, 1) 
         <div class="color-option samsung-gray" data-theme="gray" onclick="applySamsungTheme('gray')">
           <span class="color-name">Gray</span>
         </div>
+      
       </div>
     </div>
 
@@ -529,16 +570,15 @@ background: linear-gradient(150deg, rgba(121, 125, 128, 1) 0%, rgba(0, 0, 0, 1) 
     </div>
 
     <div class="buttons">
-      <button onclick="showDay('Душанбе')">Душанбе</button>
-      <button onclick="showDay('Сешанбе')">Сешанбе</button>
-      <button onclick="showDay('Чоршанбе')">Чоршанбе</button>
-      <button onclick="showDay('Панҷшанбе')">Панҷшанбе</button>
-      <button onclick="showDay('Ҷумъа')">Ҷумъа</button>
-      <button onclick="showDay('Шанбе')">Шанбе</button>
+      <button data-day="Душанбе" onclick="showDay('Душанбе')">Душанбе</button>
+      <button data-day="Сешанбе" onclick="showDay('Сешанбе')">Сешанбе</button>
+      <button data-day="Чоршанбе" onclick="showDay('Чоршанбе')">Чоршанбе</button>
+      <button data-day="Панҷшанбе" onclick="showDay('Панҷшанбе')">Панҷшанбе</button>
+      <button data-day="Ҷумъа" onclick="showDay('Ҷумъа')">Ҷумъа</button>
+      <button data-day="Шанбе" onclick="showDay('Шанбе')">Шанбе</button>
     </div>
 
     <div id="scheduleContainer" class="schedule-container">
-      <!-- Skeleton loader will be shown here initially -->
       <div class="skeleton-loader">
         <div class="skeleton-header"></div>
         <div class="skeleton-row"></div>
@@ -555,7 +595,6 @@ background: linear-gradient(150deg, rgba(121, 125, 128, 1) 0%, rgba(0, 0, 0, 1) 
     </footer>
   </div>
 
-  <!-- Voice Assistant -->
   <div class="voice-assistant">
     <div class="voice-status" id="voiceStatus"></div>
     <button class="voice-btn" id="voiceBtn" title="Голосовой помощник">
@@ -567,348 +606,131 @@ background: linear-gradient(150deg, rgba(121, 125, 128, 1) 0%, rgba(0, 0, 0, 1) 
       </svg>
     </button>
   </div>
+  
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
   <script>
-    // Global variables
+    // 🔥 ВАША КОНФИГУРАЦИЯ FIREBASE
+    // ЗАМЕНИТЕ ЭТО СВОИМИ ДАННЫМИ ИЗ FIREBASE CONSOLE
+  const firebaseConfig = {
+  apiKey: "AIzaSyCJy3eKFL23mIOVM2ruEdVhI1mIVsIp6cU",
+  authDomain: "university-chat-15114.firebaseapp.com",
+  projectId: "university-chat-15114",
+  storageBucket: "university-chat-15114.firebasestorage.app",
+  messagingSenderId: "109943351862",
+  appId: "1:109943351862:web:57cbecba075494a1f5c697",
+  measurementId: "G-44LH6764ET"
+};
+    // ИНИЦИАЛИЗАЦИЯ FIREBASE
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+    }
+    const db = firebase.firestore();
+
+    // ========= ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ =========
     let currentDay = '';
     let currentGroup = 'guruh1';
     let recognition;
     let speechSynthesis = window.speechSynthesis;
     let isListening = false;
     
-    // Initialize the app
+    // Day and theme mappings for voice commands
+    const dayMapping = {
+        'понедельник': 'Душанбе', 'вторник': 'Сешанбе', 'среду': 'Чоршанбе', 'четверг': 'Панҷшанбе', 'пятницу': 'Ҷумъa', 'субботу': 'Шанбе',
+        'сешанбе': 'Сешанбе', 'чоршанбе': 'Чоршанбе', 'панҷшанбе': 'Панҷшанбе', 'ҷумъа': 'Ҷумъа', 'шанбе': 'Шанбе'
+    };
+    const themeMapping = {
+        'красную': 'red', 'оранжевую': 'orange', 'желтую': 'yellow', 'зеленую': 'green', 'темную': 'mint', 'бирюзовую': 'teal',
+        'голубую': 'cyan', 'синюю': 'blue', 'фиолетовую': 'indigo', 'пурпурную': 'purple', 'розовую': 'pink', 'коричневую': 'brown',
+        'серую': 'gray', 'стеклянную': 'glass', 'тёмную': 'mint'
+    };
+    const classNumberMapping = { 'первая': 1, 'вторая': 2, 'третья': 3, 'четвертая': 4, 'пятая': 5, 'шестая': 6 };
+
+    
+    // ========= ИНИЦИАЛИЗАЦИЯ =========
     function initApp() {
-      // Apply saved theme or default
-      const savedTheme = localStorage.getItem("selectedTheme") || 'blue';
+      const savedTheme = localStorage.getItem("selectedTheme") || 'glass';
       applySamsungTheme(savedTheme);
-      
-      // Initialize voice recognition
       initVoiceRecognition();
       
-      // Show skeleton loader first
       showSkeletonLoader();
+      let today = getToday();
+      currentDay = (today === 'yakshanbe') ? 'Душанбе' : today;
+      updateSchedule(); // Первая загрузка
       
-      // Then load today's schedule after a small delay
       setTimeout(() => {
-        currentDay = getToday();
-        if (currentDay === 'yakshanbe') currentDay = '';
-        updateSchedule();
-        
-        // Greet user with voice
-        setTimeout(() => {
-          speak(`Здравствуйте! Это голосовой помощник расписания. Сегодня ${currentDay}. Скажите "расписание на сегодня" или назовите день недели..`);
-        }, 1000);
-      }, 400);
+        speak(`Здравствуйте! Я ваш голосовой помощник. Скажите "помощь", чтобы узнать, что я умею.`);
+      }, 1000);
     }
     
-    function goBack() {
-      window.location.href = "home.html";
-    }
-    
-    // Samsung One UI 6 themes configuration
+    // ========= ФУНКЦИИ ТЕМЫ И UI =========
     const samsungThemes = {
-      red: {
-       "--bg": "#ffe0e0",
-        "--text": "black",
-        "--heading": "#1F040A",
-        "--primary": "#FF3B30",
-        "--accent": "black",
-        "--button-bg": "#FF3B30",
-        "--button-text": "black",
-        "--button-hover": "#E0352B",
-        "--card-bg": "#dbb4b4",
-        "--border": "#FFD6D4",
-        "--row-hover": "#FFEAE9",
-        "--text-light": "black",
-        "--skeleton-bg": "rgba(255, 214, 212, 0.5)"
-      },
-      orange: {
-       "--bg": "#FFF5ED",
-        "--text": "black",
-        "--heading": "black",
-        "--primary": "#FF9500",
-        "--accent": "black",
-        "--button-bg": "#FF9500",
-        "--button-text": "black",
-        "--button-hover": "#E08500",
-        "--card-bg": "#e8d399",
-        "--border": "#FFD9A6",
-        "--row-hover": "#FFEDD3",
-        "--text-light": "#8A5D3D",
-        "--skeleton-bg": "rgba(255, 217, 166, 0.5)"
-      },
-      yellow: {
-      "--bg": "#d6c79f",
-        "--text": "#3A3007",
-        "--heading": "#1F1904",
-        "--primary": "#FFCC00",
-        "--accent": "black",
-        "--button-bg": "#FFCC00",
-        "--button-text": "#3A3007",
-        "--button-hover": "#E0B800",
-        "--card-bg": "#ffeebf",
-        "--border": "#FFE680",
-        "--row-hover": "#FFF2BF",
-        "--text-light": "black",
-        "--skeleton-bg": "rgba(255, 230, 128, 0.5)"
-      },
-      green: {
-        "--bg": "#DEF2BF",
-        "--text": "#0A3A1D",
-        "--heading": "#051F10",
-        "--primary": "#34C759",
-        "--accent": "#5CDD7A",
-        "--button-bg": "#34C759",
-        "--button-text": "#FFFFFF",
-        "--button-hover": "#2DB350",
-        "--card-bg": "#E7F0D8",
-        "--border": "#B8EBC5",
-        "--row-hover": "#DBF5E2",
-        "--text-light": "#4D8A62",
-        "--skeleton-bg": "rgba(184, 235, 197, 0.5)"
-      },
-      mint: {
-        "--bg": "black",
-        "--text": "white",
-        "--heading": "white",
-        "--primary": "#2b2b2b",
-        "--accent": "white",
-        "--button-bg": "#1768ff",
-        "--button-text": "white",
-        "--button-hover": "green",
-        "--card-bg": "#2b2b2b",
-        "--border": "#2b2b2b",
-        "--row-hover": "#2b2b2b",
-        "--text-light": "#2b2b2b",
-        "--skeleton-bg": "rgba(153, 232, 228, 0.5)"
-      },
-      teal: {
-        "--bg": "#EFF9FB",
-        "--text": "#072E3A",
-        "--heading": "#04191F",
-        "--primary": "#30B0C7",
-        "--accent": "#59C0D5",
-        "--button-bg": "#30B0C7",
-        "--button-text": "#FFFFFF",
-        "--button-hover": "#2A9EB3",
-        "--card-bg": "#FFFFFF",
-        "--border": "#A5DCE6",
-        "--row-hover": "#D2EDF3",
-        "--text-light": "#4D7C8A",
-        "--skeleton-bg": "rgba(165, 220, 230, 0.5)"
-      },
-      cyan: {
-        "--bg": "#EFF9FE",
-        "--text": "#072A3A",
-        "--heading": "#04171F",
-        "--primary": "#32ADE6",
-        "--accent": "#5BBEEC",
-        "--button-bg": "#32ADE6",
-        "--button-text": "#FFFFFF",
-        "--button-hover": "#2D9CD0",
-        "--card-bg": "#FFFFFF",
-        "--border": "#A7D7F3",
-        "--row-hover": "#D3EBF9",
-        "--text-light": "#4D7C8A",
-        "--skeleton-bg": "rgba(167, 215, 243, 0.5)"
-      },
-      blue: {
-        "--bg": "#F5F9FF",
-        "--text": "#071D3A",
-        "--heading": "#04101F",
-        "--primary": "#007AFF",
-        "--accent": "#3395FF",
-        "--button-bg": "#007AFF",
-        "--button-text": "#FFFFFF",
-        "--button-hover": "#006CE0",
-        "--card-bg": "#FFFFFF",
-        "--border": "#99C7FF",
-        "--row-hover": "#CCE3FF",
-        "--text-light": "#4D6B8A",
-        "--skeleton-bg": "rgba(153, 199, 255, 0.5)"
-      },
-      indigo: {
-        "--bg": "#F5F5FF",
-        "--text": "#12073A",
-        "--heading": "#0A041F",
-        "--primary": "#5856D6",
-        "--accent": "#7977E0",
-        "--button-bg": "#5856D6",
-        "--button-text": "#FFFFFF",
-        "--button-hover": "#4F4DC2",
-        "--card-bg": "#FFFFFF",
-        "--border": "#BAB9EB",
-        "--row-hover": "#DCDCF5",
-        "--text-light": "#5A588A",
-        "--skeleton-bg": "rgba(186, 185, 235, 0.5)"
-      },
-      purple: {
-        "--bg": "#FAF5FF",
-        "--text": "#1F073A",
-        "--heading": "#11041F",
-        "--primary": "#AF52DE",
-        "--accent": "#BF75E5",
-        "--button-bg": "#AF52DE",
-        "--button-text": "#FFFFFF",
-        "--button-hover": "#9E4AC9",
-        "--card-bg": "#FFFFFF",
-        "--border": "#D7A8ED",
-        "--row-hover": "#EBD4F6",
-        "--text-light": "#6D4D8A",
-        "--skeleton-bg": "rgba(215, 168, 237, 0.5)"
-      },
-      pink: {
-        "--bg": "#FFF5F8",
-        "--text": "#3A071D",
-        "--heading": "#1F0410",
-        "--primary": "#FF2D55",
-        "--accent": "#FF5777",
-        "--button-bg": "#FF2D55",
-        "--button-text": "#FFFFFF",
-        "--button-hover": "#E0284D",
-        "--card-bg": "#FFFFFF",
-        "--border": "#FFA6B9",
-        "--row-hover": "#FFD3DC",
-        "--text-light": "#8A4D66",
-        "--skeleton-bg": "rgba(255, 166, 185, 0.5)"
-      },
-      brown: {
-        "--bg": "#F9F6F2",
-        "--text": "#3A2610",
-        "--heading": "#1F1408",
-        "--primary": "#A2845E",
-        "--accent": "#B49978",
-        "--button-bg": "#A2845E",
-        "--button-text": "#FFFFFF",
-        "--button-hover": "#927755",
-        "--card-bg": "#FFFFFF",
-        "--border": "#D1C2AC",
-        "--row-hover": "#E8E1D6",
-        "--text-light": "#8A7A60",
-        "--skeleton-bg": "rgba(209, 194, 172, 0.5)"
-      },
-      gray: {
-        "--bg": "#F2F2F7",
-        "--text": "#1C1C1E",
-        "--heading": "#0A0A0A",
-        "--primary": "#8E8E93",
-        "--accent": "#A5A5AA",
-        "--button-bg": "#8E8E93",
-        "--button-text": "#FFFFFF",
-        "--button-hover": "#808085",
-        "--card-bg": "#FFFFFF",
-        "--border": "#C7C7CC",
-        "--row-hover": "#E5E5EA",
-        "--text-light": "#6C6C70",
-        "--skeleton-bg": "rgba(199, 199, 204, 0.5)"
-      }
+        red: {"--bg": "#ffe0e0", "--text": "black", "--heading": "#1F040A", "--primary": "#FF3B30", "--accent": "#E0352B", "--button-bg": "#FF3B30", "--button-text": "black", "--button-hover": "#E0352B", "--card-bg": "#dbb4b4", "--border": "#FFD6D4", "--row-hover": "#FFEAE9", "--text-light": "black", "--skeleton-bg": "rgba(255, 214, 212, 0.5)", "--glass-blur": "none", "--glass-border": "none", "--bg-image": "none"},
+        orange: {"--bg": "#FFF5ED", "--text": "black", "--heading": "black", "--primary": "#FF9500", "--accent": "#E08500", "--button-bg": "#FF9500", "--button-text": "black", "--button-hover": "#E08500", "--card-bg": "#e8d399", "--border": "#FFD9A6", "--row-hover": "#FFEDD3", "--text-light": "#8A5D3D", "--skeleton-bg": "rgba(255, 217, 166, 0.5)", "--glass-blur": "none", "--glass-border": "none", "--bg-image": "none"},
+        yellow: {"--bg": "#d6c79f", "--text": "#3A3007", "--heading": "#1F1904", "--primary": "#FFCC00", "--accent": "#E0B800", "--button-bg": "#FFCC00", "--button-text": "#3A3007", "--button-hover": "#E0B800", "--card-bg": "#ffeebf", "--border": "#FFE680", "--row-hover": "#FFF2BF", "--text-light": "black", "--skeleton-bg": "rgba(255, 230, 128, 0.5)", "--glass-blur": "none", "--glass-border": "none", "--bg-image": "none"},
+        green: {"--bg": "#DEF2BF", "--text": "#0A3A1D", "--heading": "#051F10", "--primary": "#34C759", "--accent": "#2DB350", "--button-bg": "#34C759", "--button-text": "#FFFFFF", "--button-hover": "#2DB350", "--card-bg": "#E7F0D8", "--border": "#B8EBC5", "--row-hover": "#DBF5E2", "--text-light": "#4D8A62", "--skeleton-bg": "rgba(184, 235, 197, 0.5)", "--glass-blur": "none", "--glass-border": "none", "--bg-image": "none"},
+        mint: {"--bg": "black", "--text": "white", "--heading": "white", "--primary": "#2b2b2b", "--accent": "#1768ff", "--button-bg": "#1768ff", "--button-text": "white", "--button-hover": "green", "--card-bg": "#2b2b2b", "--border": "#2b2b2b", "--row-hover": "#2b2b2b", "--text-light": "", "--skeleton-bg": "rgba(153, 232, 228, 0.5)", "--glass-blur": "none", "--glass-border": "none", "--bg-image": "url('sky.jpg')"},
+        teal: {"--bg": "#EFF9FB", "--text": "#072E3A", "--heading": "#04191F", "--primary": "#30B0C7", "--accent": "#2A9EB3", "--button-bg": "#30B0C7", "--button-text": "#FFFFFF", "--button-hover": "#2A9EB3", "--card-bg": "#FFFFFF", "--border": "#A5DCE6", "--row-hover": "#D2EDF3", "--text-light": "#4D7C8A", "--skeleton-bg": "rgba(165, 220, 230, 0.5)", "--glass-blur": "none", "--glass-border": "none", "--bg-image": "none"},
+        cyan: {"--bg": "#EFF9FE", "--text": "#072A3A", "--heading": "#04171F", "--primary": "#32ADE6", "--accent": "#2D9CD0", "--button-bg": "#32ADE6", "--button-text": "#FFFFFF", "--button-hover": "#2D9CD0", "--card-bg": "#FFFFFF", "--border": "#A7D7F3", "--row-hover": "#D3EBF9", "--text-light": "#4D7C8A", "--skeleton-bg": "rgba(167, 215, 243, 0.5)", "--glass-blur": "none", "--glass-border": "none", "--bg-image": "none"},
+        blue: {"--bg": "#F5F9FF", "--text": "#071D3A", "--heading": "#04101F", "--primary": "#007AFF", "--accent": "#006CE0", "--button-bg": "#007AFF", "--button-text": "#FFFFFF", "--button-hover": "#006CE0", "--card-bg": "#FFFFFF", "--border": "#99C7FF", "--row-hover": "#CCE3FF", "--text-light": "#4D6B8A", "--skeleton-bg": "rgba(153, 199, 255, 0.5)", "--glass-blur": "none", "--glass-border": "none", "--bg-image": "none"},
+        indigo: {"--bg": "#F5F5FF", "--text": "#12073A", "--heading": "#0A041F", "--primary": "#5856D6", "--accent": "#4F4DC2", "--button-bg": "#5856D6", "--button-text": "#FFFFFF", "--button-hover": "#4F4DC2", "--card-bg": "#FFFFFF", "--border": "#BAB9EB", "--row-hover": "#DCDCF5", "--text-light": "#5A588A", "--skeleton-bg": "rgba(186, 185, 235, 0.5)", "--glass-blur": "none", "--glass-border": "none", "--bg-image": "none"},
+        purple: {"--bg": "#FAF5FF", "--text": "#1F073A", "--heading": "#11041F", "--primary": "#AF52DE", "--accent": "#9E4AC9", "--button-bg": "#AF52DE", "--button-text": "#FFFFFF", "--button-hover": "#9E4AC9", "--card-bg": "#FFFFFF", "--border": "#D7A8ED", "--row-hover": "#EBD4F6", "--text-light": "#6D4D8A", "--skeleton-bg": "rgba(215, 168, 237, 0.5)", "--glass-blur": "none", "--glass-border": "none", "--bg-image": "none"},
+        pink: {"--bg": "#FFF5F8", "--text": "#3A071D", "--heading": "#1F0410", "--primary": "#FF2D55", "--accent": "#E0284D", "--button-bg": "#FF2D55", "--button-text": "#FFFFFF", "--button-hover": "#E0284D", "--card-bg": "#FFFFFF", "--border": "#FFA6B9", "--row-hover": "#FFD3DC", "--text-light": "#8A4D66", "--skeleton-bg": "rgba(255, 166, 185, 0.5)", "--glass-blur": "none", "--glass-border": "none", "--bg-image": "none"},
+        brown: {"--bg": "#F9F6F2", "--text": "#3A2610", "--heading": "#1F1408", "--primary": "#A2845E", "--accent": "#927755", "--button-bg": "#A2845E", "--button-text": "#FFFFFF", "--button-hover": "#927755", "--card-bg": "#FFFFFF", "--border": "#D1C2AC", "--row-hover": "#E8E1D6", "--text-light": "#8A7A60", "--skeleton-bg": "rgba(209, 194, 172, 0.5)", "--glass-blur": "none", "--glass-border": "none", "--bg-image": "none"},
+        gray: {"--bg": "#F2F2F7", "--text": "#1C1C1E", "--heading": "#0A0A0A", "--primary": "#8E8E93", "--accent": "#808085", "--button-bg": "#8E8E93", "--button-text": "#FFFFFF", "--button-hover": "#808085", "--card-bg": "#FFFFFF", "--border": "#C7C7CC", "--row-hover": "#E5E5EA", "--text-light": "#6C6C70", "--skeleton-bg": "rgba(199, 199, 204, 0.5)", "--glass-blur": "none", "--glass-border": "none", "--bg-image": "url('neon1.jpg')"},
+        glass: {"--bg": "rgba(255,255,255,0.1)", "--text": "#ffffff", "--heading": "#ffffff", "--primary": "rgba(255,255,255,0.01)", "--accent": "rgba(255,255,255,0.7)", "--button-bg": "rgba(255,255,255,0.1)", "--button-text": "#ffffff", "--button-hover": "rgba(255,255,255,0.2)", "--card-bg": "rgba(255,255,255,0.1)", "--border": "rgba(255,255,255,0.1)", "--row-hover": "rgba(255,255,255,0.1)", "--text-light": "rgba(255,255,255,0.7)", "--skeleton-bg": "rgba(255,255,255,0.2)", "--glass-blur": "blur(13px)", "--glass-border": "1px solid rgba(255,255,255,0.2)", "--bg-image": "linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('neon2.jpg')"}
     };
 
     function applySamsungTheme(themeName) {
+      if (!samsungThemes[themeName]) return;
       const theme = samsungThemes[themeName];
       Object.entries(theme).forEach(([key, value]) => {
         document.documentElement.style.setProperty(key, value);
       });
       localStorage.setItem("selectedTheme", themeName);
       
-      // Update selected state
-      document.querySelectorAll('.color-option').forEach(option => {
-        option.classList.remove('selected');
-      });
-      document.querySelector(`.color-option[data-theme="${themeName}"]`).classList.add('selected');
+      document.querySelectorAll('.color-option').forEach(option => option.classList.remove('selected'));
+      const newSelected = document.querySelector(`.color-option[data-theme="${themeName}"]`);
+      if(newSelected) newSelected.classList.add('selected');
     }
 
-    // Voice Assistant Functions
+    function capitalize(text) {
+      return text.charAt(0).toUpperCase() + text.slice(1);
+    }
+    
+    // ========= ЯДРО ГОЛОСОВОГО ПОМОЩНИКА =========
     function initVoiceRecognition() {
-      recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        console.error("Speech Recognition API not supported in this browser.");
+        document.getElementById('voiceBtn').style.display = 'none';
+        return;
+      }
+      recognition = new SpeechRecognition();
       recognition.lang = 'ru-RU';
       recognition.interimResults = false;
       recognition.maxAlternatives = 1;
       
-      const voiceBtn = document.getElementById('voiceBtn');
-      const voiceStatus = document.getElementById('voiceStatus');
-      
-      // Voice commands mapping
-      const voiceCommands = {
-        'понедельник': 'Душанбе',
-        'вторник': 'Сешанбе',
-        'среда': 'Чоршанбе',
-        'четверг': 'Панҷшанбе',
-        'пятница': 'Ҷумъа',
-        'суббота': 'Шанбе',
-        'воскресенье': 'yakshanbe',
-        'расписание на сегодня': 'today',
-        'расписание на завтра': 'tomorrow',
-        'сегодня': 'today',
-        'завтра': 'tomorrow',
-        'показать расписание': 'today',
-        'какое расписание': 'today',
-        'какое сегодня расписание': 'today',
-        'какое завтра расписание': 'tomorrow'
-      };
-      
-      voiceBtn.addEventListener('click', toggleVoiceRecognition);
+      document.getElementById('voiceBtn').addEventListener('click', toggleVoiceRecognition);
       
       recognition.onstart = () => {
         isListening = true;
-        voiceBtn.classList.add('listening');
+        document.getElementById('voiceBtn').classList.add('listening');
         updateVoiceStatus('Слушаю...', '');
       };
       
       recognition.onresult = (event) => {
-        const last = event.results.length - 1;
-        const command = event.results[last][0].transcript.toLowerCase().trim();
-        
-        updateVoiceStatus(`Распознано: "${command}"`, '');
-        
-        // Process command
-        let response = '';
-        let dayToShow = '';
-        
-        // Check for direct day matches
-        for (const [key, value] of Object.entries(voiceCommands)) {
-          if (command.includes(key)) {
-            if (value === 'today') {
-              const today = getToday();
-              dayToShow = today === 'yakshanbe' ? 'Душанбе' : today;
-              response = `Показываю расписание на сегодня (${dayToShow})`;
-            } else if (value === 'tomorrow') {
-              const days = ['yakshanbe', 'Душанбе', 'Сешанбе', 'Чоршанбе', 'Панҷшанбе', 'Ҷумъа', 'Шанбе'];
-              const todayIndex = new Date().getDay();
-              const tomorrowIndex = (todayIndex + 1) % 7;
-              dayToShow = days[tomorrowIndex] || 'Душанбе';
-              response = `Показываю расписание на завтра (${dayToShow})`;
-            } else {
-              dayToShow = value;
-              response = `Показываю расписание на ${key} (${value})`;
-            }
-            break;
-          }
-        }
-        
-        // If no command matched
-        if (!response) {
-          response = 'Не поняла команду. Попробуйте , назовите день недели.';
-          updateVoiceStatus(`Распознано: "${command}"`, response);
-          speak(response);
-        } else {
-          updateVoiceStatus(`Распознано: "${command}"`, response);
-          speak(response);
-          if (dayToShow) {
-            showDay(dayToShow);
-          }
-        }
+        const command = event.results[event.results.length - 1][0].transcript.toLowerCase().trim();
+        updateVoiceStatus(`<div class="user-command">Вы сказали: "${command}"</div>`, '');
+        processVoiceCommand(command);
       };
       
       recognition.onerror = (event) => {
-        let errorMessage = 'Ошибка распознавания';
-        if (event.error === 'no-speech') {
-          errorMessage = 'Речь не распознана. Попробуйте еще раз.';
-        } else if (event.error === 'audio-capture') {
-          errorMessage = 'Микрофон не доступен. Проверьте разрешения.';
-        } else if (event.error === 'not-allowed') {
-          errorMessage = 'Доступ к микрофону запрещен. Разрешите доступ в настройках.';
-        }
+        let errorMessage = 'Ошибка распознавания.';
+        if (event.error === 'no-speech') errorMessage = 'Речь не распознана. Попробуйте еще раз.';
+        else if (event.error === 'audio-capture') errorMessage = 'Микрофон не доступен. Проверьте разрешения.';
+        else if (event.error === 'not-allowed') errorMessage = 'Доступ к микрофону запрещен.';
         
         updateVoiceStatus(errorMessage, '');
         speak(errorMessage);
@@ -916,44 +738,34 @@ background: linear-gradient(150deg, rgba(121, 125, 128, 1) 0%, rgba(0, 0, 0, 1) 
       };
       
       recognition.onend = () => {
-        if (isListening) {
-          // If still listening (wasn't manually stopped), restart recognition
-          setTimeout(() => {
-            if (isListening) {
-              recognition.start();
-            }
-          }, 500);
-        } else {
-          stopVoiceRecognition();
-        }
+        stopVoiceRecognition();
       };
     }
     
     function toggleVoiceRecognition() {
       if (isListening) {
         stopVoiceRecognition();
-        speak('Голосовой помощник выключен');
       } else {
         startVoiceRecognition();
-        speak('Слушаю вас... Скажите день недели');
       }
     }
     
     function startVoiceRecognition() {
       try {
         recognition.start();
-        isListening = true;
       } catch (e) {
-        updateVoiceStatus('Ошибка: ' + e.message, '');
-        speak('Не удалось запустить распознавание голоса');
+        updateVoiceStatus('Не удалось запустить распознавание.', '');
+        speak('Не удалось запустить распознавание голоса. Возможно, оно уже активно.');
       }
     }
     
     function stopVoiceRecognition() {
       isListening = false;
-      recognition.stop();
+      if (recognition) recognition.stop();
       document.getElementById('voiceBtn').classList.remove('listening');
-      document.getElementById('voiceStatus').style.display = 'none';
+      setTimeout(() => {
+          if(!isListening) document.getElementById('voiceStatus').style.display = 'none';
+      }, 5000);
     }
     
     function updateVoiceStatus(status, response) {
@@ -966,382 +778,182 @@ background: linear-gradient(150deg, rgba(121, 125, 128, 1) 0%, rgba(0, 0, 0, 1) 
     }
     
     function speak(text) {
-      if (speechSynthesis.speaking) {
-        speechSynthesis.cancel();
-      }
-      
+      if (speechSynthesis.speaking) speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = 'ru-RU';
       utterance.rate = 1.0;
       utterance.pitch = 1.0;
       
-      // Try to find a Russian voice
       const voices = speechSynthesis.getVoices();
-      const russianVoice = voices.find(voice => voice.lang.includes('ru') || voice.lang.includes('RU'));
-      if (russianVoice) {
-        utterance.voice = russianVoice;
-      }
+      const russianVoice = voices.find(voice => voice.lang === 'ru-RU');
+      if (russianVoice) utterance.voice = russianVoice;
       
       speechSynthesis.speak(utterance);
     }
     
-    // Schedule functions
-    function showSkeletonLoader() {
-      const container = document.getElementById('scheduleContainer');
-      container.innerHTML = `
-        <div class="skeleton-loader">
-          <div class="skeleton-header"></div>
-          <div class="skeleton-row"></div>
-          <div class="skeleton-row"></div>
-          <div class="skeleton-row"></div>
-          <div class="skeleton-row"></div>
-          <div class="skeleton-row"></div>
-        </div>
-      `;
+    // ========= ОБРАБОТКА ГОЛОСОВЫХ КОМАНД =========
+    async function processVoiceCommand(command) {
+        let response = '';
+        
+        // Help Command
+        if (/^(помощь|справка|что ты умеешь)/.test(command)) {
+            response = `Я могу: показать расписание на любой день, например: "покажи среду". Переключить группу: "покажи группу 2". Сменить тему: "смени тему на синюю". Или задать вопрос: "какая первая пара в понедельник?".`;
+            speak(response);
+            updateVoiceStatus(`Команда: "Помощь"`, response);
+            return;
+        }
+
+        // Change Theme
+        const themeMatch = command.match(/(смени|поставь|включи)\s+(тему|цвет)\s*(на)?\s*(.+)/);
+        if (themeMatch) {
+            const requestedTheme = themeMatch[4].trim();
+            if (themeMapping[requestedTheme]) {
+                const themeName = themeMapping[requestedTheme];
+                applySamsungTheme(themeName);
+                response = `Тема изменена на ${requestedTheme}.`;
+            } else {
+                response = `Извините, я не нашла тему "${requestedTheme}".`;
+            }
+            speak(response);
+            updateVoiceStatus(`Команда: "Сменить тему"`, response);
+            return;
+        }
+
+        // Change Group
+        const groupMatch = command.match(/(покажи|переключи|открой)\s+группу\s(.+)/);
+        if (groupMatch) {
+            const requestedGroup = groupMatch[2].trim();
+            const groupSelect = document.getElementById('groupSelect');
+            const options = Array.from(groupSelect.options);
+            const foundOption = options.find(opt => opt.text.toLowerCase().includes(requestedGroup));
+            
+            if (foundOption) {
+                groupSelect.value = foundOption.value;
+                await updateSchedule();
+                response = `Показываю расписание для группы ${foundOption.text}.`;
+            } else {
+                response = `Не удалось найти группу "${requestedGroup}".`;
+            }
+            speak(response);
+            updateVoiceStatus(`Команда: "Сменить группу"`, response);
+            return;
+        }
+
+        // Query Specific Class
+        const classQueryMatch = command.match(/(какая|какая у нас)\s+(первая|вторая|третья|четвертая|пятая|шестая)\s+пара\s+(в|на)\s+(понедельник|вторник|среду|четверг|пятницу|субботу)/);
+        if (classQueryMatch) {
+            const classNumStr = classQueryMatch[2];
+            const dayStr = classQueryMatch[5];
+            const classNum = classNumberMapping[classNumStr];
+            const dayId = dayMapping[dayStr];
+            
+            if(classNum && dayId) {
+                const schedule = await getScheduleForGroupAndDay(currentGroup, dayId);
+                const nonEmptyClasses = schedule.filter(s => s.subject && s.subject.trim());
+                if (nonEmptyClasses.length > 0 && classNum <= nonEmptyClasses.length) {
+                    const lesson = nonEmptyClasses[classNum - 1]; // Corrected data access
+                    const subject = lesson.subject.replace(/<br>/g, ', ');
+                    response = `${classNumStr} пара в ${dayStr} - это ${subject} в аудитории ${lesson.aud}.`; // Corrected data access
+                } else {
+                    response = `В ${dayStr} нет ${classNumStr} пары.`;
+                }
+            } else {
+                response = "Не смогла разобрать ваш вопрос о паре.";
+            }
+            speak(response);
+            updateVoiceStatus(`Команда: "Узнать о паре"`, response);
+            return;
+        }
+
+        // Show schedule for a day (default case)
+        let dayToShow = '';
+        for (const [key, value] of Object.entries(dayMapping)) {
+            if (command.includes(key)) {
+                dayToShow = value;
+                response = `Показываю расписание на ${key}.`;
+                break;
+            }
+        }
+        
+        if (dayToShow) {
+            showDay(dayToShow);
+        } else {
+            if(!response) response = 'Не поняла команду. Попробуйте сказать "помощь".';
+        }
+        speak(response);
+        updateVoiceStatus(`Команда: "${command}"`, response);
     }
-    
+
+    // ========= ФУНКЦИИ РАСПИСАНИЯ (🔥 ОБНОВЛЕНО ДЛЯ FIREBASE) =========
+    function showSkeletonLoader() {
+      document.getElementById('scheduleContainer').innerHTML = `<div class="skeleton-loader"><div class="skeleton-header"></div><div class="skeleton-row"></div><div class="skeleton-row"></div><div class="skeleton-row"></div></div>`;
+    }
+
     function getToday() {
       const days = ['yakshanbe', 'Душанбе', 'Сешанбе', 'Чоршанбе', 'Панҷшанбе', 'Ҷумъа', 'Шанбе'];
-      const todayIndex = new Date().getDay();
-      return days[todayIndex] || 'Душанбе';
+      return days[new Date().getDay()];
     }
-    
+
     function showDay(dayId) {
+      if(dayId === 'yakshanbe') return;
       currentDay = dayId;
       updateSchedule();
     }
-    
-    function updateSchedule() {
+
+    async function updateSchedule() {
       const group = document.getElementById('groupSelect').value;
       currentGroup = group;
-      
-      // Show skeleton loader
       showSkeletonLoader();
-      
-      // Simulate loading delay
+      const schedule = await getScheduleForGroupAndDay(group, currentDay);
       setTimeout(() => {
-        const schedule = getScheduleForGroupAndDay(group, currentDay);
-        
-        if (!schedule || schedule.length === 0) {
-          renderNoClasses();
-          return;
+        if (!schedule || schedule.length === 0 || schedule.every(item => !item.subject || item.subject.trim() === '')) {
+            renderNoClasses();
+        } else {
+            renderSchedule(schedule);
         }
-        
-        renderSchedule(schedule);
-      }, 400); // Simulate network delay
+        document.querySelectorAll('.buttons button').forEach(btn => {
+            btn.classList.toggle('active-day', btn.dataset.day === currentDay);
+        });
+      }, 300);
     }
-    
-    function getScheduleForGroupAndDay(group, day) {
-      // This would normally come from an API, but we'll use mock data
-      const schedules = {
-        guruh1: {
-          Душанбе: [
-            ['08:00<br>08:50', '8/---', 'Соати кураторӣ <br> Шарипова Л'],
-            ['09:00<br>09:50', '8/208', 'Программирование в Java(лек)<br> Турсунов Р'],
-            ['10:00<br>10:50', '8/208', 'Программирование в Java(лек) <br> Турсунов Р'],
-            ['11:00<br>11:50', '8/208', 'Статистика ва КОД (срсп)<br>Ғуломсафдаров А.'],
-            ['12:00<br>12:50', '8/208', 'Статистика ва КОД (срсп)<br>Ғуломсафдаров А.'],
-            ['13:00<br>13:50', '8/406', 'Статистика ва КОД (срсп)<br>Ғуломсафдаров А.']
-          ],
-          Сешанбе: [
-            ['08:00<br>08:50', '', ''],
-            ['09:00<br>09:50', '', ''],
-            ['10:00<br>10:50', '', ''],
-            ['11:00<br>11:50', '', ''],
-            ['12:00<br>12:50', '8/206', 'Статистика ва КОД(лек) Ғуломсафдаров А.'],
-            ['13:00<br>13:50', '8/206', 'Статистика ва КОД(лек) <br>Ғуломсафдаров А.']
-          ],
-          Чоршанбе: [
-            ['08:00<br>08:50', '8/304', 'Программирование в Java (срсп)<br> доц. Турсунов Р'],
-            ['09:00<br>09:50', '8/304', 'Программирование в Java (срсп)<br> доц. Турсунов Р'],
-            ['10:00<br>10:50', '8/304', 'Программирование в Java (срсп)<br> доц. Турсунов Р'],
-            ['11:00<br>11:50', '8/301', 'Усул ва ВХИ (лек)<br>доц. Насруллоева Д.'],
-            ['12:00<br>12:50', '8/301', 'Усул ва ВХИ (лек)<br>доц. Насруллоева Д.'],
-            ['13:00<br>13:50', '8/301', 'Усул ва ВХИ (лек)<br>доц. Насруллоева Д.'],
-          ],
-          Панҷшанбе: [
-            ['08:00<br>08:50', '', ''],
-            ['09:00<br>09:50', '', ''],
-            ['10:00<br>10:50', '8/206', 'База данных (лекция)..............<br>доц. Аликулов А'],
-            ['11:00<br>11:50', '8/206', 'База данных (лекция)<br>доц. Аликулов А'],
-            ['12:00<br>12:50', '8/301', 'База данных (срсп)<br>с.п.Парвонаева Х.'],
-            ['13:00<br>13:50', '8/301', 'База данных (срсп)<br>с.п.Парвонаева Х.'],
-          ],
-          Ҷумъа: [
-            ['08:00<br>08:50', '', ''],
-            ['09:00<br>09:50', '', ''],
-            ['10:00<br>10:50', '8/406', 'Статистика и КОД (срсп)<br> доц. Ғуломсафдаров А.'],
-            ['11:00<br>11:50', '8/301', 'База данных (срсп)<br>с.п. Парвонаева Х.'],
-            ['12:00<br>12:50', '8/301', 'База данных (срсп)<br>с.п. Парвонаева Х.'],
-            ['13:00<br>13:50', '8/304', 'Программирование в Java (лек)<br> доц. Турсунов Р.'],
-          ],
-          Шанбе: [
-            ['08:00<br>08:50', '8/103', 'Этика и этетика (лек),доц. Орифчонова Н.'],
-            ['09:00<br>09:50', '8/103', 'Этика и этетика (лек)<br> доц. Орифчонова Н.<br>(хафтаи тоқ)<br>Политология (лек)<br>н.и.с., Мирзоён Р.Х.<br>(хафтаи ҷуфт)'],
-            ['10:00<br>10:50', '8/103', 'Политология (лек)<br>н.и.с., Мирзоён Р.Х.'],
-            ['11:00<br>11:50', '8/101', 'Политология (лек)<br>н.и.с., Мирзоён Р.Х.'],
-            ['12:00<br>12:50', '8/101', 'Политология (лек)<br>н.и.с., Мирзоён Р.Х.'],
-            ['13:00<br>13:50', '8/205', 'Этика и этетика (срсп)<br>доц. Джураев Р.'],
-            ['14:00<br>14:50', '8/205', 'Этика и этетика (срсп)<br>доц. Джураев Р.']
-          ]
-        },
-        guruh2: {
-        Душанбе: [
-          ['08:00<br>08:50', '', ''],
-          ['09:00<br>09:50', '8/208', 'Программирование в Java(лек) <br> Турсунов Р'],
-          ['10:00<br>10:50', '8/208', 'Программирование в Java(лек) <br> Турсунов Р'],
-          ['11:00<br>11:50', '8/304', 'Программирование в Java(лек) <br> Турсунов Р'],
-         ['12:00<br>12:50', '', ''],
-         ['13:00<br>13:50', '', ''],
-        ],
-        Сешанбе: [
-          ['08:00<br>08:50', '', ''],
-          ['09:00<br>09:50', '', ''],
-          ['10:00<br>10:50', '8/303', 'База данных(срсп)<br>доц.Насруллоева Д.'],
-          ['11:00<br>11:50', '8/303', 'База данных(срсп)<br>доц.Насруллоева Д.'],
-        ['12:00<br>12:50', '8/206', 'Статистика ва КОД <br>Ғуломсафдаров А.'],
-          ['13:00<br>13:50', '8/206', 'Статистика ва КОД <br>Ғуломсафдаров А.']
-         ],
-        Чоршанбе: [
-          ['08:00<br>08:50', '', ''],
-          ['09:00<br>09:50', '8/301', 'Усул ва ВХИ (срсп)<br>доц. Насруллоева Д.'],
-          ['10:00<br>10:50', '8/301', 'Усул ва ВХИ (срсп)<br>доц. Насруллоева Д.'],
-          ['11:00<br>11:50', '8/301', 'Усул ва ВХИ (лек)<br>доц. Насруллоева Д.'],
-         ['12:00<br>12:50', '8/304', 'Программирование в Java (срсп)<br> доц. Турсунов Р'],
-         ['13:00<br>13:50', '8/304', 'Программирование в Java (срсп)<br> доц. Турсунов Р'],
-        ],
-        Панҷшанбе: [
-          ['08:00<br>08:50', '', ''],
-          ['09:00<br>09:50', '', ''],
-          ['10:00<br>10:50', '8/206', 'База данных (лек)<br>доц. Аликулов А'],
-          ['11:00<br>11:50', '8/206', 'База данных (лек)<br>доц. Аликулов А'],
-         ['12:00<br>12:50', '8/302',  'Статистика ва КОД(лек) <br>Халимов И.'],
-         ['13:00<br>13:50', '8/302',  'Статистика ва КОД(лек) <br>Халимов И.'],
-        ],
-        Ҷумъа: [
-          ['08:00<br>08:50', '8/302', 'База данных (срсп) <br> Насруллоева Д.'],
-          ['09:00<br>09:50', '8/302', 'База данных (срсп) <br> Насруллоева Д.'],
-          ['10:00<br>10:50', '8/302',  'Статистика ва КОД(лек) <br>Халимов И.'],
-          ['11:00<br>11:50', '8/302',  'Статистика ва КОД(лек) <br>Халимов И.'],
-         ['12:00<br>12:50', '', ''],
-         ['13:00<br>13:50', '', ''],
-        ],
-        Шанбе: [
-          ['08:00<br>08:50', '', ''],
-          ['09:00<br>09:50', '', ''],
-          ['10:00<br>10:50', '', ''],
-          ['11:00<br>11:50', '', ''],
-         ['12:00<br>12:50', '', ''],
-         ['13:00<br>13:50', '', '']
-        ]
-      },
-      guruh3: {
-        Душанбе: [
-          ['08:00<br>08:50', '', ''],
-          ['09:00<br>09:50', '', ''],
-          ['10:00<br>10:50', '', ''],
-          ['11:00<br>11:50', '', ''],
-         ['12:00<br>12:50', '', ''],
-         ['13:00<br>13:50', '', ''],
-        ],
-        Сешанбе: [
-          ['08:00<br>08:50', '', ''],
-          ['09:00<br>09:50', '', ''],
-          ['10:00<br>10:50', '', ''],
-          ['11:00<br>11:50', '', ''],
-         ['12:00<br>12:50', '8/206', 'Статистика ва КОД <br>Ғуломсафдаров А.'],
-          ['13:00<br>13:50', '8/206', 'Статистика ва КОД <br>Ғуломсафдаров А.']
-        ],
-        Чоршанбе: [
-          ['08:00<br>08:50', '', ''],
-          ['09:00<br>09:50', '', ''],
-          ['10:00<br>10:50', '', ''],
-          ['11:00<br>11:50', '', ''],
-         ['12:00<br>12:50', '', ''],
-         ['13:00<br>13:50', '', ''],
-        ],
-        Панҷшанбе: [
-          ['08:00<br>08:50', '', ''],
-          ['09:00<br>09:50', '', ''],
-          ['10:00<br>10:50', '', ''],
-          ['11:00<br>11:50', '', ''],
-         ['12:00<br>12:50', '', ''],
-         ['13:00<br>13:50', '', ''],
-        ],
-        Ҷумъа: [
-          ['08:00<br>08:50', '', ''],
-          ['09:00<br>09:50', '', ''],
-          ['10:00<br>10:50', '', ''],
-          ['11:00<br>11:50', '', ''],
-         ['12:00<br>12:50', '', ''],
-         ['13:00<br>13:50', '', ''],
-        ],
-        Шанбе: [
-          ['08:00<br>08:50', '', ''],
-          ['09:00<br>09:50', '', ''],
-          ['10:00<br>10:50', '', ''],
-          ['11:00<br>11:50', '', ''],
-         ['12:00<br>12:50', '', ''],
-         ['13:00<br>13:50', '', '']
-        ]
-      },
-      guruh4: {
-        Душанбе: [
-          ['08:00<br>08:50', '', ''],
-          ['09:00<br>09:50', '', ''],
-          ['10:00<br>10:50', '', ''],
-          ['11:00<br>11:50', '', ''],
-         ['12:00<br>12:50', '', ''],
-         ['13:00<br>13:50', '', ''],
-        ],
-        Сешанбе: [
-          ['08:00<br>08:50', '', ''],
-          ['09:00<br>09:50', '', ''],
-          ['10:00<br>10:50', '', ''],
-          ['11:00<br>11:50', '', ''],
-         ['12:00<br>12:50', '', ''],
-         ['13:00<br>13:50', '', ''],
-        ],
-        Чоршанбе: [
-          ['08:00<br>08:50', '', ''],
-          ['09:00<br>09:50', '', ''],
-          ['10:00<br>10:50', '', ''],
-          ['11:00<br>11:50', '', ''],
-         ['12:00<br>12:50', '', ''],
-         ['13:00<br>13:50', '', ''],
-        ],
-        Панҷшанбе: [
-          ['08:00<br>08:50', '', ''],
-          ['09:00<br>09:50', '', ''],
-          ['10:00<br>10:50', '', ''],
-          ['11:00<br>11:50', '', ''],
-         ['12:00<br>12:50', '', ''],
-         ['13:00<br>13:50', '', ''],
-        ],
-        Ҷумъа: [
-          ['08:00<br>08:50', '', ''],
-          ['09:00<br>09:50', '', ''],
-          ['10:00<br>10:50', '', ''],
-          ['11:00<br>11:50', '', ''],
-         ['12:00<br>12:50', '', ''],
-         ['13:00<br>13:50', '', ''],
-        ],
-        Шанбе: [
-          ['08:00<br>08:50', '', ''],
-          ['09:00<br>09:50', '', ''],
-          ['10:00<br>10:50', '', ''],
-          ['11:00<br>11:50', '', ''],
-         ['12:00<br>12:50', '', ''],
-         ['13:00<br>13:50', '', '']
-        ]
-      },
-      guruh5: {
-        Душанбе: [
-          ['08:00<br>08:50', '', ''],
-          ['09:00<br>09:50', '', ''],
-          ['10:00<br>10:50', '', ''],
-          ['11:00<br>11:50', '', ''],
-         ['12:00<br>12:50', '', ''],
-         ['13:00<br>13:50', '', ''],
-        ],
-        Сешанбе: [
-          ['08:00<br>08:50', '', ''],
-          ['09:00<br>09:50', '', ''],
-          ['10:00<br>10:50', '', ''],
-          ['11:00<br>11:50', '', ''],
-         ['12:00<br>12:50', '', ''],
-         ['13:00<br>13:50', '', ''],
-        ],
-        Чоршанбе: [
-          ['08:00<br>08:50', '', ''],
-          ['09:00<br>09:50', '', ''],
-          ['10:00<br>10:50', '', ''],
-          ['11:00<br>11:50', '', ''],
-         ['12:00<br>12:50', '', ''],
-         ['13:00<br>13:50', '', ''],
-        ],
-        Панҷшанбе: [
-          ['08:00<br>08:50', '', ''],
-          ['09:00<br>09:50', '', ''],
-          ['10:00<br>10:50', '', ''],
-          ['11:00<br>11:50', '', ''],
-         ['12:00<br>12:50', '', ''],
-         ['13:00<br>13:50', '', ''],
-        ],
-        Ҷумъа: [
-          ['08:00<br>08:50', '', ''],
-          ['09:00<br>09:50', '', ''],
-          ['10:00<br>10:50', '', ''],
-          ['11:00<br>11:50', '', ''],
-         ['12:00<br>12:50', '', ''],
-         ['13:00<br>13:50', '', ''],
-        ],
-        Шанбе: [
-          ['08:00<br>08:50', '', ''],
-          ['09:00<br>09:50', '', ''],
-          ['10:00<br>10:50', '', ''],
-          ['11:00<br>11:50', '', ''],
-         ['12:00<br>12:50', '', ''],
-         ['13:00<br>13:50', '', '']
-        ]
+
+    async function getScheduleForGroupAndDay(group, day) {
+      try {
+        const docRef = db.collection('schedules').doc(group);
+        const doc = await docRef.get();
+        if (doc.exists) {
+            return doc.data()[day] || [];
+        } else {
+            console.warn(`Документ для группы '${group}' не найден.`);
+            return [];
+        }
+      } catch (error) {
+        console.error("Ошибка при загрузке расписания из Firestore: ", error);
+        alert("Не удалось загрузить расписание. Проверьте подключение к интернету.");
+        return [];
       }
-    };
-     
-      
-      return schedules[group]?.[day] || [];
     }
-    
+
     function renderNoClasses() {
-      const container = document.getElementById('scheduleContainer');
-      container.innerHTML = `
-        <div class="schedule-day active">
-          <h2>${capitalize(currentDay)}</h2>
-          <p style="padding: 20px; text-align: center;">Дарсҳо нестанд</p>
-        </div>
-      `;
+      document.getElementById('scheduleContainer').innerHTML = `<div class="schedule-day active"><h2>${currentDay}</h2><p style="padding: 20px; text-align: center;">Дарсҳо нестанд</p></div>`;
     }
-    
+
     function renderSchedule(schedule) {
       const container = document.getElementById('scheduleContainer');
-      
-      let html = `
-        <div class="schedule-day active">
-          <h2>${capitalize(currentDay)}</h2>
-          <table>
-            <thead>
-              <tr><th>Вақт</th><th>АУД</th><th>Фан</th></tr>
-            </thead>
-            <tbody>
-      `;
-      
-      schedule.forEach(([time, aud, subject]) => {
-        if (time && aud && subject) {
-          html += `<tr><td>${time}</td><td>${aud}</td><td>${subject}</td></tr>`;
+      let html = `<div class="schedule-day active"><h2>${currentDay}</h2><table><thead><tr><th>Вақт</th><th>АУД</th><th>Фан</th></tr></thead><tbody>`;
+
+      schedule.forEach(classInfo => {
+        if (classInfo.subject && classInfo.subject.trim()) {
+            html += `<tr><td>${classInfo.time || '---'}</td><td>${classInfo.aud || '---'}</td><td>${classInfo.subject}</td></tr>`;
         }
       });
-      
-      html += `
-            </tbody>
-          </table>
-        </div>
-      `;
+
+      html += `</tbody></table></div>`;
       container.innerHTML = html;
     }
     
-    function capitalize(text) {
-      return text.charAt(0).toUpperCase() + text.slice(1);
-    }
-    
-    // Initialize the app when the page loads
-    window.onload = initApp;
-    
-    // Ensure voices are loaded for speech synthesis
-    speechSynthesis.onvoiceschanged = function() {
-      // This ensures voices are available when needed
-    };
+    // ЗАПУСК
+    window.onload = initApp; 
   </script>
-  <script src="service-worker.js"></script>
-  <script src="app.js"></script>
-  <script src="main.js"></script>
 </body>
 </html>
