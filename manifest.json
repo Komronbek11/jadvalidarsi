@@ -2,10 +2,11 @@
     "name": "Расписание",
     "short_name": "Расписание",
     "description": "Расписание",
-    "start_url": ".",
+    "start_url": ".index.html",
     "display": "standalone",
     "background_color": "#000000",
     "theme_color": "#000000",
+    "orientation": "portrait-primary",
     "icons": [
       {
         "src": "raspisanie.png",
@@ -20,3 +21,4 @@
     ]
   }
   
+
