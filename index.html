@@ -14,7 +14,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=DM+Sans:wght@500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.10/dist/cdn.min.js" defer></script>
     <style>
-           :root {
+             :root {
             --primary: #5856D6; --accent: #007AFF; --bg: #F5F5FF; --text: #1C1C1E;
             --heading: #12073A; --button-bg: #5856D6; --button-text: #FFFFFF;
             --button-hover: #4F4DC2; --card-bg: #FFFFFF; --border: #BAB9EB;
@@ -37,7 +37,7 @@
         .modal-content { background: var(--card-bg); padding: 25px; border-radius: 25px; width: 90%; max-width: 400px; text-align: center; border: var(--glass-border); }
         .modal-content h2 { margin-bottom: 15px; font-size: 1.2rem; }
         .controls-modal { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
-        .controls-modal select { width: 100%; padding: 10px; border-radius: 12px; border: 2px solid var(--primary); background-color: var(--card-bg); font-size: 14px; color: var(--text); font-weight: 500; }
+        .controls-modal select { width: 100%; padding: 10px; border-radius: 22px; border: 2px solid var(--primary); background-color: var(--card-bg); font-size: 14px; color: var(--text); font-weight: 500; }
         .voice-assistant { position: fixed; bottom: 20px; right: 20px; z-index: 1000; }
         .voice-btn { width: 50px; height: 50px; border-radius: 50%; background-color: var(--primary); color: white; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.2); cursor: pointer; border: none; transition: all 0.3s ease; backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); }
         .voice-btn:hover { transform: scale(1.1); box-shadow: 0 6px 16px rgba(0,0,0,0.3); }
@@ -77,6 +77,38 @@
         .color-name { position: absolute; bottom: 3px; left: 0; right: 0; text-align: center; font-size: 9px; font-weight: 500; color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.5); }
         .samsung-red { background: linear-gradient(150deg, #ffd9d9, #ff0000); } .samsung-orange { background: linear-gradient(150deg, #f5d295, #e69109); } .samsung-yellow { background: linear-gradient(150deg, #f2e6ce, #d9ce02); } .samsung-green { background: linear-gradient(150deg, #def0d8, #02d902); } .samsung-mint { background: linear-gradient(150deg, #797d80, #000000); } .samsung-teal { background-color: #30B0C7; } .samsung-cyan { background-color: #32ADE6; } .samsung-blue { background-color: #007AFF; } .samsung-indigo { background-color: #5856D6; } .samsung-purple { background-color: #AF52DE; } .samsung-pink { background-color: #FF2D55; } .samsung-brown { background-color: #A2845E; } .samsung-gray { background-color: #8E8E93; } .glass-theme { background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05)); border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15); }
         footer { text-align: center; margin-top: 30px; padding: 15px; color: var(--text-light); font-size: 13px; backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border-radius: 15px; background-color: var(--card-bg); border: var(--glass-border); }
+      
+        #update-toast {
+            position: fixed; bottom: 20px; left: 50%;
+            transform: translateX(-50%) translateY(150%); opacity: 0;
+            background-color: var(--card-bg); color: var(--text);
+            padding: 1rem; border-radius: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 2000;
+            display: flex; align-items: center; gap: 1rem;
+            transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease;
+            backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
+            border: var(--glass-border); pointer-events: none;
+        }
+        #update-toast.show { transform: translateX(-50%) translateY(0); opacity: 1; pointer-events: auto; }
+        .toast-icon {
+            flex-shrink: 0; width: 40px; height: 40px;
+            background-color: var(--accent); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--button-text);
+        }
+        .toast-message p { margin: 0; line-height: 1.3; }
+        .toast-message .title { font-weight: 600; font-size: 1rem; }
+        .toast-message .subtitle { font-size: 0.8rem; opacity: 0.7; }
+        .toast-actions { display: flex; gap: 0.5rem; }
+        .toast-actions button {
+            border: none; padding: 8px 14px; border-radius: 1rem;
+            font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease;
+        }
+        #update-later-btn { background-color: var(--row-hover); color: var(--text-light); }
+        #update-later-btn:hover { background-color: var(--border); }
+        #update-now-btn { background-color: var(--accent); color: var(--button-text); }
+        #update-now-btn:hover { filter: brightness(1.1); }
+
         @media (max-width: 768px) {
             body { font-size: 16px; } h1 { font-size: 20px; } th, td { font-size: 14px; }
             .buttons button { font-size: 14px; min-width: 50px; border-radius: 20px;}
@@ -87,18 +119,15 @@
             .mobile-nav-link.active svg { color: var(--button-text); }
             .mobile-nav-link svg { color: var(--accent); width: 26px; height: 26px; }
             .desktop-back-btn { display: none; }
+            #update-toast.show { bottom: 95px; width: calc(100% - 2rem); }
         }
-        @media (min-width: 769px) { .mobile-nav-container { display: none; } .desktop-back-btn { display: flex; width: 100%; justify-content: flex-start; } }
-   
-            #update-toast.show { bottom: 90px; } /* Adjust toast position for mobile */
-        
         @media (min-width: 769px) { .mobile-nav-container { display: none; } .desktop-back-btn { display: flex; width: 100%; justify-content: flex-start; } }
     </style>
 </head>
 <body>
     <div id="selectionModal" class="modal">
         <div class="modal-content">
-            <h2>Ҷадвали дарсии худро интихоб кунед.</h2>
+            <h2>Выберите ваше расписание</h2>
             <div class="controls-modal">
                 <select id="facultySelect"></select>
                 <select id="courseSelect"></select>
@@ -130,18 +159,20 @@
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
         </button>
     </div>
-    <!-- <nav class="mobile-nav-container">
-        <div class="flex justify-around items-center h-full text-sm mobile-nav-custom-style">
-             <a href="index.html" class="mobile-nav-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.689-8.69a2.25 2.25 0 00-3.182 0l-8.69 8.69a.75.75 0 001.061 1.06l8.69-8.69z"></path><path d="M12 5.432l8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 01-.75-.75v-4.5a.75.75 0 00-.75-.75h-3a.75.75 0 00-.75.75V21a.75.75 0 01-.75.75H5.625a1.875 1.875 0 01-1.875-1.875v-6.198a2.29 2.29 0 00.091-.086L12 5.43z"></path></svg></a>
-            <a href="#" class="mobile-nav-link active"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="currentColor"><path d="M186.67-633.33h586.66v-113.34H186.67v113.34Zm0 553.33q-27 0-46.84-19.83Q120-119.67 120-146.67v-600q0-27 19.83-46.83 19.84-19.83 46.84-19.83h56.66V-880h70v66.67h333.34V-880h70v66.67h56.66q27 0 46.84 19.83Q840-773.67 840-746.67v280.34q-15.78-7.86-32.39-13.1-16.61-5.24-34.28-8.24v-79H186.67v420h296.66q6.34 18.67 14.84 35 8.5 16.34 20.16 31.67H186.67Zm540.66 40q-79.95 0-136.31-56.35-56.35-56.36-56.35-136.32 0-79.95 56.35-136.31 56.36-56.35 136.31-56.35 79.96 0 136.32 56.35Q920-312.62 920-232.67q0 79.96-56.35 136.32Q807.29-40 727.33-40Zm61.17-93.67 27.83-28-75-75v-112H702V-222l86.5 88.33Z"></path></svg></a>
-            <a href="fakultet.html" class="mobile-nav-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="currentColor"><path d="M479.33-120 192.67-276.67v-240L40-600l439.33-240L920-600v318h-66.67v-280L766-516.67v240L479.33-120Zm0-316 301.34-164-301.34-162-300 162 300 164Zm0 240.33 220-120.66v-162.34L479.33-360l-220-120v163.67l220 120.66Z"></path></svg></a>
-            <a href="profile.html" class="mobile-nav-link"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"></path></svg></a>
-        </div>
-    </nav> -->
+  
     
     <div id="update-toast">
-        <span>Доступно обновление</span>
-        <button onclick="window.location.reload()">Обновить</button>
+        <div class="toast-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15v4c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2v-4M17 9l-5 5-5-5M12 14V3"/></svg>
+        </div>
+        <div class="toast-message">
+            <p class="title">Доступно обновление</p>
+            <p class="subtitle">Расписание было изменено.</p>
+        </div>
+        <div class="toast-actions">
+            <button id="update-later-btn">Позже</button>
+            <button id="update-now-btn">Обновить</button>
+        </div>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -159,13 +190,14 @@
         if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        // --- GLOBAL VARIABLES & THEME LOGIC (No changes here) ---
         let hierarchy = {}, allSchedules = {}, currentSchedule = {}, currentDay = '', recognition;
+        let toastHideTimeout = null;
         const $ = (selector) => document.querySelector(selector);
         const facultySelect = $('#facultySelect'), courseSelect = $('#courseSelect'), groupSelect = $('#groupSelect');
         const daysOfWeek = ['Душанбе', 'Сешанбе', 'Чоршанбе', 'Панҷшанбе', 'Ҷумъа', 'Шанбе'];
         const dayMapping = { 'понедельник': 'Душанбе', 'вторник': 'Сешанбе', 'среду': 'Чоршанбе', 'четверг': 'Панҷшанбе', 'пятницу': 'Ҷумъа', 'субботу': 'Шанбе' };
         const samsungThemes = {
+            glass: {"--bg": "rgba(255,255,255,0.1)", "--text": "#ffffff", "--heading": "#ffffff", "--primary": "rgba(255,255,255,0.01)", "--accent": "rgba(255,255,255,0.7)", "--button-bg": "rgba(255,255,255,0.1)", "--button-text": "#ffffff", "--button-hover": "rgba(255,255,255,0.2)", "--card-bg": "rgba(255,255,255,0.1)", "--border": "rgba(255,255,255,0.1)", "--row-hover": "rgba(255,255,255,0.1)", "--text-light": "rgba(255,255,255,0.7)", "--skeleton-bg": "rgba(255,255,255,0.2)", "--glass-blur": "blur(13px)", "--glass-border": "1px solid rgba(255,255,255,0.2)", "--bg-image": "linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('neon2.jpg')"},
             red: {"--bg": "#ffe0e0", "--text": "black", "--heading": "#1F040A", "--primary": "#FF3B30", "--accent": "#E0352B", "--button-bg": "#FF3B30", "--button-text": "black", "--button-hover": "#E0352B", "--card-bg": "#dbb4b4", "--border": "#FFD6D4", "--row-hover": "#FFEAE9", "--text-light": "black", "--skeleton-bg": "rgba(255, 214, 212, 0.5)", "--glass-blur": "none", "--glass-border": "none", "--bg-image": "none"},
             orange: {"--bg": "#FFF5ED", "--text": "black", "--heading": "black", "--primary": "#FF9500", "--accent": "#E08500", "--button-bg": "#FF9500", "--button-text": "black", "--button-hover": "#E08500", "--card-bg": "#e8d399", "--border": "#FFD9A6", "--row-hover": "#FFEDD3", "--text-light": "#8A5D3D", "--skeleton-bg": "rgba(255, 217, 166, 0.5)", "--glass-blur": "none", "--glass-border": "none", "--bg-image": "none"},
             yellow: {"--bg": "#d6c79f", "--text": "#3A3007", "--heading": "#1F1904", "--primary": "#FFCC00", "--accent": "#E0B800", "--button-bg": "#FFCC00", "--button-text": "#3A3007", "--button-hover": "#E0B800", "--card-bg": "#ffeebf", "--border": "#FFE680", "--row-hover": "#FFF2BF", "--text-light": "black", "--skeleton-bg": "rgba(255, 230, 128, 0.5)", "--glass-blur": "none", "--glass-border": "none", "--bg-image": "none"},
@@ -179,9 +211,8 @@
             pink: {"--bg": "#FFF5F8", "--text": "#3A071D", "--heading": "#1F0410", "--primary": "#FF2D55", "--accent": "#E0284D", "--button-bg": "#FF2D55", "--button-text": "#FFFFFF", "--button-hover": "#E0284D", "--card-bg": "#FFFFFF", "--border": "#FFA6B9", "--row-hover": "#FFD3DC", "--text-light": "#8A4D66", "--skeleton-bg": "rgba(255, 166, 185, 0.5)", "--glass-blur": "none", "--glass-border": "none", "--bg-image": "none"},
             brown: {"--bg": "#F9F6F2", "--text": "#3A2610", "--heading": "#1F1408", "--primary": "#A2845E", "--accent": "#927755", "--button-bg": "#A2845E", "--button-text": "#FFFFFF", "--button-hover": "#927755", "--card-bg": "#FFFFFF", "--border": "#D1C2AC", "--row-hover": "#E8E1D6", "--text-light": "#8A7A60", "--skeleton-bg": "rgba(209, 194, 172, 0.5)", "--glass-blur": "none", "--glass-border": "none", "--bg-image": "none"},
             gray: {"--bg": "#F2F2F7", "--text": "#1C1C1E", "--heading": "#0A0A0A", "--primary": "#8E8E93", "--accent": "#808085", "--button-bg": "#8E8E93", "--button-text": "#FFFFFF", "--button-hover": "#808085", "--card-bg": "#FFFFFF", "--border": "#C7C7CC", "--row-hover": "#E5E5EA", "--text-light": "#6C6C70", "--skeleton-bg": "rgba(199, 199, 204, 0.5)", "--glass-blur": "none", "--glass-border": "none", "--bg-image": "url('neon1.jpg')"},
-            glass: {"--bg": "rgba(255,255,255,0.1)", "--text": "#ffffff", "--heading": "#ffffff", "--primary": "rgba(255,255,255,0.01)", "--accent": "rgba(255,255,255,0.7)", "--button-bg": "rgba(255,255,255,0.1)", "--button-text": "#ffffff", "--button-hover": "rgba(255,255,255,0.2)", "--card-bg": "rgba(255,255,255,0.1)", "--border": "rgba(255,255,255,0.1)", "--row-hover": "rgba(255,255,255,0.1)", "--text-light": "rgba(255,255,255,0.7)", "--skeleton-bg": "rgba(255,255,255,0.2)", "--glass-blur": "blur(13px)", "--glass-border": "1px solid rgba(255,255,255,0.2)", "--bg-image": "linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('neon2.jpg')"}
         };
-        
+
         function applySamsungTheme(themeName) {
             const theme = samsungThemes[themeName];
             if (!theme) return;
@@ -204,7 +235,31 @@
             buttonContainer.innerHTML = daysOfWeek.map(day => `<button data-day="${day}" onclick="showDay('${day}')">${day}</button>`).join('');
         }
 
-        // --- NEW: DATA HANDLING (Stale-While-Revalidate) ---
+        function showUpdateToast() {
+            clearTimeout(toastHideTimeout);
+            $('#update-toast').classList.add('show');
+            toastHideTimeout = setTimeout(hideUpdateToast, 15000);
+        }
+        function hideUpdateToast() {
+            clearTimeout(toastHideTimeout);
+            $('#update-toast').classList.remove('show');
+        }
+        function applyUpdates() {
+            console.log("Applying updates without reloading...");
+            hierarchy = JSON.parse(localStorage.getItem('cachedHierarchy'));
+            allSchedules = JSON.parse(localStorage.getItem('cachedSchedules'));
+            
+            const savedPath = JSON.parse(localStorage.getItem('schedulePath'));
+            populateFaculties();
+            if(savedPath) {
+                facultySelect.value = savedPath.f;
+                populateCourses(savedPath.c);
+                populateGroups(savedPath.g);
+            }
+            updateScheduleView();
+            hideUpdateToast();
+        }
+
         async function loadData() {
             populateThemeButtons();
             populateDayButtons();
@@ -221,7 +276,6 @@
                 initializeApp();
             }
 
-            // Always try to fetch fresh data in the background if online
             if (navigator.onLine) {
                 try {
                     console.log("Checking for fresh data from Firebase...");
@@ -230,24 +284,19 @@
                         db.ref('schedules').once('value')
                     ]);
 
-                    if (!hierarchySnapshot.exists() || !schedulesSnapshot.exists()) {
-                        throw new Error("Data not found in Firebase.");
-                    }
+                    if (!hierarchySnapshot.exists() || !schedulesSnapshot.exists()) throw new Error("Data not found in Firebase.");
 
                     const freshHierarchyStr = JSON.stringify(hierarchySnapshot.val());
                     const freshSchedulesStr = JSON.stringify(schedulesSnapshot.val());
 
-                    // If there's no cache, or if fresh data is different from cached data
                     if (!isCacheAvailable || freshHierarchyStr !== cachedHierarchy || freshSchedulesStr !== cachedSchedules) {
                         console.log("New data found. Updating cache.");
                         localStorage.setItem('cachedHierarchy', freshHierarchyStr);
                         localStorage.setItem('cachedSchedules', freshSchedulesStr);
                         
                         if (isCacheAvailable) {
-                            // If cache was already displayed, show update notification
-                            $('#update-toast').classList.add('show');
+                            showUpdateToast();
                         } else {
-                            // If there was no cache, just initialize the app with fresh data
                             hierarchy = hierarchySnapshot.val();
                             allSchedules = schedulesSnapshot.val();
                             initializeApp();
@@ -257,17 +306,18 @@
                     }
                 } catch (e) {
                     console.error("Failed to fetch fresh data:", e);
-                    if (!isCacheAvailable) {
-                        document.body.innerHTML = '<h1 class="text-center text-red-500 p-8">Ошибка загрузки данных. Проверьте подключение к интернету и попробуйте снова.</h1>';
-                    }
+                    if (!isCacheAvailable) document.body.innerHTML = '<h1 class="text-center text-red-500 p-8">Ошибка загрузки. Проверьте интернет.</h1>';
                 }
             } else if (!isCacheAvailable) {
-                 document.body.innerHTML = '<h1 class="text-center text-red-500 p-8">Нет подключения к интернету и нет сохраненных данных. Пожалуйста, подключитесь к сети.</h1>';
+                 document.body.innerHTML = '<h1 class="text-center text-red-500 p-8">Нет сети и нет сохраненных данных.</h1>';
             }
         }
         
-        // --- INITIALIZATION ---
-        document.addEventListener('DOMContentLoaded', loadData);
+        document.addEventListener('DOMContentLoaded', () => {
+            loadData();
+            $('#update-now-btn').addEventListener('click', applyUpdates);
+            $('#update-later-btn').addEventListener('click', hideUpdateToast);
+        });
 
         function initializeApp() {
             populateFaculties();
@@ -285,7 +335,6 @@
             }
         }
         
-        // --- UI & HIERARCHY LOGIC (No major changes here) ---
         function populateFaculties() { facultySelect.innerHTML = "<option value=''>Факультет</option>"; for (const id in hierarchy) facultySelect.add(new Option(hierarchy[id].name, id)); }
         function populateCourses(selectedId = null) {
             const facultyId = facultySelect.value;
@@ -308,6 +357,7 @@
         courseSelect.addEventListener('change', () => populateGroups());
         groupSelect.addEventListener('change', () => { $('#saveSelectionBtn').disabled = !groupSelect.value; });
         $('#changeGroupBtn').addEventListener('click', () => $('#selectionModal').classList.add('active'));
+        
         $('#saveSelectionBtn').addEventListener('click', () => {
             const pathIds = { f: facultySelect.value, c: courseSelect.value, g: groupSelect.value };
             if (!pathIds.g) return;
@@ -315,24 +365,20 @@
             localStorage.setItem('schedulePath', JSON.stringify(pathIds));
             localStorage.setItem('scheduleInfo', info);
             
-            // Reload the page to apply fresh data if it was just fetched
-            if ($('#update-toast').classList.contains('show')) {
-                window.location.reload();
-            } else {
-                $('#selectionModal').classList.remove('active');
+            $('#selectionModal').classList.remove('active');
+            if (!$('#mainContent').style.display || $('#mainContent').style.display === 'none') {
                 $('#mainContent').style.display = 'block';
-                updateScheduleView();
             }
+            updateScheduleView();
         });
 
-        // --- SCHEDULE & VOICE LOGIC (No changes, they use global vars) ---
-         function updateScheduleView() {
+        function updateScheduleView() {
             const pathIds = JSON.parse(localStorage.getItem('schedulePath') || '{}');
             if (!pathIds.g) return renderNoGroupSelected();
             currentSchedule = allSchedules?.[pathIds.f]?.[pathIds.c]?.[pathIds.g] || {};
             $('#group-info-display').textContent = localStorage.getItem('scheduleInfo') || '';
             let todayIndex = new Date().getDay();
-            todayIndex = todayIndex === 0 ? 5 : todayIndex - 1; // Mon=0..Sat=5
+            todayIndex = todayIndex === 0 ? 5 : todayIndex - 1;
             if (todayIndex >= daysOfWeek.length) todayIndex = 0;
             showDay(daysOfWeek[todayIndex]);
         }
@@ -356,7 +402,6 @@
             $('#scheduleContainer').innerHTML = html + `</tbody></table></div>`;
         }
         
-           // --- VOICE ASSISTANT ---
         function initVoiceRecognition() {
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             if (!SpeechRecognition) return console.warn("Распознавание речи не поддерживается.");
@@ -382,7 +427,7 @@
             if (command.includes('привет')) {
                 speakResponse("Здравствуйте! Чем могу помочь с расписанием?");
             } else if (command.includes('помощь') || command.includes('справка')) {
-                speakResponse("Я могу: показать расписание на день (например, 'покажи понедельник'), найти следующую пару, или узнать погоду.");
+                speakResponse("Я могу: показать расписание на день, найти следующую пару, или узнать погоду.");
             } else if (command.includes('погода')) {
                 voiceStatus.innerHTML += `<p class="mt-2 pt-2 border-t">Получаю данные о погоде...</p>`;
                 const weatherInfo = await getWeather();
@@ -418,7 +463,6 @@
                 if (!dayFound) speakResponse(responseText);
             }
         }
-        
         function findNextClass() {
             const now = new Date();
             const currentTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
@@ -449,10 +493,10 @@
         }
         
         async function getWeather() {
-            const apiKey = 'bd5e378503939ddaee76f12ad7a97608'; // !!! ЗАМЕНИТЕ ЭТОТ КЛЮЧ !!!
+            const apiKey = '8e00398683299b7b8b6bf757a7d5b193'; // ❗❗❗ ВАЖНО: ЗАМЕНИТЕ ЭТОТ КЛЮЧ НА СВОЙ! ❗❗❗
             const city = 'Dushanbe';
             const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&lang=ru&units=metric`;
-            if (apiKey === 'bd5e378503939ddaee76f12ad7a97608') return "Функция погоды не настроена. Пожалуйста, укажите API-ключ в коде.";
+            if (apiKey === '8e00398683299b7b8b6bf757a7d5b193') return "Функция погоды не настроена. Пожалуйста, укажите API-ключ в коде.";
             
             try {
                 const response = await fetch(url);
@@ -475,8 +519,6 @@
             } catch (e) { console.error("Speech synthesis error:", e); }
         }
 
-        
-        // --- Register Service Worker ---
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('./sw.js')
