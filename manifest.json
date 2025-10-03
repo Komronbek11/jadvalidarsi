@@ -2,7 +2,7 @@
     "name": "Расписание",
     "short_name": "Расписание",
     "description": "Расписание",
-    "start_url": "",
+    "start_url": ".",
     "display": "standalone",
     "background_color": "#000000",
     "theme_color": "#14283d",
@@ -21,6 +21,7 @@
     ]
   }
   
+
 
 
 
