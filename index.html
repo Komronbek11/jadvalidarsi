@@ -26,16 +26,20 @@
             color: var(--text); padding: 10px; width: 100%; overflow-x: hidden;
             min-height: 100vh; background-image: var(--bg-image); background-size: cover;
             background-position: center; background-attachment: fixed; transition: all 0.3s ease;
+                    
+                -webkit-user-select: none; /* Safari */
+            -ms-user-select: none;     /* IE 10+ and Edge */
+            user-select: none;      
         }
         h1 { font-family: 'DM Sans', sans-serif; text-align: center; margin-bottom: 15px; font-size: 23px; color: var(--heading); }
-        .btn { padding: 8px 12px; border-radius: 20px; font-weight: 500; cursor: pointer; border: none; background: var(--button-bg); color: var(--button-text); font-size: 18px; }
+        .btn { padding: 8px 12px; border-radius: 20px; font-weight: 500; cursor: pointer; border: none; background: var(--button-bg); color: var(--button-text); font-size: 14px; }
         .back { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; background-color: var(--card-bg); box-shadow: 0 2px 5px rgba(0,0,0,0.1); cursor: pointer; backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); }
         .back:hover { transform: translateY(-2px); }
         .group-info { text-align: center; font-size: 0.9rem; color: var(--text-light); margin-bottom: 0.8rem; }
         .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); z-index: 1000; display: none; align-items: center; justify-content: center; }
         .modal.active { display: flex; }
         .modal-content { background: var(--card-bg); padding: 25px; border-radius: 25px; width: 90%; max-width: 400px; text-align: center; border: var(--glass-border); }
-        .modal-content h2 { margin-bottom: 15px; font-size: 1.2rem; }
+        .modal-content h2 { margin-bottom: 15px; font-size: 1rem; }
         .controls-modal { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
         .controls-modal select { width: 100%; padding: 10px; border-radius: 22px; border: 2px solid var(--primary); background-color: var(--card-bg); font-size: 14px; color: var(--text); font-weight: 500; }
         .voice-assistant { position: fixed; bottom: 20px; right: 20px; z-index: 1000; }
@@ -51,10 +55,58 @@
         .skeleton-row { height: 50px; background-color: var(--skeleton-bg); margin-bottom: 1px; animation: shimmer 1.5s infinite linear; }
         @keyframes shimmer { 0% { opacity: 0.5; } 50% { opacity: 0.8; } 100% { opacity: 0.5; } }
         .controls { display: flex; flex-wrap: wrap; justify-content: center; margin-bottom: 15px; gap: 10px; }
-        .buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 15px; }
-        .buttons button { padding: 10px 15px; background-color: var(--button-bg); color: var(--button-text); border: none; border-radius: 15px; font-weight: 600; font-size: 18px; cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.1); flex-grow: 1; min-width: 80px; transition: all 0.3s ease; backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: var(--glass-border); }
-        .buttons button:hover { background-color: var(--button-hover); transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.15); }
-        .buttons button.active-day { background-color: var(--accent); color: white; transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.15); }
+        
+        /* === MODIFIED BUTTON STYLES START === */
+        /* Container for day buttons */
+        .buttons {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 92%;
+            min-height: 45px;
+            margin: 15px auto;
+            padding: 6px;
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.25); /* Matte glass background */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        /* Individual day buttons */
+        .buttons button {
+            height: 35px;
+            padding: 0 10px;
+            line-height: 35px;
+            background-color: transparent; /* Show container background */
+            color: var(--text);
+            border: none;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            flex-grow: 0;
+            min-width: auto;
+            transition: all 0.3s ease;
+            box-shadow: none;
+            position: relative;
+            overflow: hidden;
+        }
+        /* Hover effect for buttons */
+        .buttons button:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        /* Active day button with Liquid Glass effect */
+        .buttons button.active-day {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.1));
+            color: var(--heading, #000);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2), inset 0px -2px 4px rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px) scale(1.05);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+        }
+        /* === MODIFIED BUTTON STYLES END === */
+
         .schedule-container { width: 100%; margin-top: 8px; }
         .schedule-day { width: 100%; display: none; background-color: var(--card-bg); color: var(--text); border-radius: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.08); animation: fadeIn 0.5s ease-in-out; overflow: hidden; backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: var(--glass-border); }
         .active { display: block; }
@@ -64,7 +116,7 @@
         th { background-color: var(--primary); color: white; font-weight: 500; position: sticky; top: 0; backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); }
         tr:hover { background-color: var(--row-hover); }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-        .theme-card { background-color: var(--card-bg); padding: 12px; margin: 15px 0; border-radius: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: var(--glass-border); }
+        .theme-card { background-color: var(--card-bg); padding: 12px; margin: 15px 0; border-radius: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: var(--glass-border); }
         .theme-card h3 { margin-bottom: 10px; color: var(--heading); text-align: center; font-size: 1.1rem; }
         .color-palette { display: flex; overflow-x: auto; gap: 8px; padding: 8px 4px; scrollbar-width: thin; scrollbar-color: var(--primary) var(--card-bg); }
         .color-palette::-webkit-scrollbar { height: 5px; }
@@ -76,7 +128,7 @@
         .color-option:hover { transform: translateY(-3px); box-shadow: 0 6px 12px rgba(0,0,0,0.2); }
         .color-name { position: absolute; bottom: 3px; left: 0; right: 0; text-align: center; font-size: 9px; font-weight: 500; color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.5); }
         .samsung-red { background: linear-gradient(150deg, #ffd9d9, #ff0000); } .samsung-orange { background: linear-gradient(150deg, #f5d295, #e69109); } .samsung-yellow { background: linear-gradient(150deg, #f2e6ce, #d9ce02); } .samsung-green { background: linear-gradient(150deg, #def0d8, #02d902); } .samsung-mint { background: linear-gradient(150deg, #797d80, #000000); } .samsung-teal { background-color: #30B0C7; } .samsung-cyan { background-color: #32ADE6; } .samsung-blue { background-color: #007AFF; } .samsung-indigo { background-color: #5856D6; } .samsung-purple { background-color: #AF52DE; } .samsung-pink { background-color: #FF2D55; } .samsung-brown { background-color: #A2845E; } .samsung-gray { background-color: #8E8E93; } .glass-theme { background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05)); border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15); }
-        footer { text-align: center; margin-top: 30px; padding: 15px; color: var(--text-light); font-size: 13px; backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border-radius: 15px; background-color: var(--card-bg); border: var(--glass-border); }
+        footer { text-align: center; margin-top: 30px; padding: 15px; color: var(--text-light); font-size: 13px; backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border-radius: 30px; background-color: var(--card-bg); border: var(--glass-border); }
       
         #update-toast {
             position: fixed; bottom: 20px; left: 50%;
@@ -111,7 +163,7 @@
 
         @media (max-width: 768px) {
             body { font-size: 16px; } h1 { font-size: 20px; } th, td { font-size: 14px; }
-            .buttons button { font-size: 14px; min-width: 50px; border-radius: 20px;}
+            .buttons button { font-size: 14px; padding: 0 10px;}
             .mobile-nav-container { display: block; position: fixed; bottom: 1rem; left: 1rem; right: 1rem; z-index: 100; }
             .mobile-nav-custom-style { backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); background-color: var(--card-bg); border: 1px solid var(--accent); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); border-radius: 25px; padding: 5px; }
             .mobile-nav-link { display: flex; flex: 1; justify-content: center; align-items: center; padding: 8px; border-radius: 20px; transition: all 0.3s ease; opacity: 0.7; }
@@ -145,13 +197,16 @@
         <h1>Ҷадвали дарсҳо</h1>
         <div id="group-info-display" class="group-info"></div>
         <div class="theme-card">
-            <h3>Палитра цветов</h3>
+            <h3>Палитра цветов UI</h3>
             <div class="color-palette"></div>
         </div>
         <div class="controls"><button id="changeGroupBtn" class="btn">Сменить группу</button></div>
         <div class="buttons"></div>
         <div id="scheduleContainer" class="schedule-container"></div>
-        <footer><p>© 2025. ДТТ. Душанбе.</p></footer>
+        <footer>
+                    <p>© 2025. Расписание.ДТТ. Душанбе.</p>
+                    <p>Разработчик : Komron Sharipov ™</p>     
+        </footer>
     </div>
     <div class="voice-assistant">
         <div class="voice-status" id="voiceStatus"></div>
@@ -197,12 +252,12 @@
         const daysOfWeek = ['Душанбе', 'Сешанбе', 'Чоршанбе', 'Панҷшанбе', 'Ҷумъа', 'Шанбе'];
         const dayMapping = { 'понедельник': 'Душанбе', 'вторник': 'Сешанбе', 'среду': 'Чоршанбе', 'четверг': 'Панҷшанбе', 'пятницу': 'Ҷумъа', 'субботу': 'Шанбе' };
         const samsungThemes = {
-            glass: {"--bg": "rgba(255,255,255,0.1)", "--text": "#ffffff", "--heading": "#ffffff", "--primary": "rgba(255,255,255,0.01)", "--accent": "rgba(255,255,255,0.7)", "--button-bg": "rgba(255,255,255,0.1)", "--button-text": "#ffffff", "--button-hover": "rgba(255,255,255,0.2)", "--card-bg": "rgba(255,255,255,0.1)", "--border": "rgba(255,255,255,0.1)", "--row-hover": "rgba(255,255,255,0.1)", "--text-light": "rgba(255,255,255,0.7)", "--skeleton-bg": "rgba(255,255,255,0.2)", "--glass-blur": "blur(13px)", "--glass-border": "1px solid rgba(255,255,255,0.2)", "--bg-image": "linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('fon.jpg')"},
+            glass: {"--bg": "rgba(255,255,255,0.1)", "--text": "#ffffff", "--heading": "#ffffff", "--primary": "rgba(255,255,255,0.01)", "--accent": "rgba(255,255,255,0.7)", "--button-bg": "rgba(255,255,255,0.1)", "--button-text": "#ffffff", "--button-hover": "rgba(255,255,255,0.2)", "--card-bg": "rgba(255,255,255,0.1)", "--border": "rgba(255,255,255,0.1)", "--row-hover": "rgba(255,255,255,0.1)", "--text-light": "rgba(255,255,255,0.7)", "--skeleton-bg": "rgba(255,255,255,0.2)", "--glass-blur": "blur(13px)", "--glass-border": "1px solid rgba(255,255,255,0.2)", "--bg-image": "linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://raw.githubusercontent.com/Komronbek11/jadvalidarsi/refs/heads/main/neon2.jpg')"},
             red: {"--bg": "#ffe0e0", "--text": "black", "--heading": "#1F040A", "--primary": "#FF3B30", "--accent": "#E0352B", "--button-bg": "#FF3B30", "--button-text": "black", "--button-hover": "#E0352B", "--card-bg": "#dbb4b4", "--border": "#FFD6D4", "--row-hover": "#FFEAE9", "--text-light": "black", "--skeleton-bg": "rgba(255, 214, 212, 0.5)", "--glass-blur": "none", "--glass-border": "none", "--bg-image": "none"},
             orange: {"--bg": "#FFF5ED", "--text": "black", "--heading": "black", "--primary": "#FF9500", "--accent": "#E08500", "--button-bg": "#FF9500", "--button-text": "black", "--button-hover": "#E08500", "--card-bg": "#e8d399", "--border": "#FFD9A6", "--row-hover": "#FFEDD3", "--text-light": "#8A5D3D", "--skeleton-bg": "rgba(255, 217, 166, 0.5)", "--glass-blur": "none", "--glass-border": "none", "--bg-image": "none"},
             yellow: {"--bg": "#d6c79f", "--text": "#3A3007", "--heading": "#1F1904", "--primary": "#FFCC00", "--accent": "#E0B800", "--button-bg": "#FFCC00", "--button-text": "#3A3007", "--button-hover": "#E0B800", "--card-bg": "#ffeebf", "--border": "#FFE680", "--row-hover": "#FFF2BF", "--text-light": "black", "--skeleton-bg": "rgba(255, 230, 128, 0.5)", "--glass-blur": "none", "--glass-border": "none", "--bg-image": "none"},
             green: {"--bg": "#DEF2BF", "--text": "#0A3A1D", "--heading": "#051F10", "--primary": "#34C759", "--accent": "#2DB350", "--button-bg": "#34C759", "--button-text": "#FFFFFF", "--button-hover": "#2DB350", "--card-bg": "#E7F0D8", "--border": "#B8EBC5", "--row-hover": "#DBF5E2", "--text-light": "#4D8A62", "--skeleton-bg": "rgba(184, 235, 197, 0.5)", "--glass-blur": "none", "--glass-border": "none", "--bg-image": "none"},
-            mint: {"--bg": "black", "--text": "white", "--heading": "white", "--primary": "#2b2b2b", "--accent": "#1768ff", "--button-bg": "#1768ff", "--button-text": "white", "--button-hover": "green", "--card-bg": "#2b2b2b", "--border": "#2b2b2b", "--row-hover": "#2b2b2b", "--text-light": "", "--skeleton-bg": "rgba(153, 232, 228, 0.5)", "--glass-blur": "none", "--glass-border": "none", "--bg-image": "url('sky.jpg')"},
+            mint: {"--bg": "black", "--text": "white", "--heading": "white", "--primary": "#2b2b2b", "--accent": "#1768ff", "--button-bg": "#1768ff", "--button-text": "white", "--button-hover": "green", "--card-bg": "#2b2b2b", "--border": "rgba(255,255,255,0.1)", "--row-hover": "#2b2b2b", "--text-light": "yellow", "--skeleton-bg": "rgba(153, 232, 228, 0.5)", "--glass-blur": "none", "--glass-border": "yellow", "--bg-image": "url('sky.jpg')"},
             teal: {"--bg": "#EFF9FB", "--text": "#072E3A", "--heading": "#04191F", "--primary": "#30B0C7", "--accent": "#2A9EB3", "--button-bg": "#30B0C7", "--button-text": "#FFFFFF", "--button-hover": "#2A9EB3", "--card-bg": "#FFFFFF", "--border": "#A5DCE6", "--row-hover": "#D2EDF3", "--text-light": "#4D7C8A", "--skeleton-bg": "rgba(165, 220, 230, 0.5)", "--glass-blur": "none", "--glass-border": "none", "--bg-image": "none"},
             cyan: {"--bg": "#EFF9FE", "--text": "#072A3A", "--heading": "#04171F", "--primary": "#32ADE6", "--accent": "#2D9CD0", "--button-bg": "#32ADE6", "--button-text": "#FFFFFF", "--button-hover": "#2D9CD0", "--card-bg": "#FFFFFF", "--border": "#A7D7F3", "--row-hover": "#D3EBF9", "--text-light": "#4D7C8A", "--skeleton-bg": "rgba(167, 215, 243, 0.5)", "--glass-blur": "none", "--glass-border": "none", "--bg-image": "none"},
             blue: {"--bg": "#F5F9FF", "--text": "#071D3A", "--heading": "#04101F", "--primary": "#007AFF", "--accent": "#006CE0", "--button-bg": "#007AFF", "--button-text": "#FFFFFF", "--button-hover": "#006CE0", "--card-bg": "#FFFFFF", "--border": "#99C7FF", "--row-hover": "#CCE3FF", "--text-light": "#4D6B8A", "--skeleton-bg": "rgba(153, 199, 255, 0.5)", "--glass-blur": "none", "--glass-border": "none", "--bg-image": "none"},
@@ -210,7 +265,7 @@
             purple: {"--bg": "#FAF5FF", "--text": "#1F073A", "--heading": "#11041F", "--primary": "#AF52DE", "--accent": "#9E4AC9", "--button-bg": "#AF52DE", "--button-text": "#FFFFFF", "--button-hover": "#9E4AC9", "--card-bg": "#FFFFFF", "--border": "#D7A8ED", "--row-hover": "#EBD4F6", "--text-light": "#6D4D8A", "--skeleton-bg": "rgba(215, 168, 237, 0.5)", "--glass-blur": "none", "--glass-border": "none", "--bg-image": "none"},
             pink: {"--bg": "#FFF5F8", "--text": "#3A071D", "--heading": "#1F0410", "--primary": "#FF2D55", "--accent": "#E0284D", "--button-bg": "#FF2D55", "--button-text": "#FFFFFF", "--button-hover": "#E0284D", "--card-bg": "#FFFFFF", "--border": "#FFA6B9", "--row-hover": "#FFD3DC", "--text-light": "#8A4D66", "--skeleton-bg": "rgba(255, 166, 185, 0.5)", "--glass-blur": "none", "--glass-border": "none", "--bg-image": "none"},
             brown: {"--bg": "#F9F6F2", "--text": "#3A2610", "--heading": "#1F1408", "--primary": "#A2845E", "--accent": "#927755", "--button-bg": "#A2845E", "--button-text": "#FFFFFF", "--button-hover": "#927755", "--card-bg": "#FFFFFF", "--border": "#D1C2AC", "--row-hover": "#E8E1D6", "--text-light": "#8A7A60", "--skeleton-bg": "rgba(209, 194, 172, 0.5)", "--glass-blur": "none", "--glass-border": "none", "--bg-image": "none"},
-            gray: {"--bg": "#F2F2F7", "--text": "#1C1C1E", "--heading": "#0A0A0A", "--primary": "#8E8E93", "--accent": "#808085", "--button-bg": "#8E8E93", "--button-text": "#FFFFFF", "--button-hover": "#808085", "--card-bg": "#FFFFFF", "--border": "#C7C7CC", "--row-hover": "#E5E5EA", "--text-light": "#6C6C70", "--skeleton-bg": "rgba(199, 199, 204, 0.5)", "--glass-blur": "none", "--glass-border": "none", "--bg-image": "url('neon1.jpg')"},
+            gray: {"--bg": "rgba(255, 255, 255, 0.2)", "--text": "#1C1C1E", "--heading": "#0A0A0A", "--primary": "rgba(255, 255, 255, 0.2)", "--accent": "rgba(255, 255, 255, 0.25)", "--button-bg": "#8E8E93", "--button-text": "#FFFFFF", "--button-hover": "#808085", "--card-bg": "rgba(255, 255, 255, 0.2)", "--border": "#C7C7CC", "--row-hover": "rgba(255, 255, 255, 0.25)", "--text-light": "yellow", "--skeleton-bg": "rgba(255,255,255,0.1)", "--glass-blur": "none", "--glass-border": "none", "--bg-image": "url('https://raw.githubusercontent.com/Komronbek11/jadvalidarsi/refs/heads/main/neon2.jpg')"},
         };
 
         function applySamsungTheme(themeName) {
@@ -230,10 +285,16 @@
                 return `<div class="color-option ${key === 'glass' ? 'glass-theme' : `samsung-${key}`}" data-theme="${key}" onclick="applySamsungTheme('${key}')"><span class="color-name">${displayName}</span></div>`;
             }).join('');
         }
+        
+        // === MODIFIED JAVASCRIPT FUNCTION START ===
         function populateDayButtons() {
             const buttonContainer = document.querySelector('.buttons');
-            buttonContainer.innerHTML = daysOfWeek.map(day => `<button data-day="${day}" onclick="showDay('${day}')">${day}</button>`).join('');
+            const dayAbbreviations = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
+            buttonContainer.innerHTML = daysOfWeek.map((day, index) => 
+                `<button data-day="${day}" onclick="showDay('${day}')">${dayAbbreviations[index] || day}</button>`
+            ).join('');
         }
+        // === MODIFIED JAVASCRIPT FUNCTION END ===
 
         function showUpdateToast() {
             clearTimeout(toastHideTimeout);
@@ -526,6 +587,35 @@
                     .catch(err => console.error('Service worker registration failed:', err));
             });
         }
+            document.addEventListener('DOMContentLoaded', function() {
+        // Disable right-click context menu
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        // Disable specific key combinations
+        document.addEventListener('keydown', function(e) {
+            // Disable F12 (Developer Tools)
+            if (e.key === 'F12' || e.keyCode === 123) {
+                e.preventDefault();
+            }
+
+            // Disable Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C (Developer Tools)
+            if (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key.toUpperCase())) {
+                e.preventDefault();
+            }
+
+            // Disable Ctrl+U (View Source)
+            if (e.ctrlKey && e.key.toUpperCase() === 'U') {
+                e.preventDefault();
+            }
+            
+            // Disable Ctrl+C (Copy)
+            if (e.ctrlKey && e.key.toUpperCase() === 'C') {
+                e.preventDefault();
+            }
+        });
+    });
     </script>
 </body>
 </html>
