@@ -6,10 +6,12 @@ const urlsToCache = [
     'fakultet.html', // Добавьте другие HTML страницы, если они есть
     'profile.html',
     'contact.html',
+    
     // Изображения для тем
     'sky.jpg',
     'neon1.jpg',
     'neon2.jpg',
+    'https://raw.githubusercontent.com/Komronbek11/jadvalidarsi/refs/heads/main/neon2.jpg',
     // Иконки для PWA
     'icons/icon-192x192.png',
     'icons/icon-512x512.png',
