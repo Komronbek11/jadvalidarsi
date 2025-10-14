@@ -3,11 +3,12 @@ const CACHE_NAME = 'schedule-app-cache-v1';
 const urlsToCache = [
     '/',
     'index.html',
-    'fakultet.html', // Добавьте другие HTML страницы, если они есть
-    'profile.html',
-    'contact.html',
+   // 'fakultet.html', // Добавьте другие HTML страницы, если они есть
+  //  'profile.html',
+ // 'contact.html',
     
     // Изображения для тем
+    'https://raw.githubusercontent.com/Komronbek11/jadvalidarsi/refs/heads/main/neon2.jpg',
     'sky.jpg',
     'neon1.jpg',
     'neon2.jpg',
@@ -15,6 +16,8 @@ const urlsToCache = [
     // Иконки для PWA
     'icons/icon-192x192.png',
     'icons/icon-512x512.png',
+    'raspisanie.png'
+    'https://raw.githubusercontent.com/Komronbek11/jadvalidarsi/refs/heads/main/raspisanie.png'
     // Внешние ресурсы (CDN)
     'https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css',
     'https://cdn.jsdelivr.net/npm/alpinejs@3.13.10/dist/cdn.min.js',
