@@ -47,7 +47,7 @@
         .group-info { text-align: center; font-size: 0.9rem; color: var(--text-light); margin-bottom: 0.8rem; }
         .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); z-index: 1000; display: none; align-items: center; justify-content: center; transition: opacity 0.5s ease-in-out; }
         .modal.active { display: flex; opacity: 1; }
-        .modal-content { background: var(--card-bg); padding: 25px; border-radius: 25px; width: 90%; max-width: 400px; text-align: center; border: var(--glass-border); transition: transform 0.5s ease-in-out; }
+        .modal-content { background: var(--card-bg); padding: 25px; border-radius: 25px; width: 90%; max-width: 400px; text-align: center; border: var(--glass-border); transition: transform 0.5s ease-in-out; position: relative; }
         .modal.active .modal-content { transform: scale(1.05); }
         .modal-content h2 { margin-bottom: 15px; font-size: 1rem; }
         .controls-modal { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
@@ -283,11 +283,13 @@
         }
         .free-aud-container { display: flex; justify-content: space-between; gap: 20px; }
         .free-aud-column { flex: 1; }
+        .close-btn { position: absolute; top: 10px; right: 10px; background: none; border: none; font-size: 20px; cursor: pointer; color: var(--text); }
     </style>
 </head>
 <body>
     <div id="selectionModal" class="modal">
         <div class="modal-content">
+            <button class="close-btn" onclick="closeModal('selectionModal')">✕</button>
             <h2>Выберите ваше расписание</h2>
             <div class="controls-modal">
                 <select id="facultySelect"></select>
@@ -338,6 +340,7 @@
 
     <div id="freeAudModal" class="modal">
         <div class="modal-content">
+            <button class="close-btn" onclick="closeModal('freeAudModal')">✕</button>
             <h2 id="freeAudModalTitle">Свободные аудитории</h2>
             <div style="margin-bottom: 15px;">
                 <select id="audFacultyFilter">
@@ -362,6 +365,7 @@
 
     <div id="voiceHelpModal" class="modal">
         <div class="modal-content">
+            <button class="close-btn" onclick="closeModal('voiceHelpModal')">✕</button>
             <h2>Команды голосового ассистента</h2>
             <ul style="text-align: left; list-style-type: disc; padding-left: 20px; font-size: 14px;">
                 <li>Покажи расписание на [день] (например, вторник)</li>
@@ -474,7 +478,9 @@
             if(savedPath) {
                 facultySelect.value = savedPath.f;
                 populateCourses(savedPath.c);
+                courseSelect.value = savedPath.c;
                 populateGroups(savedPath.g);
+                groupSelect.value = savedPath.g;
             }
             updateScheduleView();
             hideUpdateToast();
@@ -526,7 +532,9 @@
                 const pathIds = JSON.parse(savedPath);
                 facultySelect.value = pathIds.f;
                 populateCourses(pathIds.c);
+                courseSelect.value = pathIds.c;
                 populateGroups(pathIds.g);
+                groupSelect.value = pathIds.g;
                 updateScheduleView(); 
             } else {
                 $('#selectionModal').classList.add('active');
@@ -540,7 +548,10 @@
                 }
             }
         }
-        function populateFaculties() { facultySelect.innerHTML = "<option value=''>Факультет</option>"; for (const id in hierarchy) facultySelect.add(new Option(hierarchy[id].name, id)); }
+        function populateFaculties() { 
+            facultySelect.innerHTML = "<option value=''>Факультет</option>"; 
+            for (const id in hierarchy) facultySelect.add(new Option(hierarchy[id].name, id)); 
+        }
         function populateCourses(selectedId = null) {
             const facultyId = facultySelect.value;
             courseSelect.innerHTML = "<option value=''>Курс</option>";
@@ -548,6 +559,7 @@
             const faculty = hierarchy[facultyId];
             if (faculty?.courses) Object.keys(faculty.courses).forEach(id => courseSelect.add(new Option(faculty.courses[id].name, id)));
             if (selectedId) courseSelect.value = selectedId;
+            populateGroups();
         }
         function populateGroups(selectedId = null) {
             const facultyId = facultySelect.value, courseId = courseSelect.value;
@@ -557,8 +569,12 @@
             if (course?.groups) Object.keys(course.groups).forEach(id => groupSelect.add(new Option(course.groups[id].name, id)));
             if (selectedId) groupSelect.value = selectedId;
         }
-        facultySelect.addEventListener('change', () => populateCourses());
-        courseSelect.addEventListener('change', () => populateGroups());
+        facultySelect.addEventListener('change', () => {
+            populateCourses();
+        });
+        courseSelect.addEventListener('change', () => {
+            populateGroups();
+        });
         groupSelect.addEventListener('change', () => { $('#saveSelectionBtn').disabled = !groupSelect.value; });
         $('#changeGroupBtn').addEventListener('click', () => $('#selectionModal').classList.add('active'));
         $('#saveSelectionBtn').addEventListener('click', () => {
@@ -567,7 +583,7 @@
             const info = `${facultySelect.options[facultySelect.selectedIndex].text}, ${courseSelect.options[courseSelect.selectedIndex].text}, ${groupSelect.options[groupSelect.selectedIndex].text}`;
             localStorage.setItem('schedulePath', JSON.stringify(pathIds));
             localStorage.setItem('scheduleInfo', info);
-            $('#selectionModal').classList.remove('active');
+            closeModal('selectionModal');
             updateScheduleView();
         });
         function updateScheduleView() {
@@ -772,11 +788,11 @@
                 return;
             }
             else if (command.includes('закрыть помощь')) {
-                $('#voiceHelpModal').classList.remove('active');
+                closeModal('voiceHelpModal');
                 responseText = 'Помощь закрыта.';
             }
             else {
-                responseText = 'Я не совсем поняла команду. Попробуйте сказать: "покажи расписание на вторник", "найди свободную аудиторию" или "смени тему на тёмную". Скажите "помощь" для полного списка.';
+                responseText = 'Я не совсем поняла команду. Скажите "помощь" для полного списка.';
             }
 
             assistantResponse.textContent = responseText;
@@ -904,6 +920,18 @@
             $('#voiceHelpModal').classList.add('active');
         }
 
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                }
+            });
+        });
+
         document.addEventListener('DOMContentLoaded', function() {
             loadData();
             $('#update-now-btn').addEventListener('click', applyUpdates);
@@ -911,12 +939,8 @@
             
             $('#findFreeAudBtn').addEventListener('click', setupAndShowFreeAudModal);
             $('#audFacultyFilter').addEventListener('change', updateFreeAudList);
-            $('#closeFreeAudModalBtn').addEventListener('click', () => {
-                $('#freeAudModal').classList.remove('active');
-            });
-            $('#closeVoiceHelpBtn').addEventListener('click', () => {
-                $('#voiceHelpModal').classList.remove('active');
-            });
+            $('#closeFreeAudModalBtn').addEventListener('click', () => closeModal('freeAudModal'));
+            $('#closeVoiceHelpBtn').addEventListener('click', () => closeModal('voiceHelpModal'));
             
             document.addEventListener('contextmenu', e => e.preventDefault());
             document.addEventListener('keydown', e => {
