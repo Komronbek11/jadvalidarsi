@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Расписание</title>
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#00000">
-    <link rel="apple-touch-icon" href="raspisanie.png">
+    <meta name="theme-color" content="#5856D6">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Расписание">
@@ -151,6 +151,11 @@
             0% { transform: scale(1); opacity: 1; }
             100% { transform: scale(1.5); opacity: 0; }
         }
+        @keyframes liquid-hover {
+            0% { background-position: 0% 50%; filter: brightness(1); }
+            50% { background-position: 100% 50%; filter: brightness(1.2); }
+            100% { background-position: 0% 50%; filter: brightness(1); }
+        }
         .liquid-glass-active .theme-card,
         .liquid-glass-active .schedule-day,
         .liquid-glass-active .modal-content,
@@ -161,23 +166,30 @@
             animation: liquid-flow 15s infinite cubic-bezier(0.25, 0.1, 0.25, 1), liquid-glow 4s infinite ease-in-out;
             background: linear-gradient(135deg, rgba(255,255,255,0.3), rgba(0,0,0,0.1));
             background-size: 200% 200%;
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.3);
         }
         .liquid-glass-active .btn:hover,
         .liquid-glass-active .voice-btn:hover,
-        .liquid-glass-active .color-option:hover {
+        .liquid-glass-active .color-option:hover,
+        .liquid-glass-active .schedule-day:hover,
+        .liquid-glass-active .modal-content:hover {
             position: relative;
             overflow: hidden;
+            animation: liquid-hover 5s infinite ease-in-out;
         }
         .liquid-glass-active .btn:hover::after,
         .liquid-glass-active .voice-btn:hover::after,
-        .liquid-glass-active .color-option:hover::after {
+        .liquid-glass-active .color-option:hover::after,
+        .liquid-glass-active .schedule-day:hover::after,
+        .liquid-glass-active .modal-content:hover::after {
             content: '';
             position: absolute;
             top: 50%; left: 50%;
-            width: 100%; height: 100%;
-            background: radial-gradient(circle, rgba(255,255,255,0.3) 10%, transparent 10.01%);
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.4) 10%, transparent 10.01%);
             transform: translate(-50%, -50%) scale(0);
-            animation: liquid-ripple 0.8s cubic-bezier(0.25, 0.1, 0.25, 1);
+            animation: liquid-ripple 1.2s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
         }
         .liquid-glass-active .schedule-day.active {
             animation: fadeIn 0.5s cubic-bezier(0.25, 0.1, 0.25, 1), liquid-glow 4s infinite ease-in-out;
@@ -269,6 +281,8 @@
         .glass-active .schedule-day {
             animation: glass-blur 8s infinite ease-in-out;
         }
+        .free-aud-container { display: flex; justify-content: space-between; gap: 20px; }
+        .free-aud-column { flex: 1; }
     </style>
 </head>
 <body>
@@ -330,15 +344,17 @@
                     <option value="all">Все факультеты</option>
                 </select>
             </div>
-            <div id="currentFreeAud" style="margin-bottom: 20px;">
-                <h3>Текущая пара</h3>
-                <div id="currentFreeList" style="text-align: left; max-height: 150px; overflow-y: auto; padding: 0 10px; font-size: 16px; display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px;"></div>
-                <p id="currentTimeInfo"></p>
-            </div>
-            <div id="nextFreeAud">
-                <h3>Следующая пара</h3>
-                <div id="nextFreeList" style="text-align: left; max-height: 150px; overflow-y: auto; padding: 0 10px; font-size: 16px; display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px;"></div>
-                <p id="nextTimeInfo"></p>
+            <div class="free-aud-container">
+                <div id="currentFreeAud" class="free-aud-column">
+                    <h3>Текущая пара</h3>
+                    <div id="currentFreeList" style="text-align: left; max-height: 150px; overflow-y: auto; padding: 0 10px; font-size: 16px; display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px;"></div>
+                    <p id="currentTimeInfo"></p>
+                </div>
+                <div id="nextFreeAud" class="free-aud-column">
+                    <h3>Следующая пара</h3>
+                    <div id="nextFreeList" style="text-align: left; max-height: 150px; overflow-y: auto; padding: 0 10px; font-size: 16px; display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px;"></div>
+                    <p id="nextTimeInfo"></p>
+                </div>
             </div>
             <button id="closeFreeAudModalBtn" class="btn">Закрыть</button>
         </div>
@@ -560,9 +576,12 @@
             currentSchedule = allSchedules?.[pathIds.f]?.[pathIds.c]?.[pathIds.g] || {};
             $('#group-info-display').textContent = localStorage.getItem('scheduleInfo') || '';
             let todayIndex = new Date().getDay();
-            todayIndex = todayIndex === 0 ? 5 : todayIndex - 1;
-            if (todayIndex >= daysOfWeek.length) todayIndex = 0;
-            showDay(daysOfWeek[todayIndex]);
+            todayIndex = todayIndex === 0 ? 6 : todayIndex - 1;
+            if (todayIndex >= daysOfWeek.length) {
+                renderNoClassesSunday();
+            } else {
+                showDay(daysOfWeek[todayIndex]);
+            }
         }
         function showDay(dayName) {
             currentDay = dayName;
@@ -573,6 +592,11 @@
         }
         function renderNoGroupSelected() { $('#scheduleContainer').innerHTML = `<div class="schedule-day active" style="text-align: center; padding: 20px;">Пожалуйста, выберите группу.</div>`; }
         function renderNoClasses() { $('#scheduleContainer').innerHTML = `<div class="schedule-day active"><h2>${currentDay}</h2><p style="padding: 20px; text-align: center;">Дарсҳо нестанд. Шумо метавонед истироҳат кунед!</p></div>`; }
+        function renderNoClassesSunday() { 
+            const message = 'Имрӯз дарсҳо нестанд, метавонед истироҳат кунед';
+            $('#scheduleContainer').innerHTML = `<div class="schedule-day active" style="text-align: center; padding: 20px;">${message}</div>`; 
+            speak('Сегодня нет уроков, можете отдохнуть');
+        }
         function renderSchedule(schedule) {
             let html = `<div class="schedule-day active"><h2>${currentDay}</h2><table><thead><tr><th>Вақт</th><th>АУД</th><th>Фан</th></tr></thead><tbody>`;
             schedule.forEach(item => {
@@ -588,21 +612,12 @@
             if (!SpeechRecognition) return console.warn("Распознавание речи не поддерживается.");
             recognition = new SpeechRecognition();
             recognition.lang = 'ru-RU';
-            recognition.interimResults = true;
-            recognition.continuous = true;
-            recognition.onresult = (event) => {
-                let transcript = '';
-                for (let i = event.resultIndex; i < event.results.length; i++) {
-                    transcript += event.results[i][0].transcript;
-                }
-                processVoiceCommand(transcript.toLowerCase().trim());
-            };
+            recognition.interimResults = false;
+            recognition.continuous = false;
+            recognition.onresult = (event) => processVoiceCommand(event.results[0][0].transcript.toLowerCase().trim());
             recognition.onend = () => {
                 $('#voiceBtn').classList.remove('listening');
                 $('#voiceStatus').classList.remove('listening');
-                if (isListening) {
-                    recognition.start();
-                }
             };
             recognition.onstart = () => {
                 $('#voiceBtn').classList.add('listening');
@@ -610,11 +625,12 @@
                 $('#voiceStatus').innerHTML = 'Слушаю...';
             };
             $('#voiceBtn').addEventListener('click', () => {
-                isListening = !isListening;
                 if (isListening) {
-                    recognition.start();
-                } else {
                     recognition.stop();
+                    isListening = false;
+                } else {
+                    recognition.start();
+                    isListening = true;
                 }
             });
             $('#voiceBtn').addEventListener('touchstart', () => {
@@ -682,19 +698,24 @@
                 }
             }
             else if (command.includes('зачитай расписание') || command.includes('расписание на сегодня')) {
-                const todayIndex = new Date().getDay() === 0 ? 5 : new Date().getDay() - 1;
-                const dayName = daysOfWeek[todayIndex];
-                const daySchedule = currentSchedule[dayName] || [];
-
-                if (daySchedule.length > 0 && daySchedule.some(item => item.subject?.trim())) {
-                    responseText = `Расписание на сегодня, ${dayName}. `;
-                    let lessonsText = daySchedule.map((lesson, index) => {
-                        if (!lesson.subject?.trim()) return '';
-                        return `${index + 1}-я пара в ${lesson.startTime}: ${lesson.subject}, аудитория ${lesson.aud}.`;
-                    }).join(' ');
-                    responseText += lessonsText;
+                const now = new Date();
+                const todayIndex = now.getDay();
+                if (todayIndex === 0) {
+                    responseText = 'Сегодня воскресенье, нет уроков. Можете отдохнуть!';
                 } else {
-                    responseText = 'На сегодня пар нет.';
+                    const dayName = daysOfWeek[todayIndex - 1];
+                    const daySchedule = currentSchedule[dayName] || [];
+
+                    if (daySchedule.length > 0 && daySchedule.some(item => item.subject?.trim())) {
+                        responseText = `Расписание на сегодня, ${dayName}. `;
+                        let lessonsText = daySchedule.map((lesson, index) => {
+                            if (!lesson.subject?.trim()) return '';
+                            return `${index + 1}-я пара в ${lesson.startTime}: ${lesson.subject}, аудитория ${lesson.aud}.`;
+                        }).join(' ');
+                        responseText += lessonsText;
+                    } else {
+                        responseText = 'На сегодня пар нет.';
+                    }
                 }
             }
             else if (command.includes('сменить группу')) {
@@ -755,7 +776,7 @@
                 responseText = 'Помощь закрыта.';
             }
             else {
-                responseText = 'Я не совсем поняла команду. Скажите "помощь" для полного списка.';
+                responseText = 'Я не совсем поняла команду. Попробуйте сказать: "покажи расписание на вторник", "найди свободную аудиторию" или "смени тему на тёмную". Скажите "помощь" для полного списка.';
             }
 
             assistantResponse.textContent = responseText;
@@ -768,9 +789,9 @@
 
         function findFreeAuditoriums(facultyFilterId = 'all') {
             const now = new Date();
-            const todayIndex = now.getDay() === 0 ? 5 : now.getDay() - 1;
-            if (todayIndex < 0 || todayIndex >= daysOfWeek.length) {
-                return { current: { message: "Сегодня выходной, все аудитории свободны." }, next: { message: "Нет следующей пары." } };
+            const todayIndex = now.getDay() === 0 ? 6 : now.getDay() - 1;
+            if (todayIndex >= daysOfWeek.length) {
+                return { current: { message: "Сегодня воскресенье, все аудитории свободны." }, next: { message: "Нет следующей пары." } };
             }
             const currentDayName = daysOfWeek[todayIndex];
             const currentTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
