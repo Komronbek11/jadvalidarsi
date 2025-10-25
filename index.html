@@ -5,8 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Расписание</title>
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#5856D6">
-    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+    <meta name="theme-color" content="#00000">
+    <link rel="apple-touch-icon" href="raspisanie.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Расписание">
     
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -38,23 +41,25 @@
             outline: none;
         }
         h1 { font-family: 'DM Sans', sans-serif; text-align: center; margin-bottom: 15px; font-size: 23px; color: var(--heading); }
-        .btn { padding: 8px 12px; border-radius: 20px; font-weight: 500; cursor: pointer; border: none; background: var(--button-bg); color: var(--button-text); font-size: 14px; }
-        .back { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; background-color: var(--card-bg); box-shadow: 0 2px 5px rgba(0,0,0,0.1); cursor: pointer; backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); }
+        .btn { padding: 8px 12px; border-radius: 20px; font-weight: 500; cursor: pointer; border: none; background: var(--button-bg); color: var(--button-text); font-size: 14px; transition: all 0.5s ease-in-out; }
+        .back { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; background-color: var(--card-bg); box-shadow: 0 2px 5px rgba(0,0,0,0.1); cursor: pointer; backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); transition: transform 0.4s ease-in-out; }
         .back:hover { transform: translateY(-2px); }
         .group-info { text-align: center; font-size: 0.9rem; color: var(--text-light); margin-bottom: 0.8rem; }
-        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); z-index: 1000; display: none; align-items: center; justify-content: center; }
-        .modal.active { display: flex; }
-        .modal-content { background: var(--card-bg); padding: 25px; border-radius: 25px; width: 90%; max-width: 400px; text-align: center; border: var(--glass-border); }
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); z-index: 1000; display: none; align-items: center; justify-content: center; transition: opacity 0.5s ease-in-out; }
+        .modal.active { display: flex; opacity: 1; }
+        .modal-content { background: var(--card-bg); padding: 25px; border-radius: 25px; width: 90%; max-width: 400px; text-align: center; border: var(--glass-border); transition: transform 0.5s ease-in-out; }
+        .modal.active .modal-content { transform: scale(1.05); }
         .modal-content h2 { margin-bottom: 15px; font-size: 1rem; }
         .controls-modal { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
-        .controls-modal select, #audFacultyFilter { width: 100%; padding: 10px; border-radius: 22px; border: 2px solid var(--primary); background-color: var(--card-bg); font-size: 14px; color: var(--text); font-weight: 500; }
+        .controls-modal select, #audFacultyFilter { width: 100%; padding: 10px; border-radius: 22px; border: 2px solid var(--primary); background-color: var(--card-bg); font-size: 14px; color: var(--text); font-weight: 500; transition: border-color 0.4s ease-in-out; }
+        .controls-modal select:focus, #audFacultyFilter:focus { border-color: var(--accent); }
         .voice-assistant { position: fixed; bottom: 20px; right: 20px; z-index: 1000; }
-        .voice-btn { width: 50px; height: 50px; border-radius: 50%; background-color: var(--primary); color: white; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.2); cursor: pointer; border: none; transition: all 0.3s ease; backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); }
+        .voice-btn { width: 50px; height: 50px; border-radius: 50%; background-color: var(--primary); color: white; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.2); cursor: pointer; border: none; transition: all 0.5s cubic-bezier(0.25, 0.1, 0.25, 1); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); }
         .voice-btn:hover { transform: scale(1.1); box-shadow: 0 6px 16px rgba(0,0,0,0.3); }
-        .voice-btn.listening { animation: pulse 1.5s infinite; background-color: var(--accent); }
+        .voice-btn.listening { animation: pulse 1.5s infinite cubic-bezier(0.25, 0.1, 0.25, 1); background-color: var(--accent); }
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
-        .voice-status { position: absolute; bottom: 65px; right: 0; background-color: var(--card-bg); padding: 12px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); width: 250px; display: none; font-size: 13px; color: var(--text); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: var(--glass-border); }
-        .voice-status.listening { display: block; animation: fadeIn 0.3s ease; }
+        .voice-status { position: absolute; bottom: 65px; right: 0; background-color: var(--card-bg); padding: 12px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); width: 250px; display: none; font-size: 13px; color: var(--text); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: var(--glass-border); transition: opacity 0.5s ease-in-out; }
+        .voice-status.listening { display: block; animation: fadeIn 0.5s cubic-bezier(0.25, 0.1, 0.25, 1); opacity: 1; }
         .voice-status .assistant-response { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); font-style: italic; color: var(--primary); }
         .controls { display: flex; flex-wrap: wrap; justify-content: center; margin-bottom: 15px; gap: 10px; }
         .buttons {
@@ -62,45 +67,48 @@
             width: 92%; min-height: 45px; margin: 15px auto; padding: 6px;
             border-radius: 30px; background: rgba(255, 255, 255, 0.25);
             backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.18); box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255, 255, 255, 0.18); box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: all 0.5s ease-in-out;
         }
         .buttons button {
             height: 35px; padding: 0 10px; line-height: 35px; background-color: transparent;
             color: var(--text); border: none; border-radius: 20px; font-weight: 600; font-size: 14px;
-            cursor: pointer; flex-grow: 0; min-width: auto; transition: all 0.3s ease;
+            cursor: pointer; flex-grow: 0; min-width: auto; transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
             box-shadow: none; position: relative; overflow: hidden;
         }
         .buttons button:hover {
-            background-color: rgba(255, 255, 255, 0.2); transform: translateY(-2px);
+            background-color: rgba(255, 255, 255, 0.2); transform: translateY(-2px) scale(1.05);
         }
         .buttons button.active-day {
             background: linear-gradient(145deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.1));
             color: var(--heading, #000);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2), inset 0px -2px 4px rgba(255, 255, 255, 0.5);
-            transform: translateY(-2px) scale(1.05); border: 1px solid rgba(255, 255, 255, 0.7);
+            transform: translateY(-2px) scale(1.05); border: 1px solid rgba(255, 255, 255, 0.7); transition: transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
         }
         .schedule-container { width: 100%; margin-top: 8px; }
-        .schedule-day { width: 100%; display: none; background-color: var(--card-bg); color: var(--text); border-radius: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.08); animation: fadeIn 0.5s ease-in-out; overflow: hidden; backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: var(--glass-border); }
+        .schedule-day { width: 100%; display: none; background-color: var(--card-bg); color: var(--text); border-radius: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.08); animation: fadeIn 0.5s cubic-bezier(0.25, 0.1, 0.25, 1); overflow: hidden; backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: var(--glass-border); transition: all 0.5s ease-in-out; }
         .active { display: block; }
-        .schedule-day h2 { padding: 15px; background-color: var(--primary); color: white; margin: 0; border-radius: 12px 12px 0 0; backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); }
+        .schedule-day h2 { padding: 15px; background-color: var(--primary); color: white; margin: 0; border-radius: 12px 12px 0 0; backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); transition: background-color 0.4s ease-in-out; }
         table { width: 100%; border-collapse: collapse; }
-        th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); font-size: 16px; }
+        th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); font-size: 16px; transition: background-color 0.4s ease-in-out; }
         th { background-color: var(--primary); color: white; font-weight: 500; position: sticky; top: 0; backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); }
         tr:hover { background-color: var(--row-hover); }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-        .theme-card { background-color: var(--card-bg); padding: 12px; margin: 15px 0; border-radius: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: var(--glass-border); }
+        .theme-card { background-color: var(--card-bg); padding: 12px; margin: 15px 0; border-radius: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: var(--glass-border); transition: all 0.5s cubic-bezier(0.25, 0.1, 0.25, 1); }
         .theme-card h3 { margin-bottom: 10px; color: var(--heading); text-align: center; font-size: 1.1rem; }
         .color-palette { display: flex; overflow-x: auto; gap: 8px; padding: 8px 4px; scrollbar-width: thin; scrollbar-color: var(--primary) var(--card-bg); }
         .color-palette::-webkit-scrollbar { height: 5px; }
         .color-palette::-webkit-scrollbar-track { background: var(--card-bg); border-radius: 13px; }
         .color-palette::-webkit-scrollbar-thumb { background-color: var(--primary); border-radius: 20px; }
-        .color-option { flex: 0 0 50px; height: 50px; border-radius: 50%; cursor: pointer; transition: all 0.3s ease; position: relative; overflow: hidden; box-shadow: 0 3px 6px rgba(0,0,0,0.1); }
-        .color-option::after { content: '✔'; font-size: 20px; color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.5); position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0; transition: opacity 0.3s ease; }
+        .color-option { flex: 0 0 50px; height: 50px; border-radius: 50%; cursor: pointer; transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1); position: relative; overflow: hidden; box-shadow: 0 3px 6px rgba(0,0,0,0.1); }
+        .color-option::after { content: '✔'; font-size: 20px; color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.5); position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0; transition: opacity 0.4s ease-in-out; }
         .color-option.selected::after { opacity: 1; }
-        .color-option:hover { transform: translateY(-3px); box-shadow: 0 6px 12px rgba(0,0,0,0.2); }
+        .color-option:hover { transform: translateY(-3px) rotate(5deg); box-shadow: 0 6px 12px rgba(0,0,0,0.2); }
         .color-name { position: absolute; bottom: 3px; left: 0; right: 0; text-align: center; font-size: 9px; font-weight: 500; color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.5); }
-        .samsung-red { background: linear-gradient(150deg, #ffd9d9, #ff0000); } .samsung-orange { background: linear-gradient(150deg, #f5d295, #e69109); } .samsung-yellow { background: linear-gradient(150deg, #f2e6ce, #d9ce02); } .samsung-green { background: linear-gradient(150deg, #def0d8, #02d902); } .samsung-mint { background: linear-gradient(150deg, #797d80, #000000); } .samsung-teal { background-color: #30B0C7; } .samsung-cyan { background-color: #32ADE6; } .samsung-blue { background-color: #007AFF; } .samsung-indigo { background-color: #5856D6; } .samsung-purple { background-color: #AF52DE; } .samsung-pink { background-color: #FF2D55; } .samsung-brown { background-color: #A2845E; } .samsung-gray { background-color: #8E8E93; } .glass-theme { background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05)); border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15); }
-        footer { text-align: center; margin-top: 30px; padding: 15px; color: var(--text-light); font-size: 13px; backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border-radius: 30px; background-color: var(--card-bg); border: var(--glass-border); }
+        .samsung-red { background: linear-gradient(150deg, #ffd9d9, #ff0000); } .samsung-orange { background: linear-gradient(150deg, #f5d295, #e69109); } .samsung-yellow { background: linear-gradient(150deg, #f2e6ce, #d9ce02); } .samsung-green { background: linear-gradient(150deg, #def0d8, #02d902); } .samsung-mint { background: linear-gradient(150deg, #797d80, #000000); } .samsung-indigo { background-color: #5856D6; }
+        .samsung-tokyo { background-color: #1a1b26; } .samsung-solarized { background-color: #fdf6e3; } .samsung-liquid-glass { background: linear-gradient(135deg, rgba(255,255,255,0.3), rgba(0,0,0,0.1)); animation: liquid-flow 15s infinite cubic-bezier(0.25, 0.1, 0.25, 1); background-size: 200% 200%; }
+        @keyframes liquid-flow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        .glass-theme { background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05)); border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15); }
+        footer { text-align: center; margin-top: 30px; padding: 15px; color: var(--text-light); font-size: 13px; backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border-radius: 30px; background-color: var(--card-bg); border: var(--glass-border); transition: all 0.5s ease-in-out; }
         #update-toast {
             position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(150%); opacity: 0;
             background-color: var(--card-bg); color: var(--text); padding: 1rem; border-radius: 1.5rem;
@@ -112,7 +120,7 @@
         #update-toast.show { transform: translateX(-50%) translateY(0); opacity: 1; pointer-events: auto; }
         .toast-icon {
             flex-shrink: 0; width: 40px; height: 40px; background-color: var(--accent); border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; color: var(--button-text);
+            display: flex; align-items: center; justify-content: center; color: var(--button-text); transition: transform 0.4s ease-in-out;
         }
         .toast-message p { margin: 0; line-height: 1.3; }
         .toast-message .title { font-weight: 600; font-size: 1rem; }
@@ -120,18 +128,147 @@
         .toast-actions { display: flex; gap: 0.5rem; }
         .toast-actions button {
             border: none; padding: 8px 14px; border-radius: 1rem;
-            font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease;
+            font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
         }
         #update-later-btn { background-color: var(--row-hover); color: var(--text-light); }
-        #update-later-btn:hover { background-color: var(--border); }
+        #update-later-btn:hover { background-color: var(--border); transform: scale(1.05); }
         #update-now-btn { background-color: var(--accent); color: var(--button-text); }
-        #update-now-btn:hover { filter: brightness(1.1); }
+        #update-now-btn:hover { filter: brightness(1.1); transform: scale(1.05); }
         @media (max-width: 768px) {
             body { font-size: 16px; } h1 { font-size: 20px; } th, td { font-size: 14px; }
             .buttons button { font-size: 14px; padding: 0 10px;}
             #update-toast.show { bottom: 20px; width: calc(100% - 2rem); }
         }
         @media (min-width: 769px) { .desktop-back-btn { display: flex; width: 100%; justify-content: flex-start; } }
+
+        /* Additional animations for Liquid Glass */
+        @keyframes liquid-glow {
+            0% { box-shadow: 0 0 10px rgba(255,255,255,0.2); }
+            50% { box-shadow: 0 0 20px rgba(255,255,255,0.4); }
+            100% { box-shadow: 0 0 10px rgba(255,255,255,0.2); }
+        }
+        @keyframes liquid-ripple {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+        .liquid-glass-active .theme-card,
+        .liquid-glass-active .schedule-day,
+        .liquid-glass-active .modal-content,
+        .liquid-glass-active .buttons,
+        .liquid-glass-active footer,
+        .liquid-glass-active #update-toast,
+        .liquid-glass-active .voice-status {
+            animation: liquid-flow 15s infinite cubic-bezier(0.25, 0.1, 0.25, 1), liquid-glow 4s infinite ease-in-out;
+            background: linear-gradient(135deg, rgba(255,255,255,0.3), rgba(0,0,0,0.1));
+            background-size: 200% 200%;
+        }
+        .liquid-glass-active .btn:hover,
+        .liquid-glass-active .voice-btn:hover,
+        .liquid-glass-active .color-option:hover {
+            position: relative;
+            overflow: hidden;
+        }
+        .liquid-glass-active .btn:hover::after,
+        .liquid-glass-active .voice-btn:hover::after,
+        .liquid-glass-active .color-option:hover::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 100%; height: 100%;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 10%, transparent 10.01%);
+            transform: translate(-50%, -50%) scale(0);
+            animation: liquid-ripple 0.8s cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+        .liquid-glass-active .schedule-day.active {
+            animation: fadeIn 0.5s cubic-bezier(0.25, 0.1, 0.25, 1), liquid-glow 4s infinite ease-in-out;
+        }
+
+        /* Animations for other themes */
+        @keyframes red-pulse {
+            0% { box-shadow: 0 0 10px rgba(255,0,0,0.2); }
+            50% { box-shadow: 0 0 20px rgba(255,0,0,0.4); }
+            100% { box-shadow: 0 0 10px rgba(255,0,0,0.2); }
+        }
+        .red-active .theme-card,
+        .red-active .schedule-day,
+        .red-active .modal-content {
+            animation: red-pulse 4s infinite ease-in-out;
+        }
+
+        @keyframes orange-wave {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .orange-active .theme-card,
+        .orange-active .schedule-day {
+            background: linear-gradient(135deg, #FF9500, #E08500);
+            background-size: 200% 200%;
+            animation: orange-wave 12s infinite cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+
+        @keyframes yellow-glow {
+            0% { box-shadow: 0 0 10px rgba(255,255,0,0.2); }
+            50% { box-shadow: 0 0 20px rgba(255,255,0,0.4); }
+            100% { box-shadow: 0 0 10px rgba(255,255,0,0.2); }
+        }
+        .yellow-active .btn:hover,
+        .yellow-active .color-option:hover {
+            animation: yellow-glow 2s infinite ease-in-out;
+        }
+
+        @keyframes green-fade {
+            0% { opacity: 0.8; }
+            50% { opacity: 1; }
+            100% { opacity: 0.8; }
+        }
+        .green-active .schedule-day.active {
+            animation: green-fade 3s infinite ease-in-out;
+        }
+
+        @keyframes mint-rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .mint-active .voice-btn:hover {
+            animation: mint-rotate 10s infinite linear;
+        }
+
+        @keyframes indigo-scale {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+        .indigo-active .modal-content {
+            animation: indigo-scale 5s infinite ease-in-out;
+        }
+
+        @keyframes tokyo-fadein {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .tokyo-active .theme-card {
+            animation: tokyo-fadein 1s cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+
+        @keyframes solarized-shine {
+            0% { filter: brightness(1); }
+            50% { filter: brightness(1.1); }
+            100% { filter: brightness(1); }
+        }
+        .solarized-active body {
+            animation: solarized-shine 6s infinite ease-in-out;
+        }
+
+        @keyframes glass-blur {
+            0% { backdrop-filter: blur(10px); }
+            50% { backdrop-filter: blur(15px); }
+            100% { backdrop-filter: blur(10px); }
+        }
+        .glass-active .modal-content,
+        .glass-active .schedule-day {
+            animation: glass-blur 8s infinite ease-in-out;
+        }
     </style>
 </head>
 <body>
@@ -193,9 +330,38 @@
                     <option value="all">Все факультеты</option>
                 </select>
             </div>
-            <div id="freeAudList" style="text-align: left; max-height: 300px; overflow-y: auto; margin: 15px 0; padding: 0 10px; font-size: 16px; display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px;">
+            <div id="currentFreeAud" style="margin-bottom: 20px;">
+                <h3>Текущая пара</h3>
+                <div id="currentFreeList" style="text-align: left; max-height: 150px; overflow-y: auto; padding: 0 10px; font-size: 16px; display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px;"></div>
+                <p id="currentTimeInfo"></p>
+            </div>
+            <div id="nextFreeAud">
+                <h3>Следующая пара</h3>
+                <div id="nextFreeList" style="text-align: left; max-height: 150px; overflow-y: auto; padding: 0 10px; font-size: 16px; display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px;"></div>
+                <p id="nextTimeInfo"></p>
             </div>
             <button id="closeFreeAudModalBtn" class="btn">Закрыть</button>
+        </div>
+    </div>
+
+    <div id="voiceHelpModal" class="modal">
+        <div class="modal-content">
+            <h2>Команды голосового ассистента</h2>
+            <ul style="text-align: left; list-style-type: disc; padding-left: 20px; font-size: 14px;">
+                <li>Покажи расписание на [день] (например, вторник)</li>
+                <li>Найди свободную аудиторию</li>
+                <li>Смени тему на [цвет/тема] (например, тёмную, красную, стекло)</li>
+                <li>Какая пара сейчас / Следующая пара</li>
+                <li>Зачитай расписание / Расписание на сегодня</li>
+                <li>Сменить группу</li>
+                <li>Обновить расписание</li>
+                <li>Который час</li>
+                <li>Когда урок по [предмет] (например, математике)</li>
+                <li>Найди аудиторию для [предмет]</li>
+                <li>Помощь / Что ты умеешь (показать этот список)</li>
+                <li>Закрыть помощь</li>
+            </ul>
+            <button id="closeVoiceHelpBtn" class="btn">Закрыть</button>
         </div>
     </div>
 
@@ -216,18 +382,24 @@
 
         let hierarchy = {}, allSchedules = {}, currentSchedule = {}, currentDay = '', recognition;
         let toastHideTimeout = null;
+        let longPressTimer;
+        let isListening = false;
         const $ = (selector) => document.querySelector(selector);
         const facultySelect = $('#facultySelect'), courseSelect = $('#courseSelect'), groupSelect = $('#groupSelect');
         const daysOfWeek = ['Душанбе', 'Сешанбе', 'Чоршанбе', 'Панҷшанбе', 'Ҷумъа', 'Шанбе'];
         const dayMapping = { 'понедельник': 'Душанбе', 'вторник': 'Сешанбе', 'среду': 'Чоршанбе', 'четверг': 'Панҷшанбе', 'пятницу': 'Ҷумъа', 'субботу': 'Шанбе' };
+        
         const samsungThemes = {
             glass: {"--bg": "rgba(255,255,255,0.1)", "--text": "#ffffff", "--heading": "#ffffff", "--primary": "rgba(255,255,255,0.01)", "--accent": "rgba(255,255,255,0.7)", "--button-bg": "rgba(255,255,255,0.1)", "--button-text": "#ffffff", "--button-hover": "rgba(255,255,255,0.2)", "--card-bg": "rgba(255,255,255,0.1)", "--border": "rgba(255,255,255,0.1)", "--row-hover": "rgba(255,255,255,0.1)", "--text-light": "rgba(255,255,255,0.7)", "--skeleton-bg": "rgba(255,255,255,0.2)", "--glass-blur": "blur(13px)", "--glass-border": "1px solid rgba(255,255,255,0.2)", "--bg-image": "linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://raw.githubusercontent.com/Komronbek11/jadvalidarsi/refs/heads/main/neon2.jpg')"},
+            tokyo: {"--bg": "#1a1b26", "--text": "#a9b1d6", "--heading": "#c0caf5", "--primary": "#7aa2f7", "--accent": "#bb9af7", "--button-bg": "#7aa2f7", "--button-text": "#1a1b26", "--button-hover": "#5a7dbd", "--card-bg": "#24283b", "--border": "#3b4261", "--row-hover": "#2f354f", "--text-light": "#565f89", "--skeleton-bg": "rgba(59, 66, 97, 0.5)", "--glass-blur": "none", "--glass-border": "none", "--bg-image": "none"},
+            solarized: {"--bg": "#fdf6e3", "--text": "#586e75", "--heading": "#073642", "--primary": "#268bd2", "--accent": "#d33682", "--button-bg": "#268bd2", "--button-text": "#ffffff", "--button-hover": "#1e6da8", "--card-bg": "#eee8d5", "--border": "#d8d1c0", "--row-hover": "#e6dfce", "--text-light": "#839496", "--skeleton-bg": "rgba(216, 209, 192, 0.5)", "--glass-blur": "none", "--glass-border": "none", "--bg-image": "none"},
             red: {"--bg": "#ffe0e0", "--text": "black", "--heading": "#1F040A", "--primary": "#FF3B30", "--accent": "#E0352B", "--button-bg": "#FF3B30", "--button-text": "black", "--button-hover": "#E0352B", "--card-bg": "#dbb4b4", "--border": "#FFD6D4", "--row-hover": "#FFEAE9", "--text-light": "black", "--skeleton-bg": "rgba(255, 214, 212, 0.5)", "--glass-blur": "none", "--glass-border": "none", "--bg-image": "none"},
             orange: {"--bg": "#FFF5ED", "--text": "black", "--heading": "black", "--primary": "#FF9500", "--accent": "#E08500", "--button-bg": "#FF9500", "--button-text": "black", "--button-hover": "#E08500", "--card-bg": "#e8d399", "--border": "#FFD9A6", "--row-hover": "#FFEDD3", "--text-light": "#8A5D3D", "--skeleton-bg": "rgba(255, 217, 166, 0.5)", "--glass-blur": "none", "--glass-border": "none", "--bg-image": "none"},
             yellow: {"--bg": "#d6c79f", "--text": "#3A3007", "--heading": "#1F1904", "--primary": "#FFCC00", "--accent": "#E0B800", "--button-bg": "#FFCC00", "--button-text": "#3A3007", "--button-hover": "#E0B800", "--card-bg": "#ffeebf", "--border": "#FFE680", "--row-hover": "#FFF2BF", "--text-light": "black", "--skeleton-bg": "rgba(255, 230, 128, 0.5)", "--glass-blur": "none", "--glass-border": "none", "--bg-image": "none"},
             green: {"--bg": "#DEF2BF", "--text": "#0A3A1D", "--heading": "#051F10", "--primary": "#34C759", "--accent": "#2DB350", "--button-bg": "#34C759", "--button-text": "#FFFFFF", "--button-hover": "#2DB350", "--card-bg": "#E7F0D8", "--border": "#B8EBC5", "--row-hover": "#DBF5E2", "--text-light": "#4D8A62", "--skeleton-bg": "rgba(184, 235, 197, 0.5)", "--glass-blur": "none", "--glass-border": "none", "--bg-image": "none"},
             mint: {"--bg": "black", "--text": "white", "--heading": "white", "--primary": "#2b2b2b", "--accent": "#1768ff", "--button-bg": "#1768ff", "--button-text": "white", "--button-hover": "green", "--card-bg": "#2b2b2b", "--border": "rgba(255,255,255,0.1)", "--row-hover": "#2b2b2b", "--text-light": "yellow", "--skeleton-bg": "rgba(153, 232, 228, 0.5)", "--glass-blur": "none", "--glass-border": "yellow", "--bg-image": "url('sky.jpg')"},
             indigo: {"--bg": "#F5F5FF", "--text": "#12073A", "--heading": "#0A041F", "--primary": "#5856D6", "--accent": "#4F4DC2", "--button-bg": "#5856D6", "--button-text": "#FFFFFF", "--button-hover": "#4F4DC2", "--card-bg": "#FFFFFF", "--border": "#BAB9EB", "--row-hover": "#DCDCF5", "--text-light": "#5A588A", "--skeleton-bg": "rgba(186, 185, 235, 0.5)", "--glass-blur": "none", "--glass-border": "none", "--bg-image": "none"},
+            'liquid-glass': {"--bg": "rgba(255,255,255,0.05)", "--text": "#ffffff", "--heading": "#ffffff", "--primary": "rgba(255,255,255,0.05)", "--accent": "rgba(255,255,255,0.8)", "--button-bg": "rgba(255,255,255,0.15)", "--button-text": "#ffffff", "--button-hover": "rgba(255,255,255,0.25)", "--card-bg": "rgba(255,255,255,0.1)", "--border": "rgba(255,255,255,0.15)", "--row-hover": "rgba(255,255,255,0.15)", "--text-light": "rgba(255,255,255,0.8)", "--skeleton-bg": "rgba(255,255,255,0.25)", "--glass-blur": "blur(20px)", "--glass-border": "1px solid rgba(255,255,255,0.3)", "--bg-image": "linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://raw.githubusercontent.com/Komronbek11/jadvalidarsi/refs/heads/main/neon2.jpg')"}
         };
 
         function applySamsungTheme(themeName) {
@@ -238,13 +410,28 @@
             document.querySelectorAll(".color-option").forEach(el => el.classList.remove("selected"));
             const currentThemeEl = document.querySelector(`.color-option[data-theme="${themeName}"]`);
             if (currentThemeEl) currentThemeEl.classList.add("selected");
+            // Apply to all elements dynamically if needed
+            document.querySelectorAll('.modal-content, .theme-card, .schedule-day, table th, footer, #update-toast, .voice-status').forEach(el => {
+                el.style.backgroundColor = 'var(--card-bg)';
+                el.style.border = 'var(--glass-border)';
+                el.style.backdropFilter = 'var(--glass-blur)';
+                el.style.webkitBackdropFilter = 'var(--glass-blur)';
+            });
+            // Remove all theme active classes
+            document.body.classList.remove('liquid-glass-active', 'red-active', 'orange-active', 'yellow-active', 'green-active', 'mint-active', 'indigo-active', 'tokyo-active', 'solarized-active', 'glass-active');
+            // Add specific class for the selected theme
+            if (themeName) {
+                document.body.classList.add(`${themeName}-active`);
+            }
         }
         function populateThemeButtons() {
             const palette = document.querySelector('.color-palette');
             palette.innerHTML = Object.keys(samsungThemes).map(key => {
                 const name = key.charAt(0).toUpperCase() + key.slice(1);
-                let displayName = key === 'glass' ? 'Glass' : (key === 'mint' ? 'Тёмная' : name);
-                return `<div class="color-option ${key === 'glass' ? 'glass-theme' : `samsung-${key}`}" data-theme="${key}" onclick="applySamsungTheme('${key}')"><span class="color-name">${displayName}</span></div>`;
+                 let displayName = {
+                    'glass': 'Glass', 'mint': 'Тёмная', 'tokyo': 'Tokyo', 'solarized': 'Solar', 'liquid-glass': 'Liquid Glass'
+                }[key] || name;
+                return `<div class="color-option samsung-${key} ${key === 'glass' || key === 'liquid-glass' ? 'glass-theme' : ''}" data-theme="${key}" onclick="applySamsungTheme('${key}')"><span class="color-name">${displayName}</span></div>`;
             }).join('');
         }
         function populateDayButtons() {
@@ -328,6 +515,14 @@
             } else {
                 $('#selectionModal').classList.add('active');
             }
+            // Prompt to add to home screen for iOS
+            if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
+                if (!window.navigator.standalone) {
+                    setTimeout(() => {
+                        alert('Для лучшего опыта добавьте это приложение на домашний экран: нажмите на значок "Поделиться" и выберите "На экран "Домой"".');
+                    }, 2000);
+                }
+            }
         }
         function populateFaculties() { facultySelect.innerHTML = "<option value=''>Факультет</option>"; for (const id in hierarchy) facultySelect.add(new Option(hierarchy[id].name, id)); }
         function populateCourses(selectedId = null) {
@@ -357,7 +552,6 @@
             localStorage.setItem('schedulePath', JSON.stringify(pathIds));
             localStorage.setItem('scheduleInfo', info);
             $('#selectionModal').classList.remove('active');
-            // ИСПРАВЛЕНО: Удалена ошибочная логика с #mainContent
             updateScheduleView();
         });
         function updateScheduleView() {
@@ -394,51 +588,210 @@
             if (!SpeechRecognition) return console.warn("Распознавание речи не поддерживается.");
             recognition = new SpeechRecognition();
             recognition.lang = 'ru-RU';
-            recognition.interimResults = false;
-            recognition.onresult = (event) => processVoiceCommand(event.results[0][0].transcript.toLowerCase().trim());
-            recognition.onend = () => $('#voiceBtn').classList.remove('listening');
-            $('#voiceBtn').addEventListener('click', () => { recognition.start(); $('#voiceBtn').classList.add('listening'); });
+            recognition.interimResults = true;
+            recognition.continuous = true;
+            recognition.onresult = (event) => {
+                let transcript = '';
+                for (let i = event.resultIndex; i < event.results.length; i++) {
+                    transcript += event.results[i][0].transcript;
+                }
+                processVoiceCommand(transcript.toLowerCase().trim());
+            };
+            recognition.onend = () => {
+                $('#voiceBtn').classList.remove('listening');
+                $('#voiceStatus').classList.remove('listening');
+                if (isListening) {
+                    recognition.start();
+                }
+            };
+            recognition.onstart = () => {
+                $('#voiceBtn').classList.add('listening');
+                $('#voiceStatus').classList.add('listening');
+                $('#voiceStatus').innerHTML = 'Слушаю...';
+            };
+            $('#voiceBtn').addEventListener('click', () => {
+                isListening = !isListening;
+                if (isListening) {
+                    recognition.start();
+                } else {
+                    recognition.stop();
+                }
+            });
+            $('#voiceBtn').addEventListener('touchstart', () => {
+                longPressTimer = setTimeout(() => showVoiceHelpModal(), 500);
+            });
+            $('#voiceBtn').addEventListener('touchend', () => {
+                clearTimeout(longPressTimer);
+            });
         }
-        async function processVoiceCommand(command) { /* ... Voice command logic ... */ }
-        function speak(text) { try { speechSynthesis.cancel(); const utterance = new SpeechSynthesisUtterance(text); utterance.lang = 'ru-RU'; speechSynthesis.speak(utterance); } catch (e) { console.error("Speech synthesis error:", e); } }
-        if ('serviceWorker' in navigator) { window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js').then(reg => console.log('SW registered.')).catch(err => console.error('SW registration failed:', err)); }); }
+        
+        async function processVoiceCommand(command) {
+            const statusDiv = $('#voiceStatus');
+            statusDiv.innerHTML = `Вы сказали: "${command}"`;
+            const assistantResponse = statusDiv.querySelector('.assistant-response') || document.createElement('div');
+            assistantResponse.className = 'assistant-response';
+            statusDiv.appendChild(assistantResponse);
 
-        // --- НОВАЯ И УЛУЧШЕННАЯ ЛОГИКА ДЛЯ СВОБОДНЫХ АУДИТОРИЙ ---
+            let responseText = '';
+
+            const dayMatch = Object.keys(dayMapping).find(day => command.includes(day));
+            if (dayMatch) {
+                const targetDay = dayMapping[dayMatch];
+                showDay(targetDay);
+                responseText = `Хорошо, открываю расписание на ${dayMatch}.`;
+            }
+            else if (command.includes('свободную аудиторию') || command.includes('свободные аудитории')) {
+                responseText = 'Минутку, ищу свободные аудитории...';
+                speak(responseText);
+                setupAndShowFreeAudModal();
+                return; 
+            }
+            else if (command.includes('тему на')) {
+                const themeMapping = {
+                    'тёмную': 'mint', 'темную': 'mint', 'токио': 'tokyo', 'солар': 'solarized',
+                    'красную': 'red', 'оранжевую': 'orange', 'жёлтую': 'yellow', 'зелёную': 'green',
+                    'индиго': 'indigo', 'стекло': 'glass', 'жидкое стекло': 'liquid-glass', 'liquid glass': 'liquid-glass'
+                };
+                const themeMatch = Object.keys(themeMapping).find(t => command.includes(t));
+                if (themeMatch) {
+                    const themeKey = themeMapping[themeMatch];
+                    applySamsungTheme(themeKey);
+                    responseText = `Готово, тема изменена на ${themeMatch}.`;
+                } else {
+                    responseText = 'Не смогла распознать такую тему. Попробуйте еще раз.';
+                }
+            }
+            else if (command.includes('следующая пара') || command.includes('какая пара сейчас')) {
+                const now = new Date();
+                const todayIndex = now.getDay() === 0 ? 5 : now.getDay() - 1;
+                const currentDayName = daysOfWeek[todayIndex];
+                const currentTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+                
+                const daySchedule = currentSchedule[currentDayName] || [];
+                const upcomingLesson = daySchedule.find(lesson => lesson.startTime > currentTime);
+
+                if (upcomingLesson) {
+                    responseText = `Следующая пара в ${upcomingLesson.startTime}. Это ${upcomingLesson.subject} в аудитории ${upcomingLesson.aud}.`;
+                } else {
+                    const currentLesson = daySchedule.find(lesson => currentTime >= lesson.startTime && currentTime < lesson.endTime);
+                    if(currentLesson) {
+                        responseText = `Сейчас идет ${currentLesson.subject} в аудитории ${currentLesson.aud}. Она закончится в ${currentLesson.endTime}.`;
+                    } else {
+                        responseText = 'На сегодня пар больше нет. Можете отдыхать!';
+                    }
+                }
+            }
+            else if (command.includes('зачитай расписание') || command.includes('расписание на сегодня')) {
+                const todayIndex = new Date().getDay() === 0 ? 5 : new Date().getDay() - 1;
+                const dayName = daysOfWeek[todayIndex];
+                const daySchedule = currentSchedule[dayName] || [];
+
+                if (daySchedule.length > 0 && daySchedule.some(item => item.subject?.trim())) {
+                    responseText = `Расписание на сегодня, ${dayName}. `;
+                    let lessonsText = daySchedule.map((lesson, index) => {
+                        if (!lesson.subject?.trim()) return '';
+                        return `${index + 1}-я пара в ${lesson.startTime}: ${lesson.subject}, аудитория ${lesson.aud}.`;
+                    }).join(' ');
+                    responseText += lessonsText;
+                } else {
+                    responseText = 'На сегодня пар нет.';
+                }
+            }
+            else if (command.includes('сменить группу')) {
+                $('#selectionModal').classList.add('active');
+                responseText = 'Открываю выбор группы.';
+            }
+            else if (command.includes('обновить расписание')) {
+                applyUpdates();
+                responseText = 'Расписание обновлено.';
+            }
+            else if (command.includes('который час')) {
+                const now = new Date();
+                responseText = `Сейчас ${now.toLocaleTimeString('ru-RU')}.`;
+            }
+            else if (command.includes('когда урок по')) {
+                const subjectMatch = command.split('по')[1]?.trim();
+                if (subjectMatch) {
+                    let found = false;
+                    for (const day of daysOfWeek) {
+                        const daySchedule = currentSchedule[day] || [];
+                        const lesson = daySchedule.find(lesson => lesson.subject?.toLowerCase().includes(subjectMatch));
+                        if (lesson) {
+                            responseText = `Урок по ${subjectMatch} в ${day} в ${lesson.startTime} - ${lesson.endTime}, аудитория ${lesson.aud}.`;
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) responseText = `Не нашел урок по ${subjectMatch}.`;
+                } else {
+                    responseText = 'Укажите предмет.';
+                }
+            }
+            else if (command.includes('найди аудиторию для')) {
+                const subjectMatch = command.split('для')[1]?.trim();
+                if (subjectMatch) {
+                    let found = false;
+                    for (const day of daysOfWeek) {
+                        const daySchedule = currentSchedule[day] || [];
+                        const lesson = daySchedule.find(lesson => lesson.subject?.toLowerCase().includes(subjectMatch));
+                        if (lesson) {
+                            responseText = `Аудитория для ${subjectMatch} - ${lesson.aud} в ${day}.`;
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) responseText = `Не нашел аудиторию для ${subjectMatch}.`;
+                } else {
+                    responseText = 'Укажите предмет.';
+                }
+            }
+            else if (command.includes('помощь') || command.includes('что ты умеешь')) {
+                showVoiceHelpModal();
+                responseText = 'Показываю список команд.';
+                return;
+            }
+            else if (command.includes('закрыть помощь')) {
+                $('#voiceHelpModal').classList.remove('active');
+                responseText = 'Помощь закрыта.';
+            }
+            else {
+                responseText = 'Я не совсем поняла команду. Скажите "помощь" для полного списка.';
+            }
+
+            assistantResponse.textContent = responseText;
+            speak(responseText);
+        }
+
+        function speak(text) { try { speechSynthesis.cancel(); const utterance = new SpeechSynthesisUtterance(text); utterance.lang = 'ru-RU'; speechSynthesis.speak(utterance); } catch (e) { console.error("Speech synthesis error:", e); } }
+        
+        if ('serviceWorker' in navigator) { window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js').then(reg => console.log('SW registered.')).catch(err => console.error('SW registration failed:', err)); }); }
 
         function findFreeAuditoriums(facultyFilterId = 'all') {
             const now = new Date();
             const todayIndex = now.getDay() === 0 ? 5 : now.getDay() - 1;
             if (todayIndex < 0 || todayIndex >= daysOfWeek.length) {
-                return { message: "Сегодня выходной, все аудитории свободны." };
+                return { current: { message: "Сегодня выходной, все аудитории свободны." }, next: { message: "Нет следующей пары." } };
             }
             const currentDayName = daysOfWeek[todayIndex];
             const currentTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
             
             const allAuds = new Set();
-            const occupiedAuds = new Set();
-            
-            // Определяем, какие факультеты сканировать
-            const facultiesToScan = facultyFilterId === 'all'
-                ? Object.keys(allSchedules)
-                : [facultyFilterId];
+            const occupiedCurrent = new Set();
+            const allStartTimes = [];
+            const facultiesToScan = facultyFilterId === 'all' ? Object.keys(allSchedules) : [facultyFilterId];
 
             for (const facultyId of facultiesToScan) {
                 if (!allSchedules[facultyId]) continue;
                 for (const courseId in allSchedules[facultyId]) {
                     for (const groupId in allSchedules[facultyId][courseId]) {
                         const groupSchedule = allSchedules[facultyId][courseId][groupId];
-                        // Сбор всех аудиторий
-                        for (const day in groupSchedule) {
-                            groupSchedule[day].forEach(lesson => {
-                                if (lesson.aud?.trim()) allAuds.add(lesson.aud.trim());
-                            });
-                        }
-                        // Сбор занятых аудиторий на сегодня и текущее время
                         const todayLessons = groupSchedule[currentDayName] || [];
                         todayLessons.forEach(lesson => {
-                            if (lesson.aud?.trim() && lesson.startTime && lesson.endTime) {
+                            if (lesson.aud?.trim()) allAuds.add(lesson.aud.trim());
+                            if (lesson.startTime && lesson.endTime) {
+                                allStartTimes.push(lesson.startTime);
                                 if (currentTime >= lesson.startTime && currentTime < lesson.endTime) {
-                                    occupiedAuds.add(lesson.aud.trim());
+                                    occupiedCurrent.add(lesson.aud.trim());
                                 }
                             }
                         });
@@ -446,48 +799,88 @@
                 }
             }
             
-            if (allAuds.size === 0) return { message: "Список аудиторий для данного факультета пуст." };
+            if (allAuds.size === 0) return { current: { message: "Список аудиторий для данного факультета пуст." }, next: { message: "Нет следующей пары." } };
             
+            const uniqueStartTimes = [...new Set(allStartTimes)].sort();
+            const nextStartTime = uniqueStartTimes.find(start => start > currentTime);
+            const occupiedNext = new Set();
+            if (nextStartTime) {
+                for (const facultyId of facultiesToScan) {
+                    if (!allSchedules[facultyId]) continue;
+                    for (const courseId in allSchedules[facultyId]) {
+                        for (const groupId in allSchedules[facultyId][courseId]) {
+                            const groupSchedule = allSchedules[facultyId][courseId][groupId];
+                            const todayLessons = groupSchedule[currentDayName] || [];
+                            todayLessons.forEach(lesson => {
+                                if (lesson.startTime === nextStartTime && lesson.aud?.trim()) {
+                                    occupiedNext.add(lesson.aud.trim());
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+
             const allAudsArray = Array.from(allAuds).sort((a, b) => a.localeCompare(b, undefined, {numeric: true}));
-            const freeAuds = allAudsArray.filter(aud => !occupiedAuds.has(aud));
-            return { free: freeAuds, message: null };
+            const freeCurrent = allAudsArray.filter(aud => !occupiedCurrent.has(aud));
+            const freeNext = nextStartTime ? allAudsArray.filter(aud => !occupiedNext.has(aud)) : [];
+            
+            return { 
+                current: { free: freeCurrent, time: currentTime, message: freeCurrent.length === 0 ? "В данный момент свободных аудиторий нет." : null },
+                next: { free: freeNext, time: nextStartTime ? nextStartTime : null, message: nextStartTime ? (freeNext.length === 0 ? "На следующей паре свободных аудиторий нет." : null) : "Нет следующей пары сегодня." }
+            };
         }
 
         function updateFreeAudList() {
             const facultyFilterId = $('#audFacultyFilter').value;
             const result = findFreeAuditoriums(facultyFilterId);
-            const listContainer = $('#freeAudList');
-            const modalTitle = $('#freeAudModalTitle');
+            const currentList = $('#currentFreeList');
+            const nextList = $('#nextFreeList');
+            const currentTimeInfo = $('#currentTimeInfo');
+            const nextTimeInfo = $('#nextTimeInfo');
             const now = new Date();
             const timeStr = now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
             
-            modalTitle.textContent = `Свободные аудитории (${timeStr})`;
-            listContainer.innerHTML = '';
-            
-            if (result.message) {
-                listContainer.style.display = 'block';
-                listContainer.innerHTML = `<p style="text-align: center; grid-column: 1 / -1;">${result.message}</p>`;
-            } else if (result.free.length === 0) {
-                listContainer.style.display = 'block';
-                listContainer.innerHTML = `<p style="text-align: center; grid-column: 1 / -1;">В данный момент свободных аудиторий нет.</p>`;
+            $('#freeAudModalTitle').textContent = `Свободные аудитории (${timeStr})`;
+
+            // Current
+            if (result.current.message) {
+                currentList.style.display = 'block';
+                currentList.innerHTML = `<p style="text-align: center; grid-column: 1 / -1;">${result.current.message}</p>`;
             } else {
-                listContainer.style.display = 'grid';
-                listContainer.innerHTML = result.free
+                currentList.style.display = 'grid';
+                currentList.innerHTML = result.current.free
                     .map(aud => `<div style="background-color: var(--row-hover); padding: 8px; border-radius: 10px; text-align: center;">${aud}</div>`)
                     .join('');
             }
+            currentTimeInfo.textContent = `Время: ${result.current.time}`;
+
+            // Next
+            if (result.next.message) {
+                nextList.style.display = 'block';
+                nextList.innerHTML = `<p style="text-align: center; grid-column: 1 / -1;">${result.next.message}</p>`;
+            } else {
+                nextList.style.display = 'grid';
+                nextList.innerHTML = result.next.free
+                    .map(aud => `<div style="background-color: var(--row-hover); padding: 8px; border-radius: 10px; text-align: center;">${aud}</div>`)
+                    .join('');
+            }
+            nextTimeInfo.textContent = result.next.time ? `Начало: ${result.next.time}` : '';
         }
         
         function setupAndShowFreeAudModal() {
             const facultyFilterSelect = $('#audFacultyFilter');
-            // Заполняем список факультетов, только если он пуст
             if (facultyFilterSelect.options.length <= 1) {
                 for (const id in hierarchy) {
                     facultyFilterSelect.add(new Option(hierarchy[id].name, id));
                 }
             }
-            updateFreeAudList(); // Обновляем список при открытии
+            updateFreeAudList();
             $('#freeAudModal').classList.add('active');
+        }
+
+        function showVoiceHelpModal() {
+            $('#voiceHelpModal').classList.add('active');
         }
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -495,11 +888,13 @@
             $('#update-now-btn').addEventListener('click', applyUpdates);
             $('#update-later-btn').addEventListener('click', hideUpdateToast);
             
-            // Назначаем обработчики для модального окна аудиторий
             $('#findFreeAudBtn').addEventListener('click', setupAndShowFreeAudModal);
             $('#audFacultyFilter').addEventListener('change', updateFreeAudList);
             $('#closeFreeAudModalBtn').addEventListener('click', () => {
                 $('#freeAudModal').classList.remove('active');
+            });
+            $('#closeVoiceHelpBtn').addEventListener('click', () => {
+                $('#voiceHelpModal').classList.remove('active');
             });
             
             document.addEventListener('contextmenu', e => e.preventDefault());
@@ -510,22 +905,17 @@
             });
         });
 
-    
-  // Проверяем, поддерживает ли браузер Service Worker
-  if ('serviceWorker' in navigator) {
-    // Регистрируем Service Worker после полной загрузки страницы
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/sw.js')
-        .then(registration => {
-          console.log('✅ Service Worker зарегистрирован успешно:', registration);
-        })
-        .catch(error => {
-          console.log('🐞 Ошибка регистрации Service Worker:', error);
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then(registration => {
+              console.log('✅ Service Worker зарегистрирован успешно:', registration);
+            })
+            .catch(error => {
+              console.log('🐞 Ошибка регистрации Service Worker:', error);
+            });
         });
-    });
-  }
-
-    
+      }
     </script>
 </body>
 </html>
