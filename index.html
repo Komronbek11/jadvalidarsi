@@ -156,9 +156,10 @@
             50% { background-position: 100% 50%; filter: brightness(1.2); }
             100% { background-position: 0% 50%; filter: brightness(1); }
         }
+        
+        /* --- ИСПРАВЛЕНИЕ: Убраны .modal-content из селекторов анимаций --- */
         .liquid-glass-active .theme-card,
         .liquid-glass-active .schedule-day,
-        .liquid-glass-active .modal-content,
         .liquid-glass-active .buttons,
         .liquid-glass-active footer,
         .liquid-glass-active #update-toast,
@@ -172,8 +173,8 @@
         .liquid-glass-active .btn:hover,
         .liquid-glass-active .voice-btn:hover,
         .liquid-glass-active .color-option:hover,
-        .liquid-glass-active .schedule-day:hover,
-        .liquid-glass-active .modal-content:hover {
+        .liquid-glass-active .schedule-day:hover
+        /* .liquid-glass-active .modal-content:hover <-- УДАЛЕНО */ {
             position: relative;
             overflow: hidden;
             animation: liquid-hover 5s infinite ease-in-out;
@@ -181,8 +182,8 @@
         .liquid-glass-active .btn:hover::after,
         .liquid-glass-active .voice-btn:hover::after,
         .liquid-glass-active .color-option:hover::after,
-        .liquid-glass-active .schedule-day:hover::after,
-        .liquid-glass-active .modal-content:hover::after {
+        .liquid-glass-active .schedule-day:hover::after
+        /* .liquid-glass-active .modal-content:hover::after <-- УДАЛЕНО */ {
             content: '';
             position: absolute;
             top: 50%; left: 50%;
@@ -202,8 +203,8 @@
             100% { box-shadow: 0 0 10px rgba(255,0,0,0.2); }
         }
         .red-active .theme-card,
-        .red-active .schedule-day,
-        .red-active .modal-content {
+        .red-active .schedule-day
+        /* .red-active .modal-content <-- УДАЛЕНО */ {
             animation: red-pulse 4s infinite ease-in-out;
         }
 
@@ -252,7 +253,7 @@
             100% { transform: scale(1); }
         }
         .indigo-active .modal-content {
-            animation: indigo-scale 5s infinite ease-in-out;
+            /* animation: indigo-scale 5s infinite ease-in-out; <-- ИСПРАВЛЕНИЕ: Анимация удалена */
         }
 
         @keyframes tokyo-fadein {
@@ -277,13 +278,20 @@
             50% { backdrop-filter: blur(15px); }
             100% { backdrop-filter: blur(10px); }
         }
-        .glass-active .modal-content,
-        .glass-active .schedule-day {
+        .glass-active .schedule-day
+        /* .glass-active .modal-content <-- УДАЛЕНО */ {
             animation: glass-blur 8s infinite ease-in-out;
         }
         .free-aud-container { display: flex; justify-content: space-between; gap: 20px; }
         .free-aud-column { flex: 1; }
         .close-btn { position: absolute; top: 10px; right: 10px; background: none; border: none; font-size: 20px; cursor: pointer; color: var(--text); }
+        
+        /* --- ИСПРАВЛЕНИЕ: Разрешаем user-select для полей ввода --- */
+        select, input, textarea {
+            -webkit-user-select: auto !important;
+            -ms-user-select: auto !important;
+            user-select: auto !important;
+        }
     </style>
 </head>
 <body>
@@ -314,7 +322,8 @@
     <div id="scheduleContainer" class="schedule-container"></div>
     <footer>
         <p>© 2025. Расписание.ДТТ. Душанбе.</p>
-        <p>Разработчик : Komron Sharipov ™</p>     
+        <p>Разработчик : Komron Sharipov ™</p>    
+        <p>v 3.0.1</p>        
     </footer>
 
     <div class="voice-assistant">
@@ -478,9 +487,7 @@
             if(savedPath) {
                 facultySelect.value = savedPath.f;
                 populateCourses(savedPath.c);
-                courseSelect.value = savedPath.c;
-                populateGroups(savedPath.g);
-                groupSelect.value = savedPath.g;
+                populateGroups(savedPath.g); // Добавлено, чтобы восстановить выбор группы
             }
             updateScheduleView();
             hideUpdateToast();
@@ -528,17 +535,19 @@
             populateFaculties();
             initVoiceRecognition();
             const savedPath = localStorage.getItem('schedulePath');
+            
+            // --- ИСПРАВЛЕННЫЙ БЛОК ---
             if (savedPath) {
                 const pathIds = JSON.parse(savedPath);
                 facultySelect.value = pathIds.f;
-                populateCourses(pathIds.c);
-                courseSelect.value = pathIds.c;
-                populateGroups(pathIds.g);
-                groupSelect.value = pathIds.g;
+                populateCourses(pathIds.c); // Эта функция заполняет курсы И вызывает populateGroups()
+                populateGroups(pathIds.g); // Мы вызываем ЭТУ функцию ещё раз, чтобы установить сохраненное значение группы
                 updateScheduleView(); 
             } else {
                 $('#selectionModal').classList.add('active');
             }
+            // --- КОНЕЦ ИСПРАВЛЕННОГО БЛОКА ---
+
             // Prompt to add to home screen for iOS
             if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
                 if (!window.navigator.standalone) {
@@ -552,23 +561,38 @@
             facultySelect.innerHTML = "<option value=''>Факультет</option>"; 
             for (const id in hierarchy) facultySelect.add(new Option(hierarchy[id].name, id)); 
         }
+
+        // --- ИСПРАВЛЕННАЯ ФУНКЦИЯ ---
         function populateCourses(selectedId = null) {
             const facultyId = facultySelect.value;
-            courseSelect.innerHTML = "<option value=''>Курс</option>";
-            if (!facultyId) return populateGroups();
-            const faculty = hierarchy[facultyId];
-            if (faculty?.courses) Object.keys(faculty.courses).forEach(id => courseSelect.add(new Option(faculty.courses[id].name, id)));
-            if (selectedId) courseSelect.value = selectedId;
-            populateGroups();
+            courseSelect.innerHTML = "<option value=''>Курс</option>"; // Всегда сбрасываем
+
+            if (facultyId) { // Только если факультет выбран
+                const faculty = hierarchy[facultyId];
+                if (faculty?.courses) {
+                    Object.keys(faculty.courses).forEach(id => courseSelect.add(new Option(faculty.courses[id].name, id)));
+                }
+                // Устанавливаем выбранное значение, если оно передано (например, при загрузке)
+                if (selectedId) {
+                    courseSelect.value = selectedId;
+                }
+            }
+            
+            // Всегда вызываем populateGroups() в конце.
+            // Она сама проверит, выбран ли курс, и очистит список групп, если нужно.
+            populateGroups(); 
         }
+        // --- КОНЕЦ ИСПРАВЛЕННОЙ ФУНКЦИИ ---
+
         function populateGroups(selectedId = null) {
             const facultyId = facultySelect.value, courseId = courseSelect.value;
             groupSelect.innerHTML = "<option value=''>Группа</option>";
-            if (!courseId) return;
+            if (!courseId) return; // Если курс не выбран (или сброшен), выходим
             const course = hierarchy[facultyId]?.courses?.[courseId];
             if (course?.groups) Object.keys(course.groups).forEach(id => groupSelect.add(new Option(course.groups[id].name, id)));
             if (selectedId) groupSelect.value = selectedId;
         }
+
         facultySelect.addEventListener('change', () => {
             populateCourses();
         });
